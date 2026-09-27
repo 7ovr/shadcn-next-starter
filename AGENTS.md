@@ -35,7 +35,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ### Server first
 
-- **Server Components by default.** The only client islands are the footer's theme toggle, the mobile menu and the copy button. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
+- **Server Components by default.** The only client islands are the footer's theme toggle, the mobile menu, the copy button and the logo's `HomeLink`, which scrolls back to the top on the home page, where a link to the current page would keep the scroll. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
 - **Everything a crawler needs is in the server HTML.** The FAQ keeps `hiddenUntilFound` on its `Accordion`: Base UI renders closed panels with `hidden` on the server and switches them to `hidden="until-found"` after hydration, and a `scripting: none` rule in `src/app/globals.css` shows every answer when JavaScript is off.
 - **Testimonials, if you add them, stay plain quotes.** Never turn them into `Review` or `AggregateRating` markup; reviews a site publishes about itself do not qualify.
 - Style a link as a button with `ButtonLink` from `src/components/button-link.tsx`. It merges the variant classes through `cn`, as `Button` does, opens external links in a new tab and uses Next's `Link` for internal ones. A bare `buttonVariants()` on a link keeps the transparent base border, so the outline variant loses its edge.

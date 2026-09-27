@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { ButtonLink } from '@/components/button-link'
+import { HomeLink } from '@/components/home-link'
 import { GitHubIcon, LogoMark, XIcon } from '@/components/icons'
 import { Logo, Wordmark } from '@/components/logo'
 import { FooterThemeToggle } from '@/components/theme-toggle'
@@ -27,13 +28,12 @@ export function SiteFooter() {
     <footer className="overflow-hidden border-t">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 pt-16 pb-12 sm:px-6 lg:grid-cols-12">
         <div className="flex flex-col items-start gap-6 lg:col-span-5">
-          <Link
-            href="/"
+          <HomeLink
             aria-label={siteConfig.name}
             className="rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             <Logo />
-          </Link>
+          </HomeLink>
           <p className="max-w-sm text-sm text-pretty text-muted-foreground">
             {siteConfig.description}
           </p>

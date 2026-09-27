@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { ButtonLink } from '@/components/button-link'
+import { HomeLink } from '@/components/home-link'
 import { GitHubIcon } from '@/components/icons'
 import { Logo } from '@/components/logo'
 import { MobileNav } from '@/components/mobile-nav'
@@ -12,13 +13,12 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 px-2 sm:px-4">
       <div className="relative mx-auto flex h-16 w-full max-w-6xl header-glass items-center justify-between gap-4 rounded-2xl border px-4 sm:px-6">
-        <Link
-          href="/"
+        <HomeLink
           aria-label={siteConfig.name}
           className="rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
         >
           <Logo />
-        </Link>
+        </HomeLink>
 
         <nav
           aria-label="Main"
