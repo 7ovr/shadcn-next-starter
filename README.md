@@ -1,6 +1,6 @@
 # 7Ovr Landing Starter
 
-A Next.js landing-page starter on shadcn/ui and Base UI, built so every page is prerendered, complete in the HTML and readable without JavaScript. It is under construction: the landing page, the SEO foundation and the tests that prove it arrive in the next pull requests.
+A Next.js landing-page starter on shadcn/ui and Base UI, built so every page is prerendered, complete in the HTML and readable without JavaScript. It is under construction: the landing page is in, and the SEO foundation, the other pages and the tests that prove them arrive in the next pull requests.
 
 ## Quick start
 
@@ -25,7 +25,16 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 | Language  | TypeScript 7 in strict mode                                     |
 | Lint      | Oxlint with [`@shadcn/lint`](https://github.com/shadcn-ui/lint) |
 | Format    | oxfmt, which also sorts imports and Tailwind classes            |
+| Tests     | Vitest and Testing Library                                      |
 | Hooks     | Lefthook, which formats and lints staged files on commit        |
+
+## Make it yours
+
+- `src/config/site.ts` holds the name, description and links.
+- `src/content/` holds every word on the page, one file per section. The sections only render what they are given.
+- `src/components/sections/` holds one folder per section. Reorder or drop them in `src/app/page.tsx`.
+
+The testimonials and pricing plans are samples that show the layout. Replace them with your own, and only use quotes you have permission to publish.
 
 ## Scripts
 
@@ -37,10 +46,12 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 | `pnpm lint`         | Lint the code                                |
 | `pnpm lint:fix`     | Lint and fix what can be fixed automatically |
 | `pnpm typecheck`    | Check the types                              |
+| `pnpm test`         | Run the tests once                           |
+| `pnpm test:watch`   | Run the tests and rerun them on every change |
 | `pnpm format`       | Format every file                            |
 | `pnpm format:check` | Check the formatting without changing files  |
 
-CI runs `lint`, `format:check`, `typecheck` and `build` on every push and pull request.
+CI runs `lint`, `format:check`, `typecheck`, `test` and `build` on every push and pull request.
 
 ## Restyle with a preset
 
