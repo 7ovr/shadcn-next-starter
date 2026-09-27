@@ -28,7 +28,7 @@ Work on a branch named after the change, such as `fix/faq-answer-spacing` or `fe
 [AGENTS.md](AGENTS.md) holds every convention in this repository, for people and coding agents alike. The ones that matter most:
 
 - **Test logic, not rendering.** Write the test for the code that decides something, watch it fail, then make it pass. A bug fix starts with a test that reproduces the bug. Do not test that a component renders its copy or its links.
-- **Every word lives in `src/content/`.** Components render what they are given and never hard-code copy.
+- **The copy lives in `src/content/`.** Components render what they are given and never hard-code copy.
 - **Follow the design system.** Theme tokens only, never raw colours or arbitrary values, and no `className` on shadcn/ui components: pick a variant and put layout on a wrapper. `@shadcn/lint` enforces this.
 - **Keep `src/components/ui/` as the CLI writes it**, because applying a preset rewrites those files.
 - **Keep every page's head in `createMetadata`**, and never hard-code the site URL.

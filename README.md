@@ -107,9 +107,10 @@ src/
 │   └── globals.css             Tailwind, the theme tokens, motion and effects
 ├── components/                 Every component, one file each, the sections included
 │   └── ui/                     shadcn/ui components, as the CLI writes them
+├── hooks/                      React hooks, such as the theme toggle's
 ├── config/site.ts              The name, the search title and description, and the links
 ├── content/                    Every word on the page, one typed file per section
-├── lib/                        Metadata, structured data, the share image and the site URL
+├── lib/                        Metadata, headers, structured data, the share image and the site URL
 └── test/setup.ts               The Vitest setup
 public/brand/                   The 7Ovr mark and logo for JSON-LD, the manifest and the share image
 ```
@@ -117,13 +118,13 @@ public/brand/                   The 7Ovr mark and logo for JSON-LD, the manifest
 ## Make it yours
 
 - `src/config/site.ts` holds the name, the search title and description, and the links.
-- `src/content/` holds every word on the page, one file per section. The sections only render what they are given.
+- `src/content/` holds the copy, one file per section, plus the navigation and the 404 page. The sections only render what they are given.
 - `src/components/` holds every component, the sections included. Reorder or drop the sections in `src/app/page.tsx`.
 - Swap the icons in `src/app/` and the images in `public/brand/` for your own mark.
 
 ## SEO
 
-Every page's head comes from one helper, `createMetadata` in `src/lib/metadata.ts`: the title, description, canonical, Open Graph and Twitter cards, and robots. The site also ships a share image drawn at build time, JSON-LD for the organisation, the site, the source code and the FAQ, a `robots.txt`, a sitemap and a web app manifest.
+Every page's head comes from one helper, `createMetadata` in `src/lib/metadata.ts`: the title, description, canonical, Open Graph and Twitter cards, and robots. The site also ships a share image drawn at build time in the current theme, JSON-LD for the organisation, the site, the source code and the FAQ, a `robots.txt`, a sitemap and a web app manifest. Every response carries security headers and a static Content Security Policy.
 
 The site URL is never hard-coded. It comes from `SITE_URL`, then from Vercel's production domain, so a fresh clone never points its canonicals at this demo.
 
@@ -138,7 +139,7 @@ pnpm dlx shadcn@latest apply <code>
 pnpm format
 ```
 
-The CLI writes double quotes, so `pnpm format` puts the files it touched back in the house style. If the preset changes the font, remove the old font from the `next/font/google` import in `src/app/layout.tsx`; `pnpm lint` points at it. The starter's own look is preset `b4Wm`, so `apply b4Wm` takes you back.
+The CLI writes double quotes, so `pnpm format` puts the files it touched back in the house style. If the preset changes the font, remove the old font from the `next/font/google` import in `src/app/layout.tsx`, which `pnpm lint` points at, and change `FONT` in `src/lib/og.tsx` so the share image follows. The starter's own look is preset `b4Wm`, so `apply b4Wm` takes you back.
 
 A preset only sets shadcn's own tokens. If you add a token of your own, a preset leaves it at its old value, so build new shades from the existing tokens instead, such as `bg-primary/10`. Applying a preset also reinstalls the components in `src/components/ui/`, so leave those files as the CLI writes them.
 
@@ -168,7 +169,7 @@ Building an app rather than a landing page? The [7Ovr App Starter](https://start
 
 ## Environment variables
 
-Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Git.
+Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Git. The site reads its variables when it builds, so set them before `pnpm build`.
 
 | Variable         | Required | Used for                                                                |
 | ---------------- | -------- | ----------------------------------------------------------------------- |
@@ -180,7 +181,7 @@ Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Gi
 
 On **Vercel**, import the repository and deploy; nothing needs configuring. The production domain becomes the site URL and only production is indexed.
 
-Anywhere else, run `pnpm build` and `pnpm start`, and set `SITE_URL` to your domain and `SITE_ENV=production`.
+Anywhere else, set `SITE_URL` to your domain and `SITE_ENV=production`, then run `pnpm build` and `pnpm start`. A production build without `SITE_URL` stops with an error, so it never points its canonicals at localhost.
 
 ## Credits
 
