@@ -86,6 +86,14 @@
       "rules": {
         "react/only-export-components": "off"
       }
+    },
+    {
+      "files": ["src/lib/og.tsx"],
+      "rules": {
+        "shadcn/no-inline-styles": "off",
+        "shadcn/no-raw-colors": "off",
+        "nextjs/no-img-element": "off"
+      }
     }
   ],
   "ignorePatterns": [

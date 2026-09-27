@@ -33,6 +33,15 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **The site URL is never hard-coded.** Read it with `getSiteUrl()` from `src/lib/site-url.ts`: `SITE_URL`, then Vercel's production domain, then localhost.
 - Screenshots live in `src/content/images/` and are imported statically, one per theme. Both render, with `dark:hidden` and `hidden dark:block`, and both stay lazy, because a lazy image that is not displayed never loads; `preload` or `loading="eager"` would load both. Decorative ones take `alt=""`.
 
+### SEO
+
+- **Every page's head comes from `createMetadata`** in `src/lib/metadata.ts`: title, description, canonical, Open Graph, Twitter and robots. Give every page but the home page a `title`, and always its `path`. The home page's title is `siteConfig.title`, kept near 60 characters, with the description near 155.
+- **Only production is indexed.** `isIndexable()` in `src/lib/site-url.ts` lets in Vercel's production deploys and any host with `SITE_ENV=production`. Everything else gets noindex in the meta tag and in the `X-Robots-Tag` header from `next.config.ts`; `robots.txt` always allows crawling.
+- `export const dynamic = 'error'` in the root layout makes a Request-time API anywhere fail the build, so every route stays prerendered.
+- **Structured data is built from the content.** `src/lib/structured-data.ts` holds Organization, WebSite, SoftwareSourceCode and FAQPage, and FAQPage reads the same items the FAQ renders. Render it with `JsonLd` from `src/components/json-ld.tsx`.
+- The icons come from the 7Ovr logo: `src/app/icon.svg`, `apple-icon.png` and `favicon.ico`. The brand images that JSON-LD, the manifest and the Open Graph image use sit in `public/brand/`.
+- `src/lib/og.tsx` draws the Open Graph image at build time. Satori reads no CSS variables, so that one file repeats the light theme's colours, and `.oxlintrc.json` exempts it from `no-inline-styles` and `no-raw-colors`.
+
 ### Server first
 
 - **Server Components by default.** The only client islands are the footer's theme toggle, the mobile menu, the copy button and the logo's `HomeLink`, which scrolls back to the top on the home page, where a link to the current page would keep the scroll. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.

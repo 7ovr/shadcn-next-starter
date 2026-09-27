@@ -1,11 +1,12 @@
-import type { Metadata } from 'next'
 import { Geist_Mono, Oxanium } from 'next/font/google'
 
 import './globals.css'
+import { JsonLd } from '@/components/json-ld'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { ThemeProvider } from '@/components/theme-provider'
-import { siteConfig } from '@/config/site'
+import { createMetadata } from '@/lib/metadata'
+import { siteSchemas } from '@/lib/structured-data'
 import { cn } from '@/lib/utils'
 
 const oxanium = Oxanium({ subsets: ['latin'], variable: '--font-sans' })
@@ -15,10 +16,10 @@ const fontMono = Geist_Mono({
   variable: '--font-mono',
 })
 
-export const metadata: Metadata = {
-  title: siteConfig.name,
-  description: siteConfig.description,
-}
+export const metadata = createMetadata({ path: '/' })
+
+// Every route prerenders; a Request-time API anywhere fails the build instead of the crawl.
+export const dynamic = 'error'
 
 export default function RootLayout({
   children,
@@ -33,6 +34,7 @@ export default function RootLayout({
       className={cn('antialiased', fontMono.variable, 'font-sans', oxanium.variable)}
     >
       <body>
+        <JsonLd data={siteSchemas()} />
         <ThemeProvider>
           <a
             href="#main"
