@@ -1,13 +1,6 @@
 import { CheckIcon, ChevronDownIcon, CircleCheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 
-import {
-  LogoMark,
-  NextjsLogo,
-  ReactLogo,
-  ShadcnIcon,
-  TailwindLogo,
-  TypeScriptLogo,
-} from '@/components/icons'
+import { LogoMark } from '@/components/icons'
 import { siteConfig } from '@/config/site'
 import type { FeatureVisual as FeatureVisualName } from '@/content/features'
 import { cn } from '@/lib/utils'
@@ -168,32 +161,43 @@ function Quality() {
   )
 }
 
-const STACK = [
-  { Logo: NextjsLogo, name: 'Next.js 16', wave: 'delay-0' },
-  { Logo: ReactLogo, name: 'React 19', wave: 'delay-350' },
-  { Logo: TypeScriptLogo, name: 'TypeScript 7', wave: 'delay-700' },
-  { Logo: TailwindLogo, name: 'Tailwind CSS 4', wave: 'delay-1050' },
-  { Logo: ShadcnIcon, name: 'shadcn/ui on Base UI', wave: 'delay-1400' },
-]
+const HEADLINES = ['Your headline', 'Your product', 'Your launch', 'Your story', 'Your words']
 
-function Stack() {
+function Content() {
   return (
-    <ul className="flex w-full max-w-64 flex-col gap-1">
-      {STACK.map(({ Logo, name, wave }) => (
-        <li key={name} className="flex h-8 items-center gap-2.5">
-          <span className="grid size-7 shrink-0 place-items-center rounded-md border bg-linear-to-br from-muted/60 to-card">
-            <Logo className="size-3.5" />
+    <Frame className="w-full max-w-64">
+      <div className="flex items-center gap-2 border-b px-3 py-2.5">
+        <Dots />
+        <span className="ml-1 truncate font-mono text-xs text-muted-foreground">
+          src/content/hero.ts
+        </span>
+      </div>
+      <div className="flex flex-col gap-1 p-4 font-mono text-xs leading-relaxed">
+        <p>
+          <span className="text-muted-foreground">export const </span>hero = {'{'}
+        </p>
+        <p className="flex items-center pl-4">
+          <span className="text-muted-foreground">title:&nbsp;</span>
+          {/* The same five turns as the build log's routes, two seconds each. */}
+          <span className="grid">
+            {HEADLINES.map((headline, index) => (
+              <span
+                key={headline}
+                className={cn(
+                  'col-start-1 row-start-1 animate-swap whitespace-nowrap motion-reduce:animate-none',
+                  TURNS[index],
+                )}
+              >
+                &apos;{headline}&apos;,
+              </span>
+            ))}
           </span>
-          <span className="truncate text-sm font-medium">{name}</span>
-          <CheckIcon
-            className={cn(
-              'ml-auto size-3.5 shrink-0 animate-wave text-muted-foreground motion-reduce:animate-none',
-              wave,
-            )}
-          />
-        </li>
-      ))}
-    </ul>
+          <span className="ml-0.5 h-3.5 w-1.5 animate-caret-blink bg-foreground/80 motion-reduce:animate-none" />
+        </p>
+        <p className="pl-4 text-muted-foreground">description: …</p>
+        <p>{'}'}</p>
+      </div>
+    </Frame>
   )
 }
 
@@ -309,7 +313,7 @@ const VISUALS = {
   metadata: Metadata,
   quality: Quality,
   'no-javascript': NoJavaScript,
-  stack: Stack,
+  content: Content,
   presets: Presets,
 } satisfies Record<FeatureVisualName, () => React.ReactNode>
 

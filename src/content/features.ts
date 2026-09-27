@@ -1,10 +1,10 @@
 import {
   GitCommitHorizontalIcon,
+  ImageIcon,
   LayersIcon,
   LinkIcon,
   type LucideIcon,
   MoonStarIcon,
-  PencilLineIcon,
 } from 'lucide-react'
 
 export type FeatureVisual =
@@ -12,7 +12,7 @@ export type FeatureVisual =
   | 'metadata'
   | 'quality'
   | 'no-javascript'
-  | 'stack'
+  | 'content'
   | 'presets'
 
 export const features = {
@@ -46,10 +46,10 @@ export const features = {
         'One h1 per page, a skip link, visible focus and reduced motion, and every section stays readable with JavaScript off.',
     },
     {
-      visual: 'stack',
-      title: 'Built On Tools You Know',
+      visual: 'content',
+      title: 'Every Word In One Place',
       description:
-        'Current versions of the stack you already use, configured to work together from the first `pnpm dev`.',
+        'All the copy lives in typed files under `src/content/`, one per section, so a new headline never means touching a component.',
     },
     {
       visual: 'presets',
@@ -60,9 +60,9 @@ export const features = {
   ] satisfies { visual: FeatureVisual; title: string; description: string }[],
   extras: [
     {
-      icon: PencilLineIcon,
-      title: 'Every Word In One Place',
-      description: 'Copy lives in typed content files, one per section.',
+      icon: ImageIcon,
+      title: 'Share Cards For Every Page',
+      description: 'Open Graph images drawn at build time from the theme.',
     },
     {
       icon: MoonStarIcon,
