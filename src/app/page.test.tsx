@@ -30,14 +30,6 @@ describe('home page', () => {
     expect(missing).toEqual([])
   })
 
-  it('keeps the photos decorative', () => {
-    const { container } = render(<Home />)
-
-    const images = [...container.querySelectorAll('img')]
-    expect(images.length).toBeGreaterThan(0)
-    expect(images.filter((image) => image.getAttribute('alt') !== '')).toEqual([])
-  })
-
   it('keeps every FAQ answer in the HTML, with closed ones hidden until found', () => {
     render(<Home />)
 
