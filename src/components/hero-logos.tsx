@@ -9,6 +9,7 @@ import {
   VercelIcon,
   VitestLogo,
 } from '@/components/icons'
+import { MockCard } from '@/components/mockup'
 import { cn } from '@/lib/utils'
 
 // Written out in full, because Tailwind only generates classes it can read. They stay beside the copy and above the stack strip.
@@ -75,15 +76,15 @@ export function HeroLogos() {
           key={place}
           className={cn('absolute animate-rise-fade motion-reduce:animate-none', place)}
         >
-          <div
+          <MockCard
             className={cn(
-              'grid animate-float place-items-center rounded-xl border bg-linear-to-br from-muted to-background text-foreground shadow-lg motion-reduce:animate-none',
+              'grid animate-float place-items-center rounded-xl motion-reduce:animate-none',
               size,
               float,
             )}
           >
             <Logo className="size-1/2" />
-          </div>
+          </MockCard>
         </div>
       ))}
     </div>

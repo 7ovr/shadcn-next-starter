@@ -1,19 +1,15 @@
 import { Stage } from '@/components/mockup'
-import { SectionHeading } from '@/components/section-heading'
+import { Section, SectionHeading } from '@/components/section'
 import { StepVisual } from '@/components/step-visuals'
 import { steps } from '@/content/steps'
 import { withInlineCode } from '@/lib/inline-code'
 
 export function Steps() {
   return (
-    <section
-      id="how-it-works"
-      aria-labelledby="how-it-works-title"
-      className="px-4 py-20 sm:px-6 sm:py-24"
-    >
+    <Section id="how-it-works">
       <div className="mx-auto flex max-w-6xl flex-col gap-14">
         <SectionHeading
-          titleId="how-it-works-title"
+          sectionId="how-it-works"
           eyebrow={steps.eyebrow}
           title={steps.title}
           description={steps.description}
@@ -35,6 +31,6 @@ export function Steps() {
           ))}
         </ol>
       </div>
-    </section>
+    </Section>
   )
 }

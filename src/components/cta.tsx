@@ -1,6 +1,8 @@
 import { ButtonLink } from '@/components/button-link'
 import { Eyebrow } from '@/components/eyebrow'
 import { GitHubIcon } from '@/components/icons'
+import { MockCard } from '@/components/mockup'
+import { Section, SectionDescription, SectionTitle } from '@/components/section'
 import { cta } from '@/content/cta'
 import { cn } from '@/lib/utils'
 
@@ -15,10 +17,7 @@ const FLOATS = ['delay-0', 'delay-700', 'delay-300', 'delay-1000']
 
 export function Cta() {
   return (
-    <section
-      aria-labelledby="cta-title"
-      className="relative isolate overflow-hidden px-4 py-20 sm:px-6 sm:py-24"
-    >
+    <Section id="get-started" className="relative isolate overflow-hidden">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-1/2 -z-10 mx-auto h-96 max-w-3xl -translate-y-1/2 bg-glow"
@@ -30,9 +29,9 @@ export function Cta() {
       >
         {cta.cards.map((card, index) => (
           <div key={card.title} className={cn('absolute', PLACEMENTS[index])}>
-            <div
+            <MockCard
               className={cn(
-                'flex w-60 animate-float items-center gap-3 rounded-lg border bg-linear-to-br from-muted to-background p-3 shadow-lg motion-reduce:animate-none',
+                'flex w-60 animate-float items-center gap-3 p-3 motion-reduce:animate-none',
                 FLOATS[index],
               )}
             >
@@ -43,20 +42,17 @@ export function Cta() {
                 <span className="truncate font-mono text-xs font-semibold">{card.title}</span>
                 <span className="truncate text-xs text-foreground">{card.detail}</span>
               </span>
-            </div>
+            </MockCard>
           </div>
         ))}
       </div>
 
       <div className="relative mx-auto flex max-w-xl reveal flex-col items-center gap-5 text-center">
         <Eyebrow icon={GitHubIcon} {...cta.eyebrow} />
-        <h2
-          id="cta-title"
-          className="font-heading text-3xl font-bold tracking-tight text-balance sm:text-5xl"
-        >
+        <SectionTitle sectionId="get-started" className="sm:text-5xl">
           {cta.title}
-        </h2>
-        <p className="text-pretty text-muted-foreground sm:text-lg">{cta.description}</p>
+        </SectionTitle>
+        <SectionDescription>{cta.description}</SectionDescription>
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
           <ButtonLink href={cta.secondaryAction.href} variant="secondary" size="lg">
             {cta.secondaryAction.label}
@@ -67,6 +63,6 @@ export function Cta() {
           </ButtonLink>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }

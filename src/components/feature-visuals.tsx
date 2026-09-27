@@ -1,7 +1,7 @@
 import { CheckIcon, ChevronDownIcon, MoonIcon, SunIcon } from 'lucide-react'
 
 import { LogoMark } from '@/components/icons'
-import { MockCard } from '@/components/mockup'
+import { MockBar, MockButton, MockCard, Swatches } from '@/components/mockup'
 import { siteConfig } from '@/config/site'
 import type { FeatureVisual as FeatureVisualName } from '@/content/features'
 import { cn } from '@/lib/utils'
@@ -79,13 +79,13 @@ function Prerender() {
   return (
     <div className="relative w-full max-w-64">
       <MockCard>
-        <div className="flex items-center justify-between border-b bg-muted/40 px-3 py-2 text-xs">
+        <MockBar className="justify-between text-xs">
           <span className="font-medium">next build</span>
           <span className="flex items-center gap-1 text-muted-foreground">
             <CheckIcon className="size-3.5" />
             Compiled
           </span>
-        </div>
+        </MockBar>
         <ul className="flex flex-col gap-1.5 px-3 pt-2.5 pb-6 text-xs">
           {ROUTES.map((route) => (
             <li key={route} className="flex items-center gap-2">
@@ -160,16 +160,17 @@ function Quality() {
       <ul className="mt-3 grid grid-cols-3 gap-x-2 gap-y-1 text-xs">
         {CHECKS.map((check) => (
           <li key={check.name} className="flex items-center gap-1">
-            <CheckIcon
-              className={cn('size-3 shrink-0 animate-wave motion-reduce:animate-none', check.wave)}
-            />
+            {/* The wave moves a wrapper, since an animated svg itself is not composited on the GPU. */}
+            <span
+              className={cn('flex shrink-0 animate-wave motion-reduce:animate-none', check.wave)}
+            >
+              <CheckIcon className="size-3" />
+            </span>
             {check.name}
           </li>
         ))}
       </ul>
-      <span className="mt-3 flex h-7 animate-press items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground motion-reduce:animate-none">
-        Merge Pull Request
-      </span>
+      <MockButton>Merge Pull Request</MockButton>
     </MockCard>
   )
 }
@@ -177,7 +178,7 @@ function Quality() {
 function NoJavaScript() {
   return (
     <MockCard className="w-full max-w-64">
-      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+      <MockBar className="text-xs text-muted-foreground">
         <Dots />
         <span className="truncate">your-domain.com</span>
         {/* Resting off; the loop switches it on for a moment, and the page below never changes. */}
@@ -188,7 +189,7 @@ function NoJavaScript() {
             <span className="absolute top-0.5 left-0.5 size-3 animate-switch-knob rounded-full bg-background shadow-sm motion-reduce:animate-none" />
           </span>
         </span>
-      </div>
+      </MockBar>
       <div className="flex flex-col gap-2 p-3 text-xs">
         <span className="text-sm font-semibold">Frequently Asked Questions</span>
         <span className="flex flex-col gap-1 rounded-md border p-2">
@@ -206,10 +207,10 @@ function NoJavaScript() {
 function Content() {
   return (
     <MockCard className="w-full max-w-64 font-mono text-xs">
-      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2">
+      <MockBar>
         hero.ts
         <span className="text-muted-foreground">src/content</span>
-      </div>
+      </MockBar>
       <div className="flex flex-col gap-1 p-3 leading-relaxed">
         <span className="flex gap-3">
           <span className="text-muted-foreground">1</span>
@@ -285,8 +286,6 @@ function MiniPage({ inverted = false }: { inverted?: boolean }) {
   )
 }
 
-const SWATCHES = ['bg-primary', 'bg-chart-2', 'bg-chart-3', 'bg-chart-4']
-
 function Presets() {
   return (
     <div className="relative">
@@ -300,14 +299,7 @@ function Presets() {
         </div>
       </div>
       <MockCard className="absolute -bottom-4 -left-4 flex items-center gap-2 rounded-full px-2.5 py-1 text-xs">
-        <span className="flex -space-x-1">
-          {SWATCHES.map((swatch) => (
-            <span
-              key={swatch}
-              className={cn('size-3 rounded-full ring-2 ring-background', swatch)}
-            />
-          ))}
-        </span>
+        <Swatches className="-space-x-1 *:size-3" />
         <span className="font-mono">apply b4Wm</span>
       </MockCard>
     </div>

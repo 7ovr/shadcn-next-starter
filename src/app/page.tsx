@@ -4,19 +4,15 @@ import { Cta } from '@/components/cta'
 import { Faq } from '@/components/faq'
 import { Features } from '@/components/features'
 import { Hero } from '@/components/hero'
-import { JsonLd } from '@/components/json-ld'
 import { Stack } from '@/components/stack'
 import { Steps } from '@/components/steps'
-import { faq } from '@/content/faq'
 import { createMetadata } from '@/lib/metadata'
-import { faqPageSchema } from '@/lib/structured-data'
 
 export const metadata = createMetadata({ path: '/' })
 
 export default function Home() {
   return (
     <>
-      <JsonLd data={faqPageSchema(faq.items)} />
       <Hero />
       <Stack />
       <Features />

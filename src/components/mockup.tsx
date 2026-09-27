@@ -54,7 +54,7 @@ export function Stage({
   )
 }
 
-// A card on the stage, in the surface starter.7ovr.com uses for its cards: a soft diagonal from muted to background.
+// The card surface starter.7ovr.com uses: a soft diagonal from muted to background.
 export function MockCard({
   className,
   children,
@@ -71,5 +71,42 @@ export function MockCard({
     >
       {children}
     </div>
+  )
+}
+
+// The strip across the top of a mock window, file or run.
+export function MockBar({
+  className,
+  children,
+}: {
+  className?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className={cn('flex items-center gap-2 border-b bg-muted/40 px-3 py-2', className)}>
+      {children}
+    </div>
+  )
+}
+
+// The one filled button on a mock card, pressed on a loop.
+export function MockButton({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="mt-3 flex h-7 animate-press items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground motion-reduce:animate-none">
+      {children}
+    </span>
+  )
+}
+
+const SWATCHES = ['bg-primary', 'bg-chart-2', 'bg-chart-3', 'bg-chart-4', 'bg-chart-5']
+
+// The theme's colours as overlapping dots; the caller sets their size and overlap.
+export function Swatches({ className }: { className: string }) {
+  return (
+    <span className={cn('flex', className)}>
+      {SWATCHES.map((swatch) => (
+        <span key={swatch} className={cn('rounded-full ring-2 ring-background', swatch)} />
+      ))}
+    </span>
   )
 }

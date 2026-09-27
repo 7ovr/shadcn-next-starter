@@ -1,10 +1,9 @@
 import { CheckIcon, PencilIcon } from 'lucide-react'
 
 import { GitHubIcon, VercelIcon } from '@/components/icons'
-import { MockCard } from '@/components/mockup'
+import { MockBar, MockButton, MockCard, Swatches } from '@/components/mockup'
 import { siteConfig } from '@/config/site'
 import type { StepVisual as StepVisualName } from '@/content/steps'
-import { cn } from '@/lib/utils'
 
 function Clone() {
   const repository = siteConfig.links.repository.split('/').slice(-2).join('/')
@@ -20,9 +19,7 @@ function Clone() {
           <span className="text-muted-foreground">Public template</span>
         </span>
       </div>
-      <span className="mt-3 flex h-7 animate-press items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground motion-reduce:animate-none">
-        Use This Template
-      </span>
+      <MockButton>Use This Template</MockButton>
     </MockCard>
   )
 }
@@ -53,8 +50,6 @@ function Content() {
   )
 }
 
-const SWATCHES = ['bg-primary', 'bg-chart-2', 'bg-chart-3', 'bg-chart-4', 'bg-chart-5']
-
 function Preset() {
   return (
     <MockCard className="w-full max-w-56 p-3 text-xs">
@@ -66,11 +61,7 @@ function Preset() {
         <CheckIcon className="size-3.5" />
         Theme tokens updated
       </span>
-      <span className="mt-3 flex -space-x-1.5">
-        {SWATCHES.map((swatch) => (
-          <span key={swatch} className={cn('size-6 rounded-full ring-2 ring-background', swatch)} />
-        ))}
-      </span>
+      <Swatches className="mt-3 -space-x-1.5 *:size-6" />
     </MockCard>
   )
 }
@@ -78,7 +69,7 @@ function Preset() {
 function Deploy() {
   return (
     <MockCard className="w-full max-w-56 text-xs">
-      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2">
+      <MockBar>
         <VercelIcon className="size-3" />
         <span className="font-medium">Production</span>
         <span className="ml-auto flex items-center gap-1.5 text-muted-foreground">
@@ -88,7 +79,7 @@ function Deploy() {
           </span>
           Ready
         </span>
-      </div>
+      </MockBar>
       <div className="flex flex-col gap-1.5 px-3 py-2.5">
         <span className="flex items-center justify-between gap-2">
           your-domain.com

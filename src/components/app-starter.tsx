@@ -2,26 +2,20 @@ import { CheckIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { ButtonLink } from '@/components/button-link'
+import { Section, SectionDescription, SectionTitle } from '@/components/section'
 import { appStarter } from '@/content/app-starter'
 
 export function AppStarter() {
   return (
-    <section
-      id="app-starter"
-      aria-labelledby="app-starter-title"
-      className="px-4 py-20 sm:px-6 sm:py-24"
-    >
+    <Section id="app-starter">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
         {/* Title, description, then the link on phones; on large screens the link sits under the title. */}
         <div className="grid reveal items-start justify-items-start gap-4 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-5">
-          <h2
-            id="app-starter-title"
-            className="font-heading text-3xl font-bold tracking-tight text-balance sm:text-4xl lg:col-start-1 lg:row-start-1"
-          >
+          <SectionTitle sectionId="app-starter" className="lg:col-start-1 lg:row-start-1">
             {appStarter.title}
-          </h2>
+          </SectionTitle>
           <div className="flex flex-col gap-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <p className="text-pretty text-muted-foreground sm:text-lg">{appStarter.description}</p>
+            <SectionDescription>{appStarter.description}</SectionDescription>
             <ul className="flex flex-col gap-2.5">
               {appStarter.highlights.map((highlight) => (
                 <li key={highlight} className="flex items-center gap-2 text-sm font-medium">
@@ -63,6 +57,6 @@ export function AppStarter() {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
   )
 }
