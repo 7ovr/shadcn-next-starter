@@ -1,6 +1,6 @@
+import { AgentSession } from '@/components/agent-session'
 import { Stage } from '@/components/mockup'
 import { SectionHeading } from '@/components/section-heading'
-import { AgentSession } from '@/components/sections/agents/agent-session'
 import { agents } from '@/content/agents'
 import { withInlineCode } from '@/lib/inline-code'
 

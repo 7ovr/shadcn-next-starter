@@ -32,7 +32,7 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 
 - `src/config/site.ts` holds the name, description and links.
 - `src/content/` holds every word on the page, one file per section. The sections only render what they are given.
-- `src/components/sections/` holds one folder per section. Reorder or drop them in `src/app/page.tsx`.
+- `src/components/` holds every component, one file each, the sections included. Reorder or drop the sections in `src/app/page.tsx`.
 
 ## Scripts
 

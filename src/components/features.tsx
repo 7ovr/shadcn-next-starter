@@ -1,6 +1,6 @@
+import { FeatureVisual } from '@/components/feature-visuals'
 import { Stage } from '@/components/mockup'
 import { SectionHeading } from '@/components/section-heading'
-import { FeatureVisual } from '@/components/sections/features/feature-visuals'
 import { features } from '@/content/features'
 import { withInlineCode } from '@/lib/inline-code'
 

@@ -2,7 +2,7 @@ import { ZapIcon } from 'lucide-react'
 
 import { CopyCommand } from '@/components/copy-command'
 import { Eyebrow } from '@/components/eyebrow'
-import { HeroLogos } from '@/components/sections/hero/hero-logos'
+import { HeroLogos } from '@/components/hero-logos'
 import { hero } from '@/content/hero'
 import { withInlineCode } from '@/lib/inline-code'
 import { cn } from '@/lib/utils'

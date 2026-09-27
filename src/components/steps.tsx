@@ -1,6 +1,6 @@
 import { Stage } from '@/components/mockup'
 import { SectionHeading } from '@/components/section-heading'
-import { StepVisual } from '@/components/sections/steps/step-visuals'
+import { StepVisual } from '@/components/step-visuals'
 import { steps } from '@/content/steps'
 import { withInlineCode } from '@/lib/inline-code'
 

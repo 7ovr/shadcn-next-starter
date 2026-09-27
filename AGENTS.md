@@ -28,7 +28,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - `src/app/layout.tsx` renders the skip link, `SiteHeader`, `<main id="main">` and `SiteFooter` around every page. `src/app/page.tsx` only lists the sections, in order.
 - **Copy lives in `src/content/`**: one typed file per section, and `navigation.ts` for the header and footer links. Sections render what they are given and never hard-code words. Site-wide details, like the name, description and links, live in `src/config/site.ts`.
 - Backticks in a content string render as inline code through `withInlineCode` from `src/lib/inline-code.tsx`, and `stripInlineCode` gives the plain text for JSON-LD, so one string feeds both.
-- **One folder per section** under `src/components/sections/<name>/`, with the section in `<name>.tsx` and its parts beside it. A section is a `<section>` with an `id` for in-page links and `aria-labelledby` pointing at its `<h2>`, which `SectionHeading` renders with the eyebrow and description.
+- **Every component lives flat in `src/components/`**, one kebab-case file each, sections and their parts included, such as `features.tsx` and `feature-visuals.tsx`. `src/components/ui/` is the only folder, and it holds what the shadcn CLI writes. A section is a `<section>` with an `id` for in-page links and `aria-labelledby` pointing at its `<h2>`, which `SectionHeading` renders with the eyebrow and description.
 - Every page has one `<h1>` and never skips a heading level; card titles are `<h3>`.
 - **The site URL is never hard-coded.** Read it with `getSiteUrl()` from `src/lib/site-url.ts`: `SITE_URL`, then Vercel's production domain, then localhost.
 - Screenshots live in `src/content/images/` and are imported statically, one per theme. Both render, with `dark:hidden` and `hidden dark:block`, and both stay lazy, because a lazy image that is not displayed never loads; `preload` or `loading="eager"` would load both. Decorative ones take `alt=""`.
@@ -65,10 +65,11 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ## Tests
 
-- **Tests come first.** Before writing the code for a feature or a fix, write the test that describes the behaviour and watch it fail. Then write the code that makes it pass. A bug fix starts with a test that reproduces the bug.
+- **Test logic, not rendering.** Unit tests cover code that decides something: the site URL resolver, the inline-code parser, the content rules, the copy button's clipboard handling and how `ButtonLink` treats a URL. Do not write a test that a component renders its copy, its links or its markup; the page's structure belongs to end-to-end checks against the built site.
+- **Tests come first** for that logic. Before writing it, write the test that describes it and watch it fail. A bug fix starts with a test that reproduces the bug.
 - **Colocate tests** with the file they cover: `copy-command.test.tsx` sits next to `copy-command.tsx`.
-- **Do not test shadcn/ui or Base UI primitives.** Test the behaviour we build on top of them, such as what a section shows, where a link goes, what the theme toggle does and what the content says.
-- Vitest with Testing Library in jsdom. Query by role and label, the way people use the page. Server Components render in tests like any other component.
+- **Do not test shadcn/ui or Base UI primitives.** They are vendored and tested upstream.
+- Vitest with Testing Library in jsdom. When a test needs the DOM, query by role and label, the way people use the page.
 - `src/test/setup.ts` mocks `next/font/google`, which only runs inside the Next compiler, and stubs the browser APIs jsdom lacks. Add to it when a component needs another one.
 - `src/content/content.test.ts` enforces the copy rules: no em or en dashes, and Title Case labels.
 
