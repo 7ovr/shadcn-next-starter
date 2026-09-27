@@ -17,7 +17,7 @@ export const faq = {
     {
       question: 'What is the 7Ovr Landing Starter?',
       answer:
-        'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. Every page is prerendered, and every SEO promise it makes is covered by a test.',
+        'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. Every page is prerendered, and every promise it makes, from SEO to accessibility, is covered by a test.',
     },
     {
       question: 'Is it free for commercial projects?',
@@ -25,14 +25,14 @@ export const faq = {
         'Yes. It is MIT licensed, so you can use it for client work and commercial products, and you owe nothing back.',
     },
     {
-      question: 'What does tested SEO mean here?',
+      question: 'What does tested mean here?',
       answer:
-        'Each promise has a test: metadata and JSON-LD on every route, crawlable HTML with JavaScript off, valid robots, sitemap and feed files, and noindex on preview deploys. CI runs them on every push.',
+        'Each promise has a test: metadata and JSON-LD on every route, one h1 and working landmarks, readable HTML with JavaScript off, Lighthouse budgets, and noindex on preview deploys. CI runs them on every push, beside lint, format and type checks.',
     },
     {
       question: 'Does the page work without JavaScript?',
       answer:
-        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme switch, the mobile menu and the copy button.',
+        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu and the copy button.',
     },
     {
       question: 'How do I restyle it?',
@@ -57,7 +57,7 @@ export const faq = {
     {
       question: 'Does it work with coding agents?',
       answer:
-        'Yes. `AGENTS.md` holds every convention and `CLAUDE.md` imports it, so Claude Code, Codex and Cursor keep new pages and sections on the same SEO patterns.',
+        'Yes. `AGENTS.md` holds every convention and `CLAUDE.md` imports it, so Claude Code, Codex and Cursor keep new pages and sections on the same patterns.',
     },
     {
       question: 'Can I add 7Ovr blocks to it?',

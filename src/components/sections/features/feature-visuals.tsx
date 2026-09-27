@@ -1,6 +1,13 @@
-import { BracesIcon, CheckIcon, ChevronDownIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { CheckIcon, ChevronDownIcon, CircleCheckIcon, MoonIcon, SunIcon } from 'lucide-react'
 
-import { LogoMark } from '@/components/icons'
+import {
+  LogoMark,
+  NextjsLogo,
+  ReactLogo,
+  ShadcnIcon,
+  TailwindLogo,
+  TypeScriptLogo,
+} from '@/components/icons'
 import { siteConfig } from '@/config/site'
 import type { FeatureVisual as FeatureVisualName } from '@/content/features'
 import { cn } from '@/lib/utils'
@@ -119,53 +126,74 @@ function Metadata() {
   )
 }
 
-function StructuredData() {
+const SEGMENTS = ['delay-0', 'delay-300', 'delay-600', 'delay-900', 'delay-1200']
+
+const SUITES = [
+  { name: 'Vitest', detail: 'Unit' },
+  { name: 'Playwright', detail: 'Crawl' },
+  { name: 'Lighthouse', detail: 'Budgets' },
+]
+
+function Quality() {
   return (
-    <div className="relative flex w-full max-w-60 flex-col items-center">
-      <div className="flex h-11 w-full items-center gap-2 rounded-lg border bg-muted/40 px-3 font-mono text-xs">
-        <BracesIcon className="size-3.5 shrink-0 text-muted-foreground" />
-        <span className="truncate">
-          <span className="text-muted-foreground">&quot;@type&quot;: </span>
-          &quot;FAQPage&quot;
+    <Frame className="w-full max-w-64 p-4">
+      <div className="flex items-center gap-2.5">
+        <CircleCheckIcon className="size-5 shrink-0" />
+        <span className="flex min-w-0 flex-col">
+          <span className="text-sm font-semibold">All Checks Passed</span>
+          <span className="truncate font-mono text-xs text-muted-foreground">master · 4f2c1a9</span>
         </span>
       </div>
-      <span className="h-3 border-l border-dashed border-foreground/30" />
-      <span className="flex h-6 items-center gap-1 rounded-md border bg-background px-2 text-xs font-medium text-muted-foreground">
-        <CheckIcon className="size-3" />
-        Matches
-      </span>
-      <span className="h-3 border-l border-dashed border-foreground/30" />
-      <div className="flex h-11 w-full items-center gap-2.5 rounded-lg border bg-muted/20 px-3">
-        <ChevronDownIcon className="size-3.5 shrink-0 text-muted-foreground" />
-        <Bar className="w-3/4 bg-foreground/25" />
+      <div className="mt-3 flex gap-1">
+        {SEGMENTS.map((delay) => (
+          <span
+            key={delay}
+            className={cn(
+              'h-1.5 flex-1 origin-left animate-segment-fill rounded-full bg-foreground motion-reduce:animate-none',
+              delay,
+            )}
+          />
+        ))}
       </div>
-      {/* One ring for both boxes, 5.75rem apart, so animate-hop can move it between them. */}
-      <span className="absolute -inset-x-1.5 -top-1.5 h-14 animate-hop rounded-xl border-2 border-foreground motion-reduce:animate-none" />
-    </div>
+      <ul className="mt-3 flex flex-col gap-1.5 text-xs">
+        {SUITES.map((suite) => (
+          <li key={suite.name} className="flex items-center gap-2">
+            <CheckIcon className="size-3.5" />
+            {suite.name}
+            <span className="ml-auto text-muted-foreground">{suite.detail}</span>
+          </li>
+        ))}
+      </ul>
+    </Frame>
   )
 }
 
-function OgImages() {
+const STACK = [
+  { Logo: NextjsLogo, name: 'Next.js 16', wave: 'delay-0' },
+  { Logo: ReactLogo, name: 'React 19', wave: 'delay-350' },
+  { Logo: TypeScriptLogo, name: 'TypeScript 7', wave: 'delay-700' },
+  { Logo: TailwindLogo, name: 'Tailwind CSS 4', wave: 'delay-1050' },
+  { Logo: ShadcnIcon, name: 'shadcn/ui on Base UI', wave: 'delay-1400' },
+]
+
+function Stack() {
   return (
-    <Frame className="w-full max-w-64">
-      <div className="relative aspect-40/21 overflow-hidden border-b bg-linear-to-br from-muted to-background p-4">
-        <span className="flex items-center gap-1.5 text-xs font-semibold">
-          <LogoMark className="size-3.5" />
-          7Ovr
-        </span>
-        <p className="mt-3 font-heading text-base leading-tight font-bold text-balance">
-          SEO done right. Tested, not promised.
-        </p>
-        <span className="absolute right-2 bottom-2 rounded-sm border bg-background px-1.5 font-mono text-xs text-muted-foreground">
-          1200 × 630
-        </span>
-        <span className="absolute inset-y-0 left-0 w-1/3 -translate-x-full animate-sheen bg-linear-to-r from-transparent via-foreground/10 to-transparent motion-reduce:animate-none" />
-      </div>
-      <div className="flex flex-col gap-1.5 px-3 py-2.5">
-        <span className="text-xs text-muted-foreground">your-domain.com</span>
-        <Bar className="w-3/4" />
-      </div>
-    </Frame>
+    <ul className="flex w-full max-w-64 flex-col gap-1">
+      {STACK.map(({ Logo, name, wave }) => (
+        <li key={name} className="flex h-8 items-center gap-2.5">
+          <span className="grid size-7 shrink-0 place-items-center rounded-md border bg-linear-to-br from-muted/60 to-card">
+            <Logo className="size-3.5" />
+          </span>
+          <span className="truncate text-sm font-medium">{name}</span>
+          <CheckIcon
+            className={cn(
+              'ml-auto size-3.5 shrink-0 animate-wave text-muted-foreground motion-reduce:animate-none',
+              wave,
+            )}
+          />
+        </li>
+      ))}
+    </ul>
   )
 }
 
@@ -279,9 +307,9 @@ function Presets() {
 const VISUALS = {
   prerender: Prerender,
   metadata: Metadata,
-  'structured-data': StructuredData,
-  'og-images': OgImages,
+  quality: Quality,
   'no-javascript': NoJavaScript,
+  stack: Stack,
   presets: Presets,
 } satisfies Record<FeatureVisualName, () => React.ReactNode>
 

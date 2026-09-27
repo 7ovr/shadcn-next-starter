@@ -3,7 +3,7 @@ const repository = 'https://github.com/7ovr/shadcn-next-starter'
 export const siteConfig = {
   name: '7Ovr Landing Starter',
   description:
-    'A free Next.js landing page starter on shadcn/ui and Base UI, with SEO done right and a test for every promise.',
+    'A free Next.js landing page starter on shadcn/ui and Base UI, with speed, SEO, accessibility, theming and tests already wired.',
   author: { name: '7Ovr', url: 'https://7ovr.com' },
   links: {
     repository,

@@ -8,6 +8,8 @@ import { withInlineCode } from '@/lib/inline-code'
 
 export function Hero() {
   const [before, after] = hero.title.split(hero.titleEmphasis)
+  // The last word before the emphasis moves down with it, so the first line keeps its words whole.
+  const cut = before.trimEnd().lastIndexOf(' ')
 
   return (
     <section
@@ -29,10 +31,11 @@ export function Hero() {
           id="hero-title"
           className="animate-rise font-heading text-4xl font-bold tracking-tighter text-balance delay-75 motion-reduce:animate-none sm:text-5xl lg:text-6xl"
         >
-          {before}
-          <br />
-          {/* Marked like inline code, the way the page marks commands. */}
-          <em className="rounded-xl bg-foreground/10 box-decoration-clone px-3 font-mono not-italic">
+          {before.slice(0, cut)}
+          <br className="max-sm:hidden" />
+          {before.slice(cut)}
+          {/* A chip like the inline code on the page, in a lighter weight than the headline. */}
+          <em className="rounded-xl bg-foreground/10 box-decoration-clone px-3 font-light not-italic">
             {hero.titleEmphasis}
           </em>
           {after}

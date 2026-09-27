@@ -158,7 +158,6 @@
   --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-rise-fade: rise-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-float: float 7s ease-in-out infinite;
-  --animate-marquee: marquee 60s linear infinite;
 }
 
 /* Rises and sharpens into place without fading, so the text is never transparent. */
@@ -180,13 +179,6 @@
 @keyframes float {
   50% {
     transform: translateY(-0.5rem);
-  }
-}
-
-/* Each list moves by its own width, so the copy that follows it takes its place seamlessly. */
-@keyframes marquee {
-  to {
-    transform: translateX(-100%);
   }
 }
 
@@ -246,9 +238,8 @@
 @theme {
   --animate-swap: swap 10s linear infinite;
   --animate-wave: wave 4s ease-in-out infinite backwards;
-  --animate-hop: hop 4.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-hop-rows: hop-rows 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-sheen: sheen 5s ease-in-out infinite;
+  --animate-segment-fill: segment-fill 6s cubic-bezier(0.16, 1, 0.3, 1) infinite backwards;
   --animate-switch-knob: switch-knob 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-press: press 4s ease-in-out infinite;
@@ -289,19 +280,6 @@
   }
 }
 
-/* A focus ring hops between two boxes 5.75rem apart. */
-@keyframes hop {
-  0%,
-  40%,
-  100% {
-    transform: none;
-  }
-  50%,
-  90% {
-    transform: translateY(5.75rem);
-  }
-}
-
 /* A highlight walks down four 1.5rem rows. */
 @keyframes hop-rows {
   0%,
@@ -323,14 +301,20 @@
   }
 }
 
-/* A band of light crosses the card, then rests off its right edge. */
-@keyframes sheen {
+/* A progress segment fills on its cue, holds, then fades before the next run. */
+@keyframes segment-fill {
   0% {
-    transform: translateX(-100%);
+    transform: scaleX(0);
   }
-  40%,
+  15%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
   100% {
-    transform: translateX(300%);
+    opacity: 0;
+    transform: none;
   }
 }
 

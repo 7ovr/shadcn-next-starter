@@ -6,7 +6,7 @@ export const steps = {
   eyebrow: { icon: RouteIcon, lead: 'From Clone', emphasis: 'To Indexed' },
   title: 'Make It Yours In Four Steps',
   description:
-    'The starter does the SEO plumbing once, so a new site is a config file, a content folder and a deploy.',
+    'The starter does the plumbing once, so a new site is a config file, a content folder and a deploy.',
   items: [
     {
       visual: 'clone',
