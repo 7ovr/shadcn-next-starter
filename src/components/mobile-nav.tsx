@@ -22,13 +22,19 @@ export function MobileNav({ links, children }: { links: NavLink[]; children: Rea
     void loadSheet().then((component) => setSheet(() => component))
   }
 
-  // Phones get around through the menu, so they fetch it once the page has settled; wider screens never do.
+  // Phones get around through the menu, so they fetch it at the first scroll or touch; wider screens never do.
   useEffect(() => {
     if (!window.matchMedia('(width < 48rem)').matches) return
-    const timeout = window.setTimeout(() => {
+    const preload = () => {
       void loadSheet().then((component) => setSheet(() => component))
-    }, 2000)
-    return () => window.clearTimeout(timeout)
+    }
+    const once = { once: true, passive: true }
+    window.addEventListener('scroll', preload, once)
+    window.addEventListener('pointerdown', preload, once)
+    return () => {
+      window.removeEventListener('scroll', preload)
+      window.removeEventListener('pointerdown', preload)
+    }
   }, [])
 
   return (
