@@ -1,5 +1,6 @@
 import type { NextConfig } from 'next'
 
+import { responseHeaders } from '@/lib/headers'
 import { isIndexable } from '@/lib/site-url'
 
 const nextConfig: NextConfig = {
@@ -8,10 +9,8 @@ const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
   },
-  // Previews and local builds say noindex in a header too, not only in the page's meta tag.
   async headers() {
-    if (isIndexable()) return []
-    return [{ source: '/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex' }] }]
+    return [{ source: '/:path*', headers: responseHeaders({ indexable: isIndexable() }) }]
   },
 }
 

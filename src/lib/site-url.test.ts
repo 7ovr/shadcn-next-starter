@@ -3,13 +3,18 @@ import { describe, expect, it } from 'vitest'
 import { getSiteUrl, isIndexable } from '@/lib/site-url'
 
 describe('getSiteUrl', () => {
-  it('prefers SITE_URL and drops a trailing slash', () => {
+  it('prefers SITE_URL and keeps only its origin', () => {
     expect(
       getSiteUrl({
         SITE_URL: 'https://example.com/',
         VERCEL_PROJECT_PRODUCTION_URL: 'example.vercel.app',
       }),
     ).toBe('https://example.com')
+    expect(getSiteUrl({ SITE_URL: 'https://example.com/landing/' })).toBe('https://example.com')
+  })
+
+  it('rejects a SITE_URL without a scheme', () => {
+    expect(() => getSiteUrl({ SITE_URL: 'example.com' })).toThrow('absolute URL')
   })
 
   it("falls back to Vercel's production domain", () => {
@@ -20,6 +25,10 @@ describe('getSiteUrl', () => {
 
   it('uses localhost when nothing is set', () => {
     expect(getSiteUrl({})).toBe('http://localhost:3000')
+  })
+
+  it('refuses to build an indexed site that would point at localhost', () => {
+    expect(() => getSiteUrl({ SITE_ENV: 'production' })).toThrow('set SITE_URL')
   })
 })
 
