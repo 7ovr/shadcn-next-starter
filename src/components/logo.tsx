@@ -10,12 +10,13 @@ const wordmark = Syne({ subsets: ['latin'], weight: '700' })
 
 export function Logo() {
   return (
+    // The spaces keep the words apart in the text a link's name is checked against; flex ignores them.
     <span className="flex items-center gap-2 text-foreground">
-      <LogoMark className="size-6 shrink-0" />
-      <span className={cn(wordmark.className, 'text-2xl leading-none tracking-tight')}>7Ovr</span>
+      <LogoMark className="size-6 shrink-0" />{' '}
+      <span className={cn(wordmark.className, 'text-2xl leading-none tracking-tight')}>7Ovr</span>{' '}
       <span aria-hidden="true" className="text-sm text-muted-foreground">
         /
-      </span>
+      </span>{' '}
       <span className="text-sm font-medium text-muted-foreground">Landing</span>
     </span>
   )
