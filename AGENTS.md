@@ -48,6 +48,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - Keep `reveal` off anything in the first screen, where it would load half faded.
 - The stack marquee scrolls two copies of one list. The copy is `aria-hidden`, and under reduced motion it is hidden and the list wraps in place.
 - The header turns to frosted glass on a scroll timeline in `header-glass`; without scroll timelines it is always glass.
+- The illustrations share one 8-second loop, the `animate-illus-*` utilities: each builds up, holds its finished frame, fades out as a group and builds again. An element's normal style is the finished frame, which reduced motion shows. Keep an item's delay within 1.1 seconds of its group's, or its reset shows.
 - Decorative visuals, like the hero photo, the CTA cards and the illustrations, are `aria-hidden` and `data-nosnippet`, so they stay out of screen readers and search snippets.
 
 ### Images
