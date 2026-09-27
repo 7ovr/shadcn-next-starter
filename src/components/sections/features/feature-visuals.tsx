@@ -1,36 +1,12 @@
-import { CheckIcon, ChevronDownIcon, CircleCheckIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { CheckIcon, ChevronDownIcon, MoonIcon, SunIcon } from 'lucide-react'
 
 import { LogoMark } from '@/components/icons'
+import { MockCard } from '@/components/mockup'
 import { siteConfig } from '@/config/site'
 import type { FeatureVisual as FeatureVisualName } from '@/content/features'
 import { cn } from '@/lib/utils'
 
-// Each mockup makes one point with one large element, in the style of 7ovr.com's feature grid.
-
-function Frame({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div className={cn('overflow-hidden rounded-xl border bg-background shadow-lg', className)}>
-      {children}
-    </div>
-  )
-}
-
-function Dots() {
-  return (
-    <span className="flex gap-1.5">
-      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
-      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
-      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
-    </span>
-  )
-}
-
-function Bar({ className }: { className?: string }) {
-  return <span className={cn('block h-1.5 rounded-full bg-foreground/15', className)} />
-}
-
-const ROUTES = ['/', '/blog', '/blog/hello-world', '/privacy', '/terms']
-// Two seconds apart, so the five routes take turns in the animate-swap loop.
+// Two seconds apart, so up to five items share one animate-swap loop by taking turns.
 const TURNS = [
   'delay-0',
   'delay-2000 opacity-0',
@@ -39,210 +15,243 @@ const TURNS = [
   'delay-8000 opacity-0',
 ]
 
-function Prerender() {
+function Swap({ items }: { items: string[] }) {
   return (
-    <Frame className="w-full max-w-md">
-      <div className="flex items-center gap-2 border-b px-3 py-2.5">
-        <Dots />
-        <span className="ml-2 font-mono text-xs text-muted-foreground">Terminal</span>
-      </div>
-      <div className="flex flex-col gap-3 p-4 font-mono text-xs leading-relaxed">
-        <p className="flex items-center gap-2">
-          <span className="text-muted-foreground">$</span>
-          pnpm build
-          <span className="h-3.5 w-1.5 animate-caret-blink bg-foreground/80 motion-reduce:animate-none" />
-        </p>
-        <p className="flex items-center gap-2">
-          <span className="text-muted-foreground">○</span>
-          <span className="grid">
-            {ROUTES.map((route, index) => (
-              <span
-                key={route}
-                className={cn(
-                  'col-start-1 row-start-1 animate-swap motion-reduce:animate-none',
-                  TURNS[index],
-                )}
-              >
-                {route}
-              </span>
-            ))}
-          </span>
-          <span className="ml-auto text-muted-foreground">Static</span>
-        </p>
-        <p className="flex items-center gap-2 text-muted-foreground">
-          <CheckIcon className="size-3.5 text-foreground" />
-          Every route prerendered as static HTML
-        </p>
-      </div>
-    </Frame>
+    <span className="grid">
+      {items.map((item, index) => (
+        <span
+          key={item}
+          className={cn(
+            'col-start-1 row-start-1 animate-swap whitespace-nowrap motion-reduce:animate-none',
+            TURNS[index],
+          )}
+        >
+          {item}
+        </span>
+      ))}
+    </span>
   )
 }
 
-const TAGS = [
-  { name: 'title', wave: 'delay-0' },
-  { name: 'description', wave: 'delay-800' },
-  { name: 'canonical', wave: 'delay-1600' },
-  { name: 'og:image', wave: 'delay-2400' },
-]
-
-function Metadata() {
+function Dots() {
   return (
-    <div className="flex w-full max-w-64 flex-col items-center gap-5">
-      <Frame className="w-full p-4">
-        <div className="flex items-center gap-2.5">
-          <span className="grid size-7 shrink-0 place-items-center rounded-full border bg-muted">
-            <LogoMark className="size-3.5" />
-          </span>
-          <span className="flex min-w-0 flex-col">
-            <span className="truncate text-xs font-medium">{siteConfig.name}</span>
-            <span className="truncate text-xs text-muted-foreground">your-domain.com</span>
+    <span className="flex gap-1">
+      <span className="size-2 rounded-full bg-muted-foreground/30" />
+      <span className="size-2 rounded-full bg-muted-foreground/30" />
+      <span className="size-2 rounded-full bg-muted-foreground/30" />
+    </span>
+  )
+}
+
+// A Lighthouse-style score ring whose arc fills on each loop and rests full.
+function Gauge() {
+  return (
+    <span className="relative grid size-11 shrink-0 place-items-center">
+      <svg viewBox="0 0 36 36" className="absolute inset-0 size-full -rotate-90">
+        <circle
+          cx="18"
+          cy="18"
+          r="15"
+          fill="none"
+          strokeWidth="3"
+          className="stroke-foreground/10"
+        />
+        <circle
+          cx="18"
+          cy="18"
+          r="15"
+          fill="none"
+          strokeWidth="3"
+          strokeLinecap="round"
+          pathLength="100"
+          strokeDasharray="100"
+          className="animate-gauge stroke-foreground motion-reduce:animate-none"
+        />
+      </svg>
+      <span className="text-xs font-semibold">100</span>
+    </span>
+  )
+}
+
+const ROUTES = ['/', '/blog', '/blog/hello-world']
+
+function Prerender() {
+  return (
+    <div className="relative w-full max-w-64">
+      <MockCard>
+        <div className="flex items-center justify-between border-b bg-muted/40 px-3 py-2 text-xs">
+          <span className="font-medium">next build</span>
+          <span className="flex items-center gap-1 text-muted-foreground">
+            <CheckIcon className="size-3.5" />
+            Compiled
           </span>
         </div>
-        <p className="mt-3 truncate text-sm font-semibold">The landing page starter</p>
-        <Bar className="mt-2.5 w-full" />
-        <Bar className="mt-1.5 w-2/3" />
-      </Frame>
-      <div className="flex flex-wrap justify-center gap-2">
-        {TAGS.map((tag) => (
-          <span
-            key={tag.name}
-            className={cn(
-              'animate-wave rounded-md border bg-background px-2.5 py-1 font-mono text-xs text-muted-foreground motion-reduce:animate-none',
-              tag.wave,
-            )}
-          >
-            {tag.name}
-          </span>
-        ))}
-      </div>
+        <ul className="flex flex-col gap-1.5 px-3 pt-2.5 pb-6 text-xs">
+          {ROUTES.map((route) => (
+            <li key={route} className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full border border-foreground" />
+              {route}
+              <span className="ml-auto text-muted-foreground">Static</span>
+            </li>
+          ))}
+        </ul>
+      </MockCard>
+      <MockCard className="absolute -right-3 -bottom-8 flex items-center gap-2 py-1.5 pr-3 pl-1.5">
+        <Gauge />
+        <span className="flex flex-col text-xs leading-tight">
+          <span className="font-medium">Performance</span>
+          <span className="text-muted-foreground">Lighthouse</span>
+        </span>
+      </MockCard>
     </div>
   )
 }
 
-const SEGMENTS = ['delay-0', 'delay-300', 'delay-600', 'delay-900', 'delay-1200']
+function Metadata() {
+  return (
+    <div className="relative w-full max-w-64">
+      <MockCard className="p-3 pb-5">
+        <div className="flex items-center gap-2">
+          <span className="grid size-6 shrink-0 place-items-center rounded-full border bg-background">
+            <LogoMark className="size-3" />
+          </span>
+          <span className="flex min-w-0 flex-col text-xs leading-tight">
+            <span className="truncate font-medium">{siteConfig.name}</span>
+            <span className="truncate text-muted-foreground">your-domain.com</span>
+          </span>
+        </div>
+        <span className="mt-2 block text-sm leading-snug font-semibold">
+          The Next.js landing page starter
+        </span>
+        <span className="mt-1 line-clamp-2 text-xs text-muted-foreground">
+          A free landing page starter on Next.js 16, shadcn/ui and Base UI, with the hard parts
+          done.
+        </span>
+      </MockCard>
+      <MockCard className="absolute -right-3 -bottom-4 flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-xs">
+        <CheckIcon className="size-3" />
+        <Swap items={['title', 'description', 'canonical', 'og:image', 'JSON-LD']} />
+      </MockCard>
+    </div>
+  )
+}
 
-const SUITES = [
-  { name: 'Vitest', detail: 'Unit' },
-  { name: 'Playwright', detail: 'Crawl' },
-  { name: 'Lighthouse', detail: 'Budgets' },
+const CHECKS = [
+  { name: 'lint', wave: 'delay-0' },
+  { name: 'types', wave: 'delay-350' },
+  { name: 'test', wave: 'delay-700' },
+  { name: 'build', wave: 'delay-1050' },
+  { name: 'e2e', wave: 'delay-1400' },
+  { name: 'lighthouse', wave: 'delay-1750' },
 ]
 
 function Quality() {
   return (
-    <Frame className="w-full max-w-64 p-4">
+    <MockCard className="w-full max-w-64 p-3">
       <div className="flex items-center gap-2.5">
-        <CircleCheckIcon className="size-5 shrink-0" />
-        <span className="flex min-w-0 flex-col">
-          <span className="text-sm font-semibold">All Checks Passed</span>
-          <span className="truncate font-mono text-xs text-muted-foreground">master · 4f2c1a9</span>
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-foreground/10">
+          <CheckIcon className="size-4" />
+        </span>
+        <span className="flex flex-col leading-tight">
+          <span className="text-sm font-semibold">All checks have passed</span>
+          <span className="text-xs text-muted-foreground">6 successful checks</span>
         </span>
       </div>
-      <div className="mt-3 flex gap-1">
-        {SEGMENTS.map((delay) => (
-          <span
-            key={delay}
-            className={cn(
-              'h-1.5 flex-1 origin-left animate-segment-fill rounded-full bg-foreground motion-reduce:animate-none',
-              delay,
-            )}
-          />
-        ))}
-      </div>
-      <ul className="mt-3 flex flex-col gap-1.5 text-xs">
-        {SUITES.map((suite) => (
-          <li key={suite.name} className="flex items-center gap-2">
-            <CheckIcon className="size-3.5" />
-            {suite.name}
-            <span className="ml-auto text-muted-foreground">{suite.detail}</span>
+      <ul className="mt-3 grid grid-cols-3 gap-x-2 gap-y-1 text-xs">
+        {CHECKS.map((check) => (
+          <li key={check.name} className="flex items-center gap-1">
+            <CheckIcon
+              className={cn('size-3 shrink-0 animate-wave motion-reduce:animate-none', check.wave)}
+            />
+            {check.name}
           </li>
         ))}
       </ul>
-    </Frame>
-  )
-}
-
-const HEADLINES = ['Your headline', 'Your product', 'Your launch', 'Your story', 'Your words']
-
-function Content() {
-  return (
-    <Frame className="w-full max-w-64">
-      <div className="flex items-center gap-2 border-b px-3 py-2.5">
-        <Dots />
-        <span className="ml-1 truncate font-mono text-xs text-muted-foreground">
-          src/content/hero.ts
-        </span>
-      </div>
-      <div className="flex flex-col gap-1 p-4 font-mono text-xs leading-relaxed">
-        <p>
-          <span className="text-muted-foreground">export const </span>hero = {'{'}
-        </p>
-        <p className="flex items-center pl-4">
-          <span className="text-muted-foreground">title:&nbsp;</span>
-          {/* The same five turns as the build log's routes, two seconds each. */}
-          <span className="grid">
-            {HEADLINES.map((headline, index) => (
-              <span
-                key={headline}
-                className={cn(
-                  'col-start-1 row-start-1 animate-swap whitespace-nowrap motion-reduce:animate-none',
-                  TURNS[index],
-                )}
-              >
-                &apos;{headline}&apos;,
-              </span>
-            ))}
-          </span>
-          <span className="ml-0.5 h-3.5 w-1.5 animate-caret-blink bg-foreground/80 motion-reduce:animate-none" />
-        </p>
-        <p className="pl-4 text-muted-foreground">description: …</p>
-        <p>{'}'}</p>
-      </div>
-    </Frame>
+      <span className="mt-3 flex h-7 animate-press items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground motion-reduce:animate-none">
+        Merge Pull Request
+      </span>
+    </MockCard>
   )
 }
 
 function NoJavaScript() {
   return (
-    <Frame className="w-full max-w-64">
-      <div className="flex items-center justify-between border-b px-3 py-2.5">
-        <span className="text-xs font-medium">JavaScript</span>
+    <MockCard className="w-full max-w-64">
+      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
+        <Dots />
+        <span className="truncate">your-domain.com</span>
         {/* Resting off; the loop switches it on for a moment, and the page below never changes. */}
-        <span className="relative h-4 w-7 rounded-full bg-muted ring-1 ring-border">
-          <span className="absolute inset-0 animate-switch-track rounded-full bg-primary opacity-0 motion-reduce:animate-none" />
-          <span className="absolute top-0.5 left-0.5 size-3 animate-switch-knob rounded-full bg-background shadow-sm motion-reduce:animate-none" />
+        <span className="ml-auto flex items-center gap-1.5">
+          JS
+          <span className="relative h-4 w-7 rounded-full bg-muted ring-1 ring-border">
+            <span className="absolute inset-0 animate-switch-track rounded-full bg-primary opacity-0 motion-reduce:animate-none" />
+            <span className="absolute top-0.5 left-0.5 size-3 animate-switch-knob rounded-full bg-background shadow-sm motion-reduce:animate-none" />
+          </span>
         </span>
       </div>
-      <div className="flex flex-col gap-2 p-3">
-        <Bar className="h-2 w-2/3 bg-foreground/60" />
-        <Bar className="w-full" />
-        <Bar className="w-5/6" />
-        <div className="mt-1 flex flex-col gap-1.5 rounded-md border p-2">
-          <span className="flex items-center justify-between gap-2">
-            <Bar className="w-1/2 bg-foreground/40" />
-            <ChevronDownIcon className="size-3 text-muted-foreground" />
+      <div className="flex flex-col gap-2 p-3 text-xs">
+        <span className="text-sm font-semibold">Frequently Asked Questions</span>
+        <span className="flex flex-col gap-1 rounded-md border p-2">
+          <span className="flex items-center justify-between gap-2 font-medium">
+            Does it work without JavaScript?
+            <ChevronDownIcon className="size-3 shrink-0 text-muted-foreground" />
           </span>
-          <Bar className="w-full" />
-          <Bar className="w-2/3" />
-        </div>
+          <span className="text-muted-foreground">Yes, every answer is in the HTML.</span>
+        </span>
       </div>
-    </Frame>
+    </MockCard>
   )
 }
 
-const TOKENS = [
-  { name: '--primary', sample: 'rounded-sm bg-primary', wave: 'delay-0' },
-  { name: '--radius', sample: 'rounded-md border-2 border-foreground/60', wave: 'delay-350' },
-  { name: '--font-heading', sample: 'font-heading text-xs font-bold', wave: 'delay-700' },
-  { name: '--chart-2', sample: 'rounded-sm bg-chart-2', wave: 'delay-1050' },
-  { name: '--border', sample: 'rounded-sm border-2', wave: 'delay-1400' },
-]
+function Content() {
+  return (
+    <MockCard className="w-full max-w-64 font-mono text-xs">
+      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2">
+        hero.ts
+        <span className="text-muted-foreground">src/content</span>
+      </div>
+      <div className="flex flex-col gap-1 p-3 leading-relaxed">
+        <span className="flex gap-3">
+          <span className="text-muted-foreground">1</span>
+          <span>
+            <span className="text-muted-foreground">export const</span> hero = {'{'}
+          </span>
+        </span>
+        <span className="flex gap-3">
+          <span className="text-muted-foreground">2</span>
+          <span className="flex items-center pl-3">
+            <span className="text-muted-foreground">title:&nbsp;</span>
+            <Swap
+              items={[
+                "'Your headline'",
+                "'Your product'",
+                "'Your launch'",
+                "'Your story'",
+                "'Your words'",
+              ]}
+            />
+            <span className="ml-0.5 h-3.5 w-1.5 animate-caret-blink bg-foreground/80 motion-reduce:animate-none" />
+          </span>
+        </span>
+        <span className="flex gap-3">
+          <span className="text-muted-foreground">3</span>
+          <span className="pl-3 text-muted-foreground">description: …</span>
+        </span>
+        <span className="flex gap-3">
+          <span className="text-muted-foreground">4</span>
+          <span>{'}'}</span>
+        </span>
+      </div>
+    </MockCard>
+  )
+}
 
 // One small page, drawn in either the current theme or its inverse.
 function MiniPage({ inverted = false }: { inverted?: boolean }) {
   return (
     <div
       className={cn(
-        'flex w-64 flex-col gap-2.5 p-3.5',
+        'flex w-60 flex-col gap-1.5 p-3.5',
         inverted ? 'bg-foreground text-background' : 'bg-background text-foreground',
       )}
     >
@@ -250,52 +259,38 @@ function MiniPage({ inverted = false }: { inverted?: boolean }) {
         <LogoMark className="size-3.5" />
         {inverted ? (
           <>
-            <MoonIcon className="size-4 dark:hidden" />
-            <SunIcon className="hidden size-4 dark:block" />
+            <MoonIcon className="size-3.5 dark:hidden" />
+            <SunIcon className="hidden size-3.5 dark:block" />
           </>
         ) : (
           <>
-            <SunIcon className="size-4 dark:hidden" />
-            <MoonIcon className="hidden size-4 dark:block" />
+            <SunIcon className="size-3.5 dark:hidden" />
+            <MoonIcon className="hidden size-3.5 dark:block" />
           </>
         )}
       </div>
+      <span className="mt-1 text-sm font-semibold">Your landing page</span>
+      <span className={cn('text-xs', inverted ? 'text-background/70' : 'text-muted-foreground')}>
+        One preset, every section.
+      </span>
       <span
         className={cn(
-          'h-2 w-full rounded-full',
-          inverted ? 'bg-background/25' : 'bg-foreground/15',
+          'mt-1.5 w-fit rounded-md px-2 py-1 text-xs font-medium',
+          inverted ? 'bg-background text-foreground' : 'bg-foreground text-background',
         )}
-      />
-      <span
-        className={cn('h-2 w-3/4 rounded-full', inverted ? 'bg-background/25' : 'bg-foreground/15')}
-      />
-      <span
-        className={cn('mt-2 h-5 w-14 rounded-md', inverted ? 'bg-background' : 'bg-foreground')}
-      />
+      >
+        Get Started
+      </span>
     </div>
   )
 }
 
+const SWATCHES = ['bg-primary', 'bg-chart-2', 'bg-chart-3', 'bg-chart-4']
+
 function Presets() {
   return (
-    <div className="flex w-full items-center justify-center gap-12">
-      <ul className="hidden flex-col gap-3 md:flex">
-        {TOKENS.map((token) => (
-          <li key={token.name} className="flex items-center gap-3">
-            <span
-              className={cn(
-                'grid size-5 shrink-0 animate-wave place-items-center motion-reduce:animate-none',
-                token.sample,
-                token.wave,
-              )}
-            >
-              {token.name === '--font-heading' ? 'Aa' : null}
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">{token.name}</span>
-          </li>
-        ))}
-      </ul>
-      <div className="relative shrink-0 overflow-hidden rounded-xl border shadow-lg">
+    <div className="relative">
+      <div className="relative overflow-hidden rounded-lg border shadow-lg">
         <MiniPage />
         <div className="absolute inset-0 theme-split">
           <MiniPage inverted />
@@ -304,6 +299,17 @@ function Presets() {
           <span className="absolute inset-y-0 left-0 w-px bg-border" />
         </div>
       </div>
+      <MockCard className="absolute -bottom-4 -left-4 flex items-center gap-2 rounded-full px-2.5 py-1 text-xs">
+        <span className="flex -space-x-1">
+          {SWATCHES.map((swatch) => (
+            <span
+              key={swatch}
+              className={cn('size-3 rounded-full ring-2 ring-background', swatch)}
+            />
+          ))}
+        </span>
+        <span className="font-mono">apply b4Wm</span>
+      </MockCard>
     </div>
   )
 }

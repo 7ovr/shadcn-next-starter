@@ -247,7 +247,7 @@
   --animate-swap: swap 10s linear infinite;
   --animate-wave: wave 4s ease-in-out infinite backwards;
   --animate-hop-rows: hop-rows 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-segment-fill: segment-fill 6s cubic-bezier(0.16, 1, 0.3, 1) infinite backwards;
+  --animate-gauge: gauge 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-switch-knob: switch-knob 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-press: press 4s ease-in-out infinite;
@@ -309,20 +309,15 @@
   }
 }
 
-/* A progress segment fills on its cue, holds, then fades before the next run. */
-@keyframes segment-fill {
-  0% {
-    transform: scaleX(0);
-  }
-  15%,
-  85% {
-    opacity: 1;
-    transform: none;
-  }
-  95%,
+/* A score ring fills from empty, holds full, then drains before the next run. */
+@keyframes gauge {
+  0%,
   100% {
-    opacity: 0;
-    transform: none;
+    stroke-dashoffset: 100;
+  }
+  35%,
+  90% {
+    stroke-dashoffset: 0;
   }
 }
 

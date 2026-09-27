@@ -11,7 +11,7 @@ export function AppStarter() {
       aria-labelledby="app-starter-title"
       className="px-4 py-20 sm:px-6 sm:py-24"
     >
-      <div className="mx-auto flex max-w-5xl flex-col gap-10">
+      <div className="mx-auto flex max-w-6xl flex-col gap-10">
         {/* Title, description, then the link on phones; on large screens the link sits under the title. */}
         <div className="grid reveal items-start justify-items-start gap-4 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-5">
           <h2
@@ -48,14 +48,14 @@ export function AppStarter() {
                 src={appStarter.images.light}
                 alt=""
                 fill
-                sizes="(min-width: 64rem) 64rem, 100vw"
+                sizes="(min-width: 72rem) 72rem, 100vw"
                 className="object-cover object-left-top dark:hidden"
               />
               <Image
                 src={appStarter.images.dark}
                 alt=""
                 fill
-                sizes="(min-width: 64rem) 64rem, 100vw"
+                sizes="(min-width: 72rem) 72rem, 100vw"
                 className="hidden object-cover object-left-top dark:block"
               />
               <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/25 to-transparent" />

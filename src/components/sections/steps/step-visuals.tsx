@@ -1,34 +1,29 @@
 import { CheckIcon, PencilIcon } from 'lucide-react'
 
 import { GitHubIcon, VercelIcon } from '@/components/icons'
+import { MockCard } from '@/components/mockup'
 import { siteConfig } from '@/config/site'
 import type { StepVisual as StepVisualName } from '@/content/steps'
 import { cn } from '@/lib/utils'
-
-function Frame({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div className={cn('rounded-xl border bg-background shadow-lg', className)}>{children}</div>
-  )
-}
 
 function Clone() {
   const repository = siteConfig.links.repository.split('/').slice(-2).join('/')
 
   return (
-    <Frame className="w-full max-w-56 p-3">
+    <MockCard className="w-full max-w-56 p-3">
       <div className="flex items-center gap-2.5">
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg border bg-muted/40">
+        <span className="grid size-8 shrink-0 place-items-center rounded-full bg-foreground text-background">
           <GitHubIcon className="size-4" />
         </span>
-        <span className="flex min-w-0 flex-col">
-          <span className="truncate text-xs font-semibold">{repository}</span>
-          <span className="text-xs text-muted-foreground">Public Template</span>
+        <span className="flex min-w-0 flex-col text-xs leading-tight">
+          <span className="truncate font-semibold">{repository}</span>
+          <span className="text-muted-foreground">Public template</span>
         </span>
       </div>
       <span className="mt-3 flex h-7 animate-press items-center justify-center rounded-md bg-primary text-xs font-medium text-primary-foreground motion-reduce:animate-none">
         Use This Template
       </span>
-    </Frame>
+    </MockCard>
   )
 }
 
@@ -41,7 +36,7 @@ const FILES = [
 
 function Content() {
   return (
-    <Frame className="relative w-full max-w-56 p-2 font-mono text-xs">
+    <MockCard className="w-full max-w-56 p-1.5 font-mono text-xs">
       <ul>
         {FILES.map((file) => (
           <li key={file.name} className="flex h-6 items-center px-2">
@@ -51,58 +46,63 @@ function Content() {
         ))}
       </ul>
       {/* One highlight for all four 1.5rem rows, so animate-hop-rows can walk it down the list. */}
-      <span className="absolute inset-x-2 top-2 flex h-6 animate-hop-rows items-center justify-end rounded-md border border-foreground/25 bg-foreground/5 pr-2 motion-reduce:animate-none">
+      <span className="absolute inset-x-1.5 top-1.5 flex h-6 animate-hop-rows items-center justify-end rounded-md bg-foreground/5 pr-2 ring-1 ring-foreground/15 motion-reduce:animate-none">
         <PencilIcon className="size-3" />
       </span>
-    </Frame>
+    </MockCard>
   )
 }
 
-const SWATCHES = [
-  'bg-primary delay-0',
-  'bg-chart-2 delay-350',
-  'bg-chart-3 delay-700',
-  'bg-chart-4 delay-1050',
-  'bg-chart-5 delay-1400',
-]
+const SWATCHES = ['bg-primary', 'bg-chart-2', 'bg-chart-3', 'bg-chart-4', 'bg-chart-5']
 
 function Preset() {
   return (
-    <div className="flex flex-col items-center gap-4">
-      <span className="flex -space-x-2">
+    <MockCard className="w-full max-w-56 p-3 text-xs">
+      <span className="flex items-center gap-2 font-mono">
+        <span className="text-muted-foreground">$</span>
+        shadcn apply b4Wm
+      </span>
+      <span className="mt-2 flex items-center gap-1.5 text-muted-foreground">
+        <CheckIcon className="size-3.5" />
+        Theme tokens updated
+      </span>
+      <span className="mt-3 flex -space-x-1.5">
         {SWATCHES.map((swatch) => (
-          <span
-            key={swatch}
-            className={cn(
-              'size-9 animate-wave rounded-full ring-2 ring-background motion-reduce:animate-none',
-              swatch,
-            )}
-          />
+          <span key={swatch} className={cn('size-6 rounded-full ring-2 ring-background', swatch)} />
         ))}
       </span>
-      <Frame className="px-3 py-1.5 font-mono text-xs">
-        <span className="text-muted-foreground">shadcn apply </span>b4Wm
-      </Frame>
-    </div>
+    </MockCard>
   )
 }
 
 function Deploy() {
   return (
-    <div className="flex flex-col items-center gap-4">
-      <span className="relative grid size-12 place-items-center rounded-xl border bg-background shadow-lg">
-        <span className="absolute inset-0 animate-beacon rounded-xl border border-foreground/40 opacity-0 motion-reduce:animate-none" />
-        <VercelIcon className="size-5" />
-      </span>
-      <Frame className="flex items-center gap-2 rounded-full px-3 py-1.5 text-xs">
-        <span className="size-1.5 rounded-full bg-foreground" />
-        your-domain.com
-        <span className="flex items-center gap-1 text-muted-foreground">
-          <CheckIcon className="size-3" />
-          Indexable
+    <MockCard className="w-full max-w-56 text-xs">
+      <div className="flex items-center gap-2 border-b bg-muted/40 px-3 py-2">
+        <VercelIcon className="size-3" />
+        <span className="font-medium">Production</span>
+        <span className="ml-auto flex items-center gap-1.5 text-muted-foreground">
+          <span className="relative flex size-1.5">
+            <span className="absolute inset-0 animate-beacon rounded-full bg-foreground opacity-0 motion-reduce:animate-none" />
+            <span className="size-1.5 rounded-full bg-foreground" />
+          </span>
+          Ready
         </span>
-      </Frame>
-    </div>
+      </div>
+      <div className="flex flex-col gap-1.5 px-3 py-2.5">
+        <span className="flex items-center justify-between gap-2">
+          your-domain.com
+          <span className="flex items-center gap-1 text-muted-foreground">
+            <CheckIcon className="size-3" />
+            Indexable
+          </span>
+        </span>
+        <span className="flex items-center justify-between gap-2 text-muted-foreground">
+          preview.vercel.app
+          <span>noindex</span>
+        </span>
+      </div>
+    </MockCard>
   )
 }
 

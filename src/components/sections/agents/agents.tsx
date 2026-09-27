@@ -1,3 +1,4 @@
+import { Stage } from '@/components/mockup'
 import { SectionHeading } from '@/components/section-heading'
 import { AgentSession } from '@/components/sections/agents/agent-session'
 import { agents } from '@/content/agents'
@@ -6,7 +7,7 @@ import { withInlineCode } from '@/lib/inline-code'
 export function Agents() {
   return (
     <section id="agents" aria-labelledby="agents-title" className="px-4 py-20 sm:px-6 sm:py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-10">
           <SectionHeading
             align="start"
@@ -20,7 +21,7 @@ export function Agents() {
               <li key={point.title} className="flex reveal items-start gap-4">
                 <span
                   aria-hidden="true"
-                  className="grid size-9 shrink-0 place-items-center rounded-lg border bg-card shadow-xs"
+                  className="grid size-9 shrink-0 place-items-center rounded-md border bg-linear-to-br from-muted to-background shadow-sm"
                 >
                   <point.icon className="size-4" />
                 </span>
@@ -35,12 +36,10 @@ export function Agents() {
           </ul>
         </div>
 
-        <div
-          aria-hidden="true"
-          data-nosnippet
-          className="flex h-80 reveal items-center justify-center overflow-hidden rounded-2xl border bg-linear-to-b from-muted/50 to-card p-6 shadow-sm"
-        >
-          <AgentSession />
+        <div className="reveal">
+          <Stage variant={2} className="h-96">
+            <AgentSession />
+          </Stage>
         </div>
       </div>
     </section>

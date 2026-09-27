@@ -32,11 +32,11 @@ export function Cta() {
           <div key={card.title} className={cn('absolute', PLACEMENTS[index])}>
             <div
               className={cn(
-                'flex w-60 animate-float items-center gap-3 rounded-xl border bg-linear-to-br from-muted to-card p-3 shadow-lg motion-reduce:animate-none',
+                'flex w-60 animate-float items-center gap-3 rounded-lg border bg-linear-to-br from-muted to-background p-3 shadow-lg motion-reduce:animate-none',
                 FLOATS[index],
               )}
             >
-              <span className="grid size-8 shrink-0 place-items-center rounded-lg border bg-background">
+              <span className="grid size-8 shrink-0 place-items-center rounded-md border bg-background">
                 <card.icon className="size-4" />
               </span>
               <span className="flex min-w-0 flex-col">
