@@ -1,7 +1,9 @@
 'use client'
 
-import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import * as React from 'react'
+
+import { useToggleTheme } from '@/hooks/use-toggle-theme'
 
 function ThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
   return (
@@ -32,35 +34,37 @@ function isTypingTarget(target: EventTarget | null) {
 }
 
 function ThemeHotkey() {
-  const { resolvedTheme, setTheme } = useTheme()
+  const toggleTheme = useToggleTheme()
+
+  // An Effect Event always sees the current theme, so the listener is added once instead of on every change.
+  const onKeyDown = React.useEffectEvent((event: KeyboardEvent) => {
+    if (event.defaultPrevented || event.repeat) {
+      return
+    }
+
+    if (event.metaKey || event.ctrlKey || event.altKey) {
+      return
+    }
+
+    if (event.key.toLowerCase() !== 'd') {
+      return
+    }
+
+    if (isTypingTarget(event.target)) {
+      return
+    }
+
+    toggleTheme()
+  })
 
   React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.defaultPrevented || event.repeat) {
-        return
-      }
-
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return
-      }
-
-      if (event.key.toLowerCase() !== 'd') {
-        return
-      }
-
-      if (isTypingTarget(event.target)) {
-        return
-      }
-
-      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-    }
-
-    window.addEventListener('keydown', onKeyDown)
+    const listener = (event: KeyboardEvent) => onKeyDown(event)
+    window.addEventListener('keydown', listener)
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('keydown', listener)
     }
-  }, [resolvedTheme, setTheme])
+  }, [])
 
   return null
 }
