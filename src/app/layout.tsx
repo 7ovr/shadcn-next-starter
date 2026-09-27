@@ -16,7 +16,8 @@ const fontMono = Geist_Mono({
   variable: '--font-mono',
 })
 
-export const metadata = createMetadata({ path: '/' })
+// Site-wide defaults with no canonical, so a page that forgets its own metadata never claims to be the home page.
+export const metadata = createMetadata({})
 
 // Every route prerenders; a Request-time API anywhere fails the build instead of the crawl.
 export const dynamic = 'error'

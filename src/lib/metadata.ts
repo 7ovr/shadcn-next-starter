@@ -6,11 +6,11 @@ import { getSiteUrl, isIndexable } from '@/lib/site-url'
 type PageMetadata = {
   title?: string
   description?: string
-  path: string
+  path?: string
   noIndex?: boolean
 }
 
-// Every page's head comes from here, so no page ships half a head. A page without a title is the home page.
+// Every page's head comes from here, so no page ships half a head. A page without a title is the home page, and one without a path gets no canonical.
 export function createMetadata({
   title,
   description = siteConfig.description,

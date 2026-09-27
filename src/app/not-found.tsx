@@ -1,12 +1,11 @@
 import { ButtonLink } from '@/components/button-link'
 import { createMetadata } from '@/lib/metadata'
 
-// Without its own metadata a 404 would inherit the home page's title and canonical; Next already sends noindex.
+// Its own title and description; Next already sends noindex for a 404, so the robots tag is left to it.
 export const metadata = {
   ...createMetadata({
     title: 'Page Not Found',
     description: 'The page you are looking for does not exist or has moved.',
-    path: '',
     noIndex: true,
   }),
   robots: null,
