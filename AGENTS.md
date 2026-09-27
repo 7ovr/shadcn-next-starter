@@ -34,17 +34,26 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ### Server first
 
-- **Server Components by default.** The only client islands are the theme toggles, the mobile menu, the copy button and the pricing switch. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
-- **Everything a crawler needs is in the server HTML.** The pricing switch renders the first billing period on the server. The FAQ keeps `hiddenUntilFound` on its `Accordion`: Base UI renders closed panels with `hidden` on the server and switches them to `hidden="until-found"` after hydration, and a `scripting: none` rule in `src/app/globals.css` shows every answer when JavaScript is off.
-- **Testimonials stay plain quotes.** Never turn them into `Review` or `AggregateRating` markup; reviews a site publishes about itself do not qualify.
+- **Server Components by default.** The only client islands are the theme toggle and switcher, the mobile menu and the copy button. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
+- **Everything a crawler needs is in the server HTML.** The FAQ keeps `hiddenUntilFound` on its `Accordion`: Base UI renders closed panels with `hidden` on the server and switches them to `hidden="until-found"` after hydration, and a `scripting: none` rule in `src/app/globals.css` shows every answer when JavaScript is off.
+- The footer's theme switcher marks no option until hydration, through `useSyncExternalStore`, because the server cannot know the stored theme.
+- **Testimonials, if you add them, stay plain quotes.** Never turn them into `Review` or `AggregateRating` markup; reviews a site publishes about itself do not qualify.
 - Style a link as a button with `ButtonLink` from `src/components/button-link.tsx`. It merges the variant classes through `cn`, as `Button` does, opens external links in a new tab and uses Next's `Link` for internal ones. A bare `buttonVariants()` on a link keeps the transparent base border, so the outline variant loses its edge.
 
 ### Motion
 
-- **Motion never gates content.** Entrances and scroll reveals are CSS only (`animate-rise`, `animate-rise-fade`, `animate-float` and `reveal` in `src/app/globals.css`), so the server HTML, the first client render and a page without JavaScript all match. Never start content at `opacity: 0` from JavaScript, and never branch rendered output on the reduced-motion setting.
+- **Motion never gates content.** Entrances, scroll reveals and loops are CSS only (`animate-rise`, `animate-rise-fade`, `animate-float`, `animate-marquee` and `reveal` in `src/app/globals.css`), so the server HTML, the first client render and a page without JavaScript all match. Never start content at `opacity: 0` from JavaScript, and never branch rendered output on the reduced-motion setting.
 - The headline uses `animate-rise`, which moves without fading, because the largest paint skips transparent elements.
-- Put `motion-reduce:animate-none` beside every animation class. `reveal` needs nothing extra: it only runs where scroll timelines exist and motion is not reduced.
-- Decorative visuals, like the hero window, the floating marks and the feature illustrations, are `aria-hidden` and `data-nosnippet`, so they stay out of screen readers and search snippets.
+- Put `motion-reduce:animate-none` beside every animation class. `reveal` needs nothing extra: it only runs where scroll timelines exist and motion is not reduced. Neither does `shimmer` from shadcn's stylesheet, which stops by itself.
+- Keep `reveal` off anything in the first screen, where it would load half faded.
+- The stack marquee scrolls two copies of one list. The copy is `aria-hidden`, and under reduced motion it is hidden and the list wraps in place.
+- The header turns to frosted glass on a scroll timeline in `header-glass`; without scroll timelines it is always glass.
+- Decorative visuals, like the hero photo, the CTA cards and the illustrations, are `aria-hidden` and `data-nosnippet`, so they stay out of screen readers and search snippets.
+
+### Images
+
+- Photos live in `src/content/images/` and are imported statically, so `next/image` knows their size. Decorative photos take `alt=""`.
+- A photo made for one theme renders twice, with `dark:hidden` and `hidden dark:block`. Leave both lazy and give them `fetchPriority="high"`: a lazy image that is not displayed never loads, while `preload` or `loading="eager"` would load both.
 
 ## Design system
 
@@ -54,15 +63,15 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **Keep `src/components/ui/` as the CLI writes it.** `shadcn apply` overwrites those files when it applies a preset, so a variant added there would be lost. The linter ignores the folder, because those files define the variants the rules enforce.
 - After `shadcn apply`, run `pnpm format`, and remove the old font the CLI leaves in the `next/font/google` import of `src/app/layout.tsx`. The starter's own look is preset `b4Wm`.
 - **`no-restyle` runs with no allowlist**: a shadcn component accepts no `className` from outside, not even layout or margin. Pick one of the variants it already has, and put layout classes on a plain wrapper element around it.
-- Brand marks live in `src/components/icons.tsx` and keep their official colours, so `.oxlintrc.json` exempts that one file from `no-raw-colors`. The 7Ovr wordmark in `src/components/logo.tsx` loads Syne through `next/font` for itself alone, so a preset's font change leaves the brand as it is.
+- Brand marks live in `src/components/icons.tsx` as single-colour Simple Icons paths that follow the text colour. The 7Ovr wordmark in `src/components/logo.tsx` loads Syne through `next/font` for itself alone, so a preset's font change leaves the brand as it is.
 - Base UI takes `render`, not `asChild`.
 - Add shadcn components with `pnpm dlx shadcn@latest add <name>`, then run `pnpm format`, because the CLI writes double quotes.
 
 ## Tests
 
 - **Tests come first.** Before writing the code for a feature or a fix, write the test that describes the behaviour and watch it fail. Then write the code that makes it pass. A bug fix starts with a test that reproduces the bug.
-- **Colocate tests** with the file they cover: `pricing-plans.test.tsx` sits next to `pricing-plans.tsx`.
-- **Do not test shadcn/ui or Base UI primitives.** Test the behaviour we build on top of them, such as what a section shows, where a link goes, what the pricing switch does and what the content says.
+- **Colocate tests** with the file they cover: `stack.test.tsx` sits next to `stack.tsx`.
+- **Do not test shadcn/ui or Base UI primitives.** Test the behaviour we build on top of them, such as what a section shows, where a link goes, what the theme switcher does and what the content says.
 - Vitest with Testing Library in jsdom. Query by role and label, the way people use the page. Server Components render in tests like any other component.
 - `src/test/setup.ts` mocks `next/font/google`, which only runs inside the Next compiler, and stubs the browser APIs jsdom lacks. Add to it when a component needs another one.
 - `src/content/content.test.ts` enforces the copy rules: no em or en dashes, and Title Case labels.
