@@ -1,122 +1,78 @@
-import { CheckIcon } from 'lucide-react'
+import { BookOpenCheckIcon, BotIcon, CircleCheckIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-// Each row prints 250ms after the one before, in step with the illus-feed cover that reveals it.
-const STEPS = [
-  { action: 'Read', target: 'AGENTS.md', detail: '', delay: 'delay-0', tick: 'delay-100' },
-  {
-    action: 'Create',
-    target: 'src/content/changelog.ts',
-    detail: '+18',
-    delay: 'delay-250',
-    tick: 'delay-350',
-  },
-  {
-    action: 'Create',
-    target: 'src/app/changelog/page.tsx',
-    detail: '+31',
-    delay: 'delay-500',
-    tick: 'delay-600',
-  },
-  {
-    action: 'Edit',
-    target: 'src/content/navigation.ts',
-    detail: '+2',
-    delay: 'delay-750',
-    tick: 'delay-850',
-  },
-  {
-    action: 'Run',
-    target: 'pnpm test',
-    detail: '26 passed',
-    delay: 'delay-1000',
-    tick: 'delay-1100',
-  },
-  {
-    action: 'Run',
-    target: 'pnpm lint',
-    detail: '0 problems',
-    delay: 'delay-1250',
-    tick: 'delay-1350',
-  },
-  {
-    action: 'Run',
-    target: 'pnpm build',
-    detail: '/changelog prerendered',
-    delay: 'delay-1500',
-    tick: 'delay-1600',
-  },
-]
+// A hand-drawn arrow between two stops, mirrored when the path swings back left.
+function LooseArrow({ flip = false, className }: { flip?: boolean; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 64 40"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn('my-1 h-10 w-16 text-muted-foreground', flip && '-scale-x-100', className)}
+    >
+      <circle cx="8" cy="4" r="1.75" fill="currentColor" stroke="none" />
+      <path d="M8 4C10 24 34 20 58 34" />
+      <path d="M52.5 26.9 58 34 49.1 32.7" />
+    </svg>
+  )
+}
 
+function Stop({
+  icon: Icon,
+  label,
+  detail,
+  className,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  label?: string
+  detail: string
+  className?: string
+}) {
+  return (
+    <span
+      className={cn(
+        'flex items-center gap-2.5 rounded-lg border bg-linear-to-b from-card to-muted/40 px-3 py-2.5 shadow-sm',
+        className,
+      )}
+    >
+      <Icon className="size-4 shrink-0" />
+      {label ? (
+        <span className="flex min-w-0 flex-col">
+          <span className="truncate text-sm font-medium">{label}</span>
+          <span className="truncate font-mono text-xs text-muted-foreground">{detail}</span>
+        </span>
+      ) : (
+        <span className="text-sm">{detail}</span>
+      )}
+    </span>
+  )
+}
+
+// The agent's turn, one stop at a time: animate-stop-2 and animate-stop-3 hold each part back until its cue.
 export function AgentSession() {
   return (
-    <div className="@container w-full overflow-hidden rounded-xl border bg-background text-xs shadow-md">
-      <div className="flex h-7 items-center gap-3 border-b px-3">
-        <span className="flex gap-1">
-          <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-          <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-          <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-        </span>
-        <span className="font-mono text-muted-foreground">~/shadcn-next-starter</span>
-        <span className="ml-auto text-muted-foreground">Agent</span>
+    <div className="relative flex w-full max-w-xs flex-col items-start">
+      <Stop icon={BotIcon} label="Your Agent" detail="“Add a changelog page”" />
+      <div className="ml-6 flex flex-col items-start">
+        <LooseArrow className="animate-stop-2 motion-reduce:animate-none" />
+        <Stop
+          icon={BookOpenCheckIcon}
+          label="AGENTS.md"
+          detail="content file, page, test"
+          className="animate-stop-2 motion-reduce:animate-none"
+        />
       </div>
-      <div className="flex flex-col gap-2 px-3 pt-3 pb-2">
-        <p className="flex items-center gap-2 rounded-md border bg-card px-3 py-2 shadow-xs">
-          <span className="font-mono text-muted-foreground">&gt;</span>
-          Add a changelog page
-        </p>
-        <div className="relative overflow-hidden font-mono">
-          <ol className="animate-illus-clear motion-reduce:animate-none">
-            {STEPS.map((step) => (
-              <li
-                key={step.target}
-                className={cn(
-                  'flex h-5.5 animate-illus-rise items-center gap-2 motion-reduce:animate-none',
-                  step.delay,
-                )}
-              >
-                <span
-                  className={cn(
-                    'grid size-4 shrink-0 animate-illus-pop place-items-center motion-reduce:animate-none',
-                    step.tick,
-                  )}
-                >
-                  <CheckIcon className="size-3.5" strokeWidth={2.5} />
-                </span>
-                <span className="w-12 shrink-0 text-muted-foreground @max-md:hidden">
-                  {step.action}
-                </span>
-                <span className="shrink-0">{step.target}</span>
-                {step.detail ? (
-                  <span
-                    className={cn(
-                      'ml-auto min-w-0 truncate pl-3 text-muted-foreground',
-                      step.detail.startsWith('+') && '@max-md:hidden',
-                    )}
-                  >
-                    {step.detail}
-                  </span>
-                ) : null}
-              </li>
-            ))}
-            <li className="flex h-5.5 animate-illus-rise items-center gap-2 font-sans delay-1750 motion-reduce:animate-none">
-              <span className="grid size-4 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground">
-                <CheckIcon className="size-2.5" strokeWidth={3.5} />
-              </span>
-              <span className="font-medium">Done</span>
-              <span className="truncate text-muted-foreground">/changelog is live.</span>
-            </li>
-          </ol>
-          <div className="absolute inset-0 animate-illus-feed bg-background opacity-0 motion-reduce:animate-none">
-            <p className="flex h-5.5 items-center gap-2 text-muted-foreground">
-              <span className="grid size-4 place-items-center">
-                <span className="size-2 animate-pulse rounded-full bg-foreground motion-reduce:animate-none" />
-              </span>
-              Working…
-            </p>
-          </div>
-        </div>
+      <div className="flex flex-col items-start">
+        <LooseArrow flip className="ml-12 animate-stop-3 motion-reduce:animate-none" />
+        <Stop
+          icon={CircleCheckIcon}
+          detail="Added /changelog, every check passes"
+          className="animate-stop-3 motion-reduce:animate-none"
+        />
       </div>
     </div>
   )

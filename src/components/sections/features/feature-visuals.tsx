@@ -1,422 +1,276 @@
-import { CheckIcon, ChevronDownIcon } from 'lucide-react'
+import { BracesIcon, CheckIcon, ChevronDownIcon, MoonIcon, SunIcon } from 'lucide-react'
 
-import { LogoMark, NextjsIcon } from '@/components/icons'
+import { LogoMark } from '@/components/icons'
 import { siteConfig } from '@/config/site'
-import { faq } from '@/content/faq'
 import type { FeatureVisual as FeatureVisualName } from '@/content/features'
-import { stripInlineCode } from '@/lib/inline-code'
-import { getSiteUrl } from '@/lib/site-url'
 import { cn } from '@/lib/utils'
 
-function Panel({ className, children }: { className?: string; children: React.ReactNode }) {
+// Each mockup makes one point with one large element, in the style of 7ovr.com's feature grid.
+
+function Frame({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <div className={cn('overflow-hidden rounded-lg border bg-background shadow-sm', className)}>
+    <div className={cn('overflow-hidden rounded-xl border bg-background shadow-lg', className)}>
       {children}
     </div>
   )
 }
 
-function WindowDots() {
+function Dots() {
   return (
-    <span className="flex gap-1">
-      <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/30" />
-      <span className="size-1.5 rounded-full bg-muted-foreground/30" />
+    <span className="flex gap-1.5">
+      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
+      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
+      <span className="size-2.5 rounded-full bg-muted-foreground/30" />
     </span>
   )
 }
 
-function ScanLine({ delay }: { delay: string }) {
-  return (
-    <span
-      className={cn(
-        'pointer-events-none absolute inset-0 animate-illus-scan opacity-0 motion-reduce:animate-none',
-        delay,
-      )}
-    >
-      <span className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-b from-foreground/0 to-foreground/10" />
-      <span className="absolute inset-x-0 bottom-0 h-px bg-foreground/40" />
-    </span>
-  )
+function Bar({ className }: { className?: string }) {
+  return <span className={cn('block h-1.5 rounded-full bg-foreground/15', className)} />
 }
 
-const ROUTES = [
-  { path: '/', branch: '┌', delay: 'delay-0' },
-  { path: '/blog', branch: '├', delay: 'delay-150' },
-  { path: '/blog/hello-world', branch: '├', delay: 'delay-300' },
-  { path: '/privacy', branch: '├', delay: 'delay-450' },
-  { path: '/terms', branch: '└', delay: 'delay-600' },
+const ROUTES = ['/', '/blog', '/blog/hello-world', '/privacy', '/terms']
+// Two seconds apart, so the five routes take turns in the animate-swap loop.
+const TURNS = [
+  'delay-0',
+  'delay-2000 opacity-0',
+  'delay-4000 opacity-0',
+  'delay-6000 opacity-0',
+  'delay-8000 opacity-0',
 ]
 
 function Prerender() {
   return (
-    <Panel className="w-full max-w-72 font-mono text-xs">
-      <div className="relative flex h-7 items-center gap-2 border-b px-3">
-        <NextjsIcon className="size-3.5" />
-        <span>next build</span>
-        <span className="absolute inset-x-0 -bottom-px h-px animate-illus-clear motion-reduce:animate-none">
-          <span className="block size-full origin-left animate-illus-fill bg-foreground/60 delay-100 motion-reduce:animate-none" />
-        </span>
+    <Frame className="w-full max-w-md">
+      <div className="flex items-center gap-2 border-b px-3 py-2.5">
+        <Dots />
+        <span className="ml-2 font-mono text-xs text-muted-foreground">Terminal</span>
       </div>
-      <div className="relative px-3 py-1.5 leading-4.5">
-        <p className="absolute inset-x-3 top-1.5 animate-illus-idle text-muted-foreground opacity-0 motion-reduce:animate-none">
-          Generating static pages (0/5)
+      <div className="flex flex-col gap-3 p-4 font-mono text-xs leading-relaxed">
+        <p className="flex items-center gap-2">
+          <span className="text-muted-foreground">$</span>
+          pnpm build
+          <span className="h-3.5 w-1.5 animate-caret-blink bg-foreground/80 motion-reduce:animate-none" />
         </p>
-        <div className="animate-illus-clear motion-reduce:animate-none">
-          <ul>
-            {ROUTES.map((route) => (
-              <li
-                key={route.path}
+        <p className="flex items-center gap-2">
+          <span className="text-muted-foreground">○</span>
+          <span className="grid">
+            {ROUTES.map((route, index) => (
+              <span
+                key={route}
                 className={cn(
-                  'flex animate-illus-rise gap-2 motion-reduce:animate-none',
-                  route.delay,
+                  'col-start-1 row-start-1 animate-swap motion-reduce:animate-none',
+                  TURNS[index],
                 )}
               >
-                <span className="text-muted-foreground">{route.branch} ○</span>
-                <span className="truncate">{route.path}</span>
-                <span className="ml-auto text-muted-foreground">Static</span>
-              </li>
+                {route}
+              </span>
             ))}
-          </ul>
-          <p className="mt-1 flex animate-illus-rise items-center gap-1.5 border-t pt-1 delay-900 motion-reduce:animate-none">
-            <CheckIcon className="size-3.5" />5 routes prerendered
-            <span className="ml-auto text-muted-foreground">0 dynamic</span>
-          </p>
-        </div>
+          </span>
+          <span className="ml-auto text-muted-foreground">Static</span>
+        </p>
+        <p className="flex items-center gap-2 text-muted-foreground">
+          <CheckIcon className="size-3.5 text-foreground" />
+          Every route prerendered as static HTML
+        </p>
       </div>
-    </Panel>
+    </Frame>
   )
 }
 
 const TAGS = [
-  { name: 'title', delay: 'delay-700' },
-  { name: 'description', delay: 'delay-850' },
-  { name: 'canonical', delay: 'delay-1000' },
-  { name: 'og:image', delay: 'delay-1150' },
-  { name: 'twitter:card', delay: 'delay-1300' },
+  { name: 'title', wave: 'delay-0' },
+  { name: 'description', wave: 'delay-800' },
+  { name: 'canonical', wave: 'delay-1600' },
+  { name: 'og:image', wave: 'delay-2400' },
 ]
 
 function Metadata() {
-  const host = new URL(getSiteUrl()).host
-
   return (
-    <div className="flex w-full max-w-76 items-center">
-      <Panel className="w-36 shrink-0 font-mono text-xs">
-        <p className="border-b px-3 py-1.5 text-muted-foreground">&lt;head&gt;</p>
-        <ul className="flex flex-col gap-1 p-3">
-          {TAGS.map((tag) => (
-            <li key={tag.name} className="flex items-center gap-2">
-              <span className="relative size-3.5 shrink-0 rounded-sm border">
-                <span className="absolute -inset-px animate-illus-clear delay-700 motion-reduce:animate-none">
-                  <span
-                    className={cn(
-                      'grid size-full animate-illus-pop place-items-center rounded-sm bg-primary text-primary-foreground motion-reduce:animate-none',
-                      tag.delay,
-                    )}
-                  >
-                    <CheckIcon className="size-2.5" strokeWidth={3.5} />
-                  </span>
-                </span>
-              </span>
-              {tag.name}
-            </li>
-          ))}
-        </ul>
-      </Panel>
-      <div className="relative z-10 -ml-3 flex min-w-0 flex-1 flex-col gap-1.5 rounded-lg border bg-card p-3 shadow-lg">
-        <SnippetPart
-          delay="delay-1450"
-          skeleton={
-            <span className="flex items-center gap-2">
-              <span className="size-5 rounded-full bg-muted" />
-              <span className="h-2 w-16 rounded-full bg-muted" />
-            </span>
-          }
-        >
-          <span className="flex items-center gap-2">
-            <span className="grid size-5 shrink-0 place-items-center rounded-full border bg-background">
-              <LogoMark className="size-2.5" />
-            </span>
-            <span className="min-w-0 text-xs leading-tight">
-              <span className="block truncate font-medium">{siteConfig.author.name}</span>
-              <span className="block truncate text-muted-foreground">{host}</span>
-            </span>
+    <div className="flex w-full max-w-64 flex-col items-center gap-5">
+      <Frame className="w-full p-4">
+        <div className="flex items-center gap-2.5">
+          <span className="grid size-7 shrink-0 place-items-center rounded-full border bg-muted">
+            <LogoMark className="size-3.5" />
           </span>
-        </SnippetPart>
-        <SnippetPart
-          delay="delay-1600"
-          skeleton={<span className="h-2.5 w-4/5 rounded-full bg-muted" />}
-        >
-          <span className="block truncate text-sm leading-snug font-medium">{siteConfig.name}</span>
-        </SnippetPart>
-        <SnippetPart
-          delay="delay-1750"
-          skeleton={
-            <>
-              <span className="h-2 w-full rounded-full bg-muted" />
-              <span className="h-2 w-2/3 rounded-full bg-muted" />
-            </>
-          }
-        >
-          <span className="line-clamp-2 text-xs text-muted-foreground">
-            {siteConfig.description}
+          <span className="flex min-w-0 flex-col">
+            <span className="truncate text-xs font-medium">{siteConfig.name}</span>
+            <span className="truncate text-xs text-muted-foreground">your-domain.com</span>
           </span>
-        </SnippetPart>
+        </div>
+        <p className="mt-3 truncate text-sm font-semibold">The landing page starter</p>
+        <Bar className="mt-2.5 w-full" />
+        <Bar className="mt-1.5 w-2/3" />
+      </Frame>
+      <div className="flex flex-wrap justify-center gap-2">
+        {TAGS.map((tag) => (
+          <span
+            key={tag.name}
+            className={cn(
+              'animate-wave rounded-md border bg-background px-2.5 py-1 font-mono text-xs text-muted-foreground motion-reduce:animate-none',
+              tag.wave,
+            )}
+          >
+            {tag.name}
+          </span>
+        ))}
       </div>
     </div>
-  )
-}
-
-// A skeleton sits under each part of the search result until the part fills in over it.
-function SnippetPart({
-  delay,
-  skeleton,
-  children,
-}: {
-  delay: string
-  skeleton: React.ReactNode
-  children: React.ReactNode
-}) {
-  return (
-    <div className="grid">
-      <span className="col-start-1 row-start-1 flex flex-col justify-center gap-1.5">
-        {skeleton}
-      </span>
-      <span className="col-start-1 row-start-1 animate-illus-clear delay-700 motion-reduce:animate-none">
-        <span className={cn('block animate-illus-rise bg-card motion-reduce:animate-none', delay)}>
-          {children}
-        </span>
-      </span>
-    </div>
-  )
-}
-
-// Rings the same value in the JSON-LD and on the page at once; pairs share a slot delay.
-function Match({ slot }: { slot: string }) {
-  return (
-    <span
-      className={cn(
-        'absolute inset-0 animate-illus-slot rounded-md opacity-0 ring-1 ring-foreground/25 motion-reduce:animate-none',
-        slot,
-      )}
-    />
   )
 }
 
 function StructuredData() {
-  const item = faq.items[1]
-  const answer = stripInlineCode(item.answer)
-
   return (
-    <div className="flex w-full max-w-72 flex-col items-center gap-2 text-xs">
-      <Panel className="w-full p-1.5 font-mono leading-4.5">
-        <div className="flex justify-between gap-2 px-1.5 text-muted-foreground">
-          <span>
-            &quot;@type&quot;: <span className="text-foreground">&quot;Question&quot;</span>
-          </span>
-          <span>JSON-LD</span>
-        </div>
-        <div className="relative truncate px-1.5">
-          <Match slot="delay-0" />
-          <span className="text-muted-foreground">&quot;name&quot;: </span>
-          {JSON.stringify(item.question)}
-        </div>
-        <div className="relative truncate px-1.5">
-          <Match slot="delay-4000" />
-          <span className="text-muted-foreground">&quot;text&quot;: </span>
-          {JSON.stringify(answer)}
-        </div>
-      </Panel>
-      <span className="inline-flex items-center gap-1.5 rounded-full border bg-background px-2.5 py-0.5 font-medium shadow-xs">
-        <CheckIcon className="size-3.5" />
-        Matches The Page
+    <div className="relative flex w-full max-w-60 flex-col items-center">
+      <div className="flex h-11 w-full items-center gap-2 rounded-lg border bg-muted/40 px-3 font-mono text-xs">
+        <BracesIcon className="size-3.5 shrink-0 text-muted-foreground" />
+        <span className="truncate">
+          <span className="text-muted-foreground">&quot;@type&quot;: </span>
+          &quot;FAQPage&quot;
+        </span>
+      </div>
+      <span className="h-3 border-l border-dashed border-foreground/30" />
+      <span className="flex h-6 items-center gap-1 rounded-md border bg-background px-2 text-xs font-medium text-muted-foreground">
+        <CheckIcon className="size-3" />
+        Matches
       </span>
-      <Panel className="w-full p-1.5 leading-4.5">
-        <div className="relative flex items-center gap-1.5 px-1.5 font-medium">
-          <Match slot="delay-0" />
-          <ChevronDownIcon className="size-3.5 shrink-0 text-muted-foreground" />
-          <span className="truncate">{item.question}</span>
-        </div>
-        <div className="relative truncate pr-1.5 pl-6.5 text-muted-foreground">
-          <Match slot="delay-4000" />
-          {answer}
-        </div>
-      </Panel>
+      <span className="h-3 border-l border-dashed border-foreground/30" />
+      <div className="flex h-11 w-full items-center gap-2.5 rounded-lg border bg-muted/20 px-3">
+        <ChevronDownIcon className="size-3.5 shrink-0 text-muted-foreground" />
+        <Bar className="w-3/4 bg-foreground/25" />
+      </div>
+      {/* One ring for both boxes, 5.75rem apart, so animate-hop can move it between them. */}
+      <span className="absolute -inset-x-1.5 -top-1.5 h-14 animate-hop rounded-xl border-2 border-foreground motion-reduce:animate-none" />
     </div>
   )
 }
 
-const PAGE_TYPES = [
-  { label: 'Home', delay: 'delay-2200' },
-  { label: 'Blog Post', delay: 'delay-2350' },
-  { label: 'Legal', delay: 'delay-2500' },
-]
-
 function OgImages() {
-  const host = new URL(getSiteUrl()).host
-
   return (
-    <div className="flex w-full max-w-72 flex-col items-center gap-3.5">
-      <div className="relative w-full max-w-52">
-        <span className="absolute inset-0 -translate-x-7 translate-y-1 -rotate-6 rounded-lg border bg-card shadow-sm" />
-        <span className="absolute inset-0 translate-x-7 translate-y-1 rotate-6 rounded-lg border bg-card shadow-sm" />
-        <div className="relative aspect-40/21 overflow-hidden rounded-lg border bg-linear-to-br from-muted to-card shadow-lg">
-          <div className="absolute inset-0 flex animate-illus-idle flex-col justify-between p-3 opacity-0 delay-1400 motion-reduce:animate-none">
-            <span className="flex justify-between">
-              <span className="h-2 w-10 rounded-full bg-foreground/10" />
-              <span className="h-2 w-16 rounded-full bg-foreground/10" />
-            </span>
-            <span className="flex flex-col gap-1.5">
-              <span className="h-2.5 w-4/5 rounded-full bg-foreground/10" />
-              <span className="h-2.5 w-1/2 rounded-full bg-foreground/10" />
-            </span>
-            <span className="h-4.5 w-20 rounded-sm bg-foreground/10" />
-          </div>
-          <div className="flex size-full animate-illus-clear flex-col justify-between p-3 delay-1400 motion-reduce:animate-none">
-            <span className="flex animate-illus-rise items-center justify-between gap-2 text-xs delay-1500 motion-reduce:animate-none">
-              <span className="flex items-center gap-1 font-semibold">
-                <LogoMark className="size-3" />
-                {siteConfig.author.name}
-              </span>
-              <span className="truncate text-foreground">{host}</span>
-            </span>
-            <p className="animate-illus-rise font-heading text-sm leading-tight font-bold tracking-tight delay-1700 motion-reduce:animate-none">
-              SEO done right, tested and not promised
-            </p>
-            <span className="animate-illus-rise self-start rounded-sm bg-primary px-1.5 py-0.5 text-xs font-medium whitespace-nowrap text-primary-foreground delay-1900 motion-reduce:animate-none">
-              Get The Starter
-            </span>
-          </div>
-          <ScanLine delay="delay-1400" />
-        </div>
-      </div>
-      <div className="flex w-full items-center justify-between gap-3 text-xs whitespace-nowrap">
-        <span className="flex items-center gap-3">
-          {PAGE_TYPES.map((type) => (
-            <span key={type.label} className="flex items-center gap-1">
-              <span className="animate-illus-clear delay-1400 motion-reduce:animate-none">
-                <CheckIcon
-                  className={cn('size-3 animate-illus-pop motion-reduce:animate-none', type.delay)}
-                />
-              </span>
-              {type.label}
-            </span>
-          ))}
+    <Frame className="w-full max-w-64">
+      <div className="relative aspect-40/21 overflow-hidden border-b bg-linear-to-br from-muted to-background p-4">
+        <span className="flex items-center gap-1.5 text-xs font-semibold">
+          <LogoMark className="size-3.5" />
+          7Ovr
         </span>
-        <span className="rounded-md border bg-background px-1.5 py-0.5 font-mono text-muted-foreground shadow-xs">
+        <p className="mt-3 font-heading text-base leading-tight font-bold text-balance">
+          SEO done right. Tested, not promised.
+        </p>
+        <span className="absolute right-2 bottom-2 rounded-sm border bg-background px-1.5 font-mono text-xs text-muted-foreground">
           1200 × 630
         </span>
+        <span className="absolute inset-y-0 left-0 w-1/3 -translate-x-full animate-sheen bg-linear-to-r from-transparent via-foreground/10 to-transparent motion-reduce:animate-none" />
       </div>
-    </div>
+      <div className="flex flex-col gap-1.5 px-3 py-2.5">
+        <span className="text-xs text-muted-foreground">your-domain.com</span>
+        <Bar className="w-3/4" />
+      </div>
+    </Frame>
   )
 }
 
 function NoJavaScript() {
-  const items = [faq.items[3], faq.items[1]]
-
   return (
-    <Panel className="w-full max-w-72">
-      <div className="flex h-8 items-center gap-2 border-b px-3 text-xs">
-        <WindowDots />
-        <span className="ml-auto text-muted-foreground">JavaScript</span>
-        <span className="relative flex h-4 w-7 items-center rounded-full bg-input p-0.5">
-          <span className="absolute inset-0 animate-illus-slot rounded-full bg-primary opacity-0 delay-1000 motion-reduce:animate-none" />
-          <span className="relative size-3 animate-illus-knob rounded-full bg-background shadow-xs delay-1000 motion-reduce:animate-none" />
-        </span>
-        <span className="grid w-5 font-medium">
-          <span className="col-start-1 row-start-1 animate-illus-slot-out delay-1000 motion-reduce:animate-none">
-            Off
-          </span>
-          <span className="col-start-1 row-start-1 animate-illus-slot opacity-0 delay-1000 motion-reduce:animate-none">
-            On
-          </span>
+    <Frame className="w-full max-w-64">
+      <div className="flex items-center justify-between border-b px-3 py-2.5">
+        <span className="text-xs font-medium">JavaScript</span>
+        {/* Resting off; the loop switches it on for a moment, and the page below never changes. */}
+        <span className="relative h-4 w-7 rounded-full bg-muted ring-1 ring-border">
+          <span className="absolute inset-0 animate-switch-track rounded-full bg-primary opacity-0 motion-reduce:animate-none" />
+          <span className="absolute top-0.5 left-0.5 size-3 animate-switch-knob rounded-full bg-background shadow-sm motion-reduce:animate-none" />
         </span>
       </div>
-      <div className="relative flex flex-col gap-2 p-3 text-xs">
-        <p className="font-heading text-sm font-semibold">{faq.title}</p>
-        {items.map((item) => (
-          <div key={item.question} className="flex flex-col gap-0.5">
-            <span className="flex items-center gap-1.5 font-medium">
-              <ChevronDownIcon className="size-3.5 shrink-0 text-muted-foreground" />
-              <span className="truncate">{item.question}</span>
-            </span>
-            <span className="truncate pl-5 text-muted-foreground">
-              {stripInlineCode(item.answer)}
-            </span>
-          </div>
-        ))}
-        {/* Phased to sweep the page just after the switch turns off. */}
-        <ScanLine delay="delay-6120" />
+      <div className="flex flex-col gap-2 p-3">
+        <Bar className="h-2 w-2/3 bg-foreground/60" />
+        <Bar className="w-full" />
+        <Bar className="w-5/6" />
+        <div className="mt-1 flex flex-col gap-1.5 rounded-md border p-2">
+          <span className="flex items-center justify-between gap-2">
+            <Bar className="w-1/2 bg-foreground/40" />
+            <ChevronDownIcon className="size-3 text-muted-foreground" />
+          </span>
+          <Bar className="w-full" />
+          <Bar className="w-2/3" />
+        </div>
       </div>
-    </Panel>
+    </Frame>
   )
 }
 
-const SWATCHES = [
-  'bg-primary',
-  'bg-chart-1',
-  'bg-chart-2',
-  'bg-chart-3',
-  'bg-chart-4',
-  'bg-chart-5',
+const TOKENS = [
+  { name: '--primary', sample: 'rounded-sm bg-primary', wave: 'delay-0' },
+  { name: '--radius', sample: 'rounded-md border-2 border-foreground/60', wave: 'delay-350' },
+  { name: '--font-heading', sample: 'font-heading text-xs font-bold', wave: 'delay-700' },
+  { name: '--chart-2', sample: 'rounded-sm bg-chart-2', wave: 'delay-1050' },
+  { name: '--border', sample: 'rounded-sm border-2', wave: 'delay-1400' },
 ]
 
-const BARS = [
-  'h-3 opacity-40',
-  'h-5 opacity-60',
-  'h-4 opacity-50',
-  'h-7 opacity-80',
-  'h-6 opacity-70',
-  'h-9',
-]
+// One small page, drawn in either the current theme or its inverse.
+function MiniPage({ inverted = false }: { inverted?: boolean }) {
+  return (
+    <div
+      className={cn(
+        'flex w-64 flex-col gap-2.5 p-3.5',
+        inverted ? 'bg-foreground text-background' : 'bg-background text-foreground',
+      )}
+    >
+      <div className="flex items-center justify-between">
+        <LogoMark className="size-3.5" />
+        {inverted ? (
+          <>
+            <MoonIcon className="size-4 dark:hidden" />
+            <SunIcon className="hidden size-4 dark:block" />
+          </>
+        ) : (
+          <>
+            <SunIcon className="size-4 dark:hidden" />
+            <MoonIcon className="hidden size-4 dark:block" />
+          </>
+        )}
+      </div>
+      <span
+        className={cn(
+          'h-2 w-full rounded-full',
+          inverted ? 'bg-background/25' : 'bg-foreground/15',
+        )}
+      />
+      <span
+        className={cn('h-2 w-3/4 rounded-full', inverted ? 'bg-background/25' : 'bg-foreground/15')}
+      />
+      <span
+        className={cn('mt-2 h-5 w-14 rounded-md', inverted ? 'bg-background' : 'bg-foreground')}
+      />
+    </div>
+  )
+}
 
 function Presets() {
   return (
-    <div className="flex w-full max-w-72 flex-col gap-3">
-      <Panel className="flex flex-col gap-3 p-3">
-        <div className="flex items-center gap-2">
-          <span className="size-3.5 animate-illus-accent rounded-sm bg-primary motion-reduce:animate-none" />
-          <span className="h-1.5 w-10 rounded-full bg-foreground/30" />
-          <span className="ml-auto h-1 w-5 rounded-full bg-foreground/15" />
-          <span className="h-1 w-5 rounded-full bg-foreground/15" />
-          <span className="h-4 w-9 animate-illus-accent rounded-sm bg-primary motion-reduce:animate-none" />
-        </div>
-        <div className="flex items-end gap-4">
-          <div className="flex flex-1 flex-col gap-1.5">
-            <span className="h-2 w-full rounded-full bg-foreground/25" />
-            <span className="h-2 w-2/3 rounded-full bg-foreground/25" />
-            <span className="mt-0.5 h-1.5 w-5/6 rounded-full bg-foreground/10" />
-            <span className="mt-2 flex gap-1.5">
-              <span className="h-5 w-14 animate-illus-accent rounded-md bg-primary motion-reduce:animate-none" />
-              <span className="h-5 w-12 rounded-md border" />
-            </span>
-          </div>
-          <div className="flex h-12 items-end gap-1 rounded-md border p-1.5">
-            {BARS.map((bar) => (
-              <span
-                key={bar}
-                className={cn(
-                  'w-1.5 animate-illus-accent rounded-sm bg-primary motion-reduce:animate-none',
-                  bar,
-                )}
-              />
-            ))}
-          </div>
-        </div>
-      </Panel>
-      <div className="flex items-center justify-between gap-3">
-        <span className="relative flex gap-1">
-          {SWATCHES.map((swatch) => (
+    <div className="flex w-full items-center justify-center gap-12">
+      <ul className="hidden flex-col gap-3 md:flex">
+        {TOKENS.map((token) => (
+          <li key={token.name} className="flex items-center gap-3">
             <span
-              key={swatch}
-              className={cn('size-4 rounded-full shadow-xs ring-1 ring-foreground/10', swatch)}
-            />
-          ))}
-          <span className="absolute top-0 left-0 size-4 animate-illus-swatch rounded-full ring-2 ring-foreground ring-offset-1 ring-offset-card motion-reduce:animate-none" />
-        </span>
-        <span className="rounded-md border bg-background px-2 py-1 font-mono text-xs shadow-xs">
-          shadcn apply &lt;code&gt;
-        </span>
+              className={cn(
+                'grid size-5 shrink-0 animate-wave place-items-center motion-reduce:animate-none',
+                token.sample,
+                token.wave,
+              )}
+            >
+              {token.name === '--font-heading' ? 'Aa' : null}
+            </span>
+            <span className="font-mono text-xs text-muted-foreground">{token.name}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="relative shrink-0 overflow-hidden rounded-xl border shadow-lg">
+        <MiniPage />
+        <div className="absolute inset-0 theme-split">
+          <MiniPage inverted />
+        </div>
+        <div className="absolute inset-0 theme-split-line">
+          <span className="absolute inset-y-0 left-0 w-px bg-border" />
+        </div>
       </div>
     </div>
   )

@@ -1,7 +1,11 @@
 import { SectionHeading } from '@/components/section-heading'
 import { FeatureVisual } from '@/components/sections/features/feature-visuals'
-import { features } from '@/content/features'
+import { type FeatureVisual as FeatureVisualName, features } from '@/content/features'
 import { withInlineCode } from '@/lib/inline-code'
+import { cn } from '@/lib/utils'
+
+// The bento's wide cells; with four columns, each row pairs one of them with two narrow ones.
+const WIDE = new Set<FeatureVisualName>(['prerender', 'presets'])
 
 export function Features() {
   return (
@@ -14,30 +18,33 @@ export function Features() {
           description={features.description}
         />
 
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid reveal gap-px overflow-hidden rounded-2xl border bg-border sm:grid-cols-2 xl:grid-cols-4">
           {features.items.map((item) => (
             <li
               key={item.title}
-              className="flex reveal flex-col overflow-hidden rounded-2xl border bg-card"
+              className={cn(
+                'flex min-h-88 flex-col gap-6 bg-background p-6 sm:p-8',
+                WIDE.has(item.visual) && 'sm:col-span-2',
+              )}
             >
-              <div
-                aria-hidden="true"
-                data-nosnippet
-                className="flex h-52 items-center justify-center border-b bg-linear-to-b from-muted/50 to-card p-6"
-              >
-                <FeatureVisual name={item.visual} />
-              </div>
-              <div className="flex flex-col gap-2 p-6">
+              <div className="flex flex-col gap-1.5">
                 <h3 className="font-heading font-semibold">{item.title}</h3>
                 <p className="text-sm text-pretty text-muted-foreground">
                   {withInlineCode(item.description)}
                 </p>
               </div>
+              <div
+                aria-hidden="true"
+                data-nosnippet
+                className="relative flex flex-1 items-center justify-center"
+              >
+                <FeatureVisual name={item.visual} />
+              </div>
             </li>
           ))}
         </ul>
 
-        <ul className="grid gap-x-8 gap-y-6 border-t pt-10 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.extras.map((item) => (
             <li key={item.title} className="flex reveal items-start gap-3">
               <span
