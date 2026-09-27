@@ -1,6 +1,9 @@
 import { siteConfig } from '@/config/site'
 
-export type NavLink = { label: string; href: string; external?: boolean }
+export type NavLink = { label: string; href: string }
+
+// The one action the header offers, beside the menu on phones.
+export const headerAction = { label: 'Get The Starter', href: siteConfig.links.repository }
 
 export const headerNav: NavLink[] = [
   { label: 'Features', href: '/#features' },
@@ -13,9 +16,9 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: 'Starter',
     links: [
-      { label: 'Source', href: siteConfig.links.repository, external: true },
-      { label: 'Use This Template', href: siteConfig.links.template, external: true },
-      { label: 'Report An Issue', href: siteConfig.links.issues, external: true },
+      { label: 'Source', href: siteConfig.links.repository },
+      { label: 'Use This Template', href: siteConfig.links.template },
+      { label: 'Report An Issue', href: siteConfig.links.issues },
     ],
   },
   {
@@ -25,9 +28,11 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: '7Ovr',
     links: [
-      { label: 'App Starter', href: siteConfig.links.appStarter, external: true },
-      { label: 'Blocks', href: siteConfig.links.blocks, external: true },
-      { label: 'X', href: siteConfig.links.x, external: true },
+      { label: 'App Starter', href: siteConfig.links.appStarter },
+      { label: 'Blocks', href: siteConfig.links.blocks },
+      { label: 'X', href: siteConfig.links.x },
     ],
   },
 ]
+
+export const footerNote = { credit: 'Built by', license: 'MIT Licensed' }

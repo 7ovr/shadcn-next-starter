@@ -1,20 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 type HomeLinkProps = Omit<React.ComponentProps<typeof Link>, 'href' | 'onClick'>
 
 // Next keeps the scroll position when a link points at the page already open, so on the home page this scrolls up itself.
 export function HomeLink(props: HomeLinkProps) {
-  const pathname = usePathname()
-
   return (
     <Link
       href="/"
       onClick={(event) => {
         const newTab = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
-        if (pathname !== '/' || newTab) return
+        if (window.location.pathname !== '/' || newTab) return
         event.preventDefault()
         window.history.replaceState(null, '', '/')
         window.scrollTo({ top: 0 })

@@ -1,6 +1,8 @@
 import { Syne } from 'next/font/google'
 
+import { HomeLink } from '@/components/home-link'
 import { LogoMark } from '@/components/icons'
+import { siteConfig } from '@/config/site'
 import { cn } from '@/lib/utils'
 
 // Syne is loaded here for the wordmark alone, so a preset's font change leaves the brand as it is.
@@ -16,6 +18,18 @@ export function Logo() {
       </span>
       <span className="text-sm font-medium text-muted-foreground">Landing</span>
     </span>
+  )
+}
+
+// The logo as the way home, in the header and the footer alike.
+export function LogoLink() {
+  return (
+    <HomeLink
+      aria-label={siteConfig.name}
+      className="rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+    >
+      <Logo />
+    </HomeLink>
   )
 }
 

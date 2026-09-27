@@ -4,8 +4,6 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { HomeLink } from '@/components/home-link'
 
-vi.mock('next/navigation', () => ({ usePathname: () => '/' }))
-
 describe('HomeLink', () => {
   it('scrolls back to the top when clicked on the home page, where Next would keep the scroll', async () => {
     const scrollTo = vi.fn<(options: ScrollToOptions) => void>()

@@ -1,24 +1,25 @@
 import Link from 'next/link'
 
 import { ButtonLink } from '@/components/button-link'
-import { HomeLink } from '@/components/home-link'
 import { GitHubIcon } from '@/components/icons'
-import { Logo } from '@/components/logo'
+import { LogoLink } from '@/components/logo'
 import { MobileNav } from '@/components/mobile-nav'
-import { siteConfig } from '@/config/site'
-import { hero } from '@/content/hero'
-import { headerNav } from '@/content/navigation'
+import { headerAction, headerNav } from '@/content/navigation'
+
+function HeaderAction({ size }: { size?: 'lg' }) {
+  return (
+    <ButtonLink href={headerAction.href} size={size}>
+      <GitHubIcon data-icon="inline-start" />
+      {headerAction.label}
+    </ButtonLink>
+  )
+}
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 px-2 sm:px-4">
       <div className="relative mx-auto flex h-16 w-full max-w-6xl header-glass items-center justify-between gap-4 rounded-2xl border px-4 sm:px-6">
-        <HomeLink
-          aria-label={siteConfig.name}
-          className="rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-        >
-          <Logo />
-        </HomeLink>
+        <LogoLink />
 
         <nav
           aria-label="Main"
@@ -37,13 +38,12 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1">
           <span className="max-sm:hidden">
-            <ButtonLink href={hero.primaryAction.href}>
-              <GitHubIcon data-icon="inline-start" />
-              {hero.primaryAction.label}
-            </ButtonLink>
+            <HeaderAction />
           </span>
           <span className="md:hidden">
-            <MobileNav links={headerNav} action={hero.primaryAction} />
+            <MobileNav links={headerNav}>
+              <HeaderAction size="lg" />
+            </MobileNav>
           </span>
         </div>
       </div>

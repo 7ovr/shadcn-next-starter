@@ -1,39 +1,17 @@
-import Link from 'next/link'
-
 import { ButtonLink } from '@/components/button-link'
-import { HomeLink } from '@/components/home-link'
 import { GitHubIcon, LogoMark, XIcon } from '@/components/icons'
-import { Logo, Wordmark } from '@/components/logo'
+import { LogoLink, Wordmark } from '@/components/logo'
+import { SiteLink } from '@/components/site-link'
 import { FooterThemeToggle } from '@/components/theme-toggle'
 import { siteConfig } from '@/config/site'
-import { type NavLink, footerColumns } from '@/content/navigation'
-
-function FooterLink({ link }: { link: NavLink }) {
-  const className =
-    'text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none'
-
-  return link.external ? (
-    <a href={link.href} target="_blank" rel="noreferrer" className={className}>
-      {link.label}
-    </a>
-  ) : (
-    <Link href={link.href} className={className}>
-      {link.label}
-    </Link>
-  )
-}
+import { footerColumns, footerNote } from '@/content/navigation'
 
 export function SiteFooter() {
   return (
     <footer className="overflow-hidden border-t">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 pt-16 pb-12 sm:px-6 lg:grid-cols-12">
         <div className="flex flex-col items-start gap-6 lg:col-span-5">
-          <HomeLink
-            aria-label={siteConfig.name}
-            className="rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-          >
-            <Logo />
-          </HomeLink>
+          <LogoLink />
           <p className="max-w-sm text-sm text-pretty text-muted-foreground">
             {siteConfig.description}
           </p>
@@ -68,7 +46,12 @@ export function SiteFooter() {
                 <ul className="flex flex-col gap-3">
                   {column.links.map((link) => (
                     <li key={link.href}>
-                      <FooterLink link={link} />
+                      <SiteLink
+                        href={link.href}
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                      >
+                        {link.label}
+                      </SiteLink>
                     </li>
                   ))}
                 </ul>
@@ -81,18 +64,16 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         <div className="flex flex-col-reverse items-start justify-between gap-4 border-t py-6 sm:flex-row sm:items-center">
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            Built by
-            <a
+            {footerNote.credit}
+            <SiteLink
               href={siteConfig.author.url}
-              target="_blank"
-              rel="noreferrer"
               className="flex items-center gap-1.5 rounded-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
               <LogoMark className="size-4" />
               {siteConfig.author.name}
-            </a>
+            </SiteLink>
             <span aria-hidden="true">·</span>
-            MIT Licensed
+            {footerNote.license}
           </p>
           <FooterThemeToggle />
         </div>

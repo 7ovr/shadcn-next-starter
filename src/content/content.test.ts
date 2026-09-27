@@ -6,7 +6,7 @@ import { cta } from '@/content/cta'
 import { faq } from '@/content/faq'
 import { features } from '@/content/features'
 import { hero, stack } from '@/content/hero'
-import { footerColumns, headerNav } from '@/content/navigation'
+import { footerColumns, footerNote, headerAction, headerNav } from '@/content/navigation'
 import { steps } from '@/content/steps'
 
 // Built from code points, so the rule against dashes holds in this file too.
@@ -27,7 +27,7 @@ const labels = [
   ...sections.flatMap((section) =>
     'eyebrow' in section ? [section.eyebrow.lead, section.eyebrow.emphasis] : [],
   ),
-  hero.primaryAction.label,
+  headerAction.label,
   appStarter.action.label,
   cta.primaryAction.label,
   cta.secondaryAction.label,
@@ -42,9 +42,13 @@ const labels = [
 
 describe('content', () => {
   it('never uses an em dash or an en dash', () => {
-    const offenders = strings([...sections, headerNav, footerColumns]).filter((text) =>
-      DASHES.test(text),
-    )
+    const offenders = strings([
+      ...sections,
+      headerAction,
+      headerNav,
+      footerColumns,
+      footerNote,
+    ]).filter((text) => DASHES.test(text))
     expect(offenders).toEqual([])
   })
 

@@ -1,52 +1,60 @@
 'use client'
 
 import { MenuIcon } from 'lucide-react'
-import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { ButtonLink } from '@/components/button-link'
-import { GitHubIcon } from '@/components/icons'
+import type { MobileNavSheet } from '@/components/mobile-nav-sheet'
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import type { NavLink } from '@/content/navigation'
 
-export function MobileNav({
-  links,
-  action,
-}: {
-  links: NavLink[]
-  action: { label: string; href: string }
-}) {
+// The sheet and its dialog code load on first use, so only visitors who open the menu download them.
+function loadSheet() {
+  return import('@/components/mobile-nav-sheet').then((module) => module.MobileNavSheet)
+}
+
+export function MobileNav({ links, children }: { links: NavLink[]; children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
+  // Kept in state, not behind Suspense, which holds a freshly loaded sheet back for a moment.
+  const [Sheet, setSheet] = useState<typeof MobileNavSheet | null>(null)
+  const trigger = useRef<HTMLButtonElement>(null)
+
+  function load() {
+    void loadSheet().then((component) => setSheet(() => component))
+  }
+
+  // Phones get around through the menu, so they fetch it once the page has settled; wider screens never do.
+  useEffect(() => {
+    if (!window.matchMedia('(width < 48rem)').matches) return
+    const timeout = window.setTimeout(() => {
+      void loadSheet().then((component) => setSheet(() => component))
+    }, 2000)
+    return () => window.clearTimeout(timeout)
+  }, [])
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger render={<Button variant="ghost" size="icon" aria-label="Open Menu" />}>
+    <>
+      <Button
+        ref={trigger}
+        variant="ghost"
+        size="icon"
+        aria-label="Open Menu"
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        // A pointer on the way or keyboard focus starts the download before the click lands.
+        onPointerEnter={load}
+        onFocus={load}
+        onClick={() => {
+          load()
+          setOpen(true)
+        }}
+      >
         <MenuIcon aria-hidden="true" />
-      </SheetTrigger>
-      <SheetContent side="right">
-        <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
-        </SheetHeader>
-        <nav aria-label="Mobile" className="flex flex-col gap-1 px-4">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className="rounded-md px-3 py-2 text-base text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="mt-auto grid p-4">
-          <ButtonLink href={action.href} size="lg">
-            <GitHubIcon data-icon="inline-start" />
-            {action.label}
-          </ButtonLink>
-        </div>
-      </SheetContent>
-    </Sheet>
+      </Button>
+      {Sheet && (
+        <Sheet open={open} onOpenChange={setOpen} links={links} trigger={trigger}>
+          {children}
+        </Sheet>
+      )}
+    </>
   )
 }
