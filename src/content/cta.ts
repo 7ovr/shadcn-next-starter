@@ -1,10 +1,4 @@
-import {
-  AccessibilityIcon,
-  EyeOffIcon,
-  FileCheckIcon,
-  GaugeIcon,
-  type LucideIcon,
-} from 'lucide-react'
+import { AppWindowIcon, EyeOffIcon, FileCheckIcon, GaugeIcon, type LucideIcon } from 'lucide-react'
 
 import { siteConfig } from '@/config/site'
 
@@ -18,7 +12,7 @@ export const cta = {
   cards: [
     { icon: FileCheckIcon, title: 'sitemap.xml', detail: 'Every route, with real dates' },
     { icon: GaugeIcon, title: 'Lighthouse', detail: 'Budgets checked in CI' },
-    { icon: AccessibilityIcon, title: 'axe', detail: 'An accessibility pass in CI' },
+    { icon: AppWindowIcon, title: 'Playwright', detail: 'The built site, tested in CI' },
     { icon: EyeOffIcon, title: 'Preview Deploy', detail: 'noindex, still crawlable' },
   ] satisfies { icon: LucideIcon; title: string; detail: string }[],
 }
