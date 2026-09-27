@@ -16,10 +16,12 @@ export default defineConfig({
   use: { baseURL, trace: 'on-first-retry' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `pnpm build && pnpm start --port ${port}`,
+    // Next itself, not a pnpm script, so the stop signal reaches the server and the run ends.
+    command: `next build && next start --port ${port}`,
     url: baseURL,
     env: { SITE_ENV: preview ? '' : 'production', SITE_URL: baseURL },
     reuseExistingServer: false,
+    gracefulShutdown: { signal: 'SIGTERM', timeout: 5_000 },
     timeout: 300_000,
   },
 })
