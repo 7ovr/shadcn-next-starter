@@ -53,6 +53,17 @@ test('the logo scrolls back to the top of the home page', async ({ page }) => {
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
 
+test('the copy button copies the clone command', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write'])
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Copy Command' }).click()
+
+  await expect(page.getByRole('button', { name: 'Copied' })).toBeVisible()
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    `git clone ${siteConfig.links.repository}`,
+  )
+})
+
 test.describe('on a phone', () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
