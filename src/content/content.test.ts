@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 
 import { agents } from '@/content/agents'
+import { appStarter } from '@/content/app-starter'
 import { cta } from '@/content/cta'
 import { faq } from '@/content/faq'
 import { features } from '@/content/features'
-import { hero, stack } from '@/content/hero'
+import { hero } from '@/content/hero'
 import { footerColumns, headerNav } from '@/content/navigation'
 import { steps } from '@/content/steps'
 
@@ -19,7 +20,7 @@ function strings(value: unknown): string[] {
   return []
 }
 
-const sections = [hero, stack, features, steps, agents, faq, cta]
+const sections = [hero, features, steps, agents, appStarter, faq, cta]
 
 const labels = [
   ...sections.flatMap((section) => ('title' in section ? [section.title] : [])),
@@ -27,6 +28,7 @@ const labels = [
     'eyebrow' in section ? [section.eyebrow.lead, section.eyebrow.emphasis] : [],
   ),
   hero.primaryAction.label,
+  appStarter.action.label,
   cta.primaryAction.label,
   cta.secondaryAction.label,
   faq.contact.action.label,
