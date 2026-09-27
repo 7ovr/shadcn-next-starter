@@ -34,8 +34,6 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 - `src/content/` holds every word on the page, one file per section. The sections only render what they are given.
 - `src/components/sections/` holds one folder per section. Reorder or drop them in `src/app/page.tsx`.
 
-The hero photos are samples. Swap them for your own in `src/content/images/`: `hero-light.jpg` shows in the light theme and `hero-dark.jpg` in the dark one.
-
 ## Scripts
 
 | Command             | What it does                                 |
@@ -72,7 +70,7 @@ A preset only sets shadcn's own tokens. If you add a token of your own, a preset
 
 ## Credits
 
-The sample hero photos come from Unsplash under the [Unsplash License](https://unsplash.com/license): the [light one](https://unsplash.com/photos/white-clouds-and-blue-sky-5nN9NX6dJxc) is by Rebecca Campbell and the [dark one](https://unsplash.com/photos/black-and-gray-clouds-during-daytime-weRtrhhTz4s) by Harshit Sharma. The stack logos come from [Simple Icons](https://simpleicons.org) (CC0).
+The logos belong to their projects. The single-colour versions in the stack strip come from [Simple Icons](https://simpleicons.org) (CC0).
 
 ## License
 

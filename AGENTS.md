@@ -48,13 +48,8 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - Keep `reveal` off anything in the first screen, where it would load half faded.
 - The stack marquee scrolls two copies of one list. The copy is `aria-hidden`, and under reduced motion it is hidden and the list wraps in place.
 - The header turns to frosted glass on a scroll timeline in `header-glass`; without scroll timelines it is always glass.
-- The illustrations share one 8-second loop, the `animate-illus-*` utilities: each builds up, holds its finished frame, fades out as a group and builds again. An element's normal style is the finished frame, which reduced motion shows. Keep an item's delay within 1.1 seconds of its group's, or its reset shows.
-- Decorative visuals, like the hero photo, the CTA cards and the illustrations, are `aria-hidden` and `data-nosnippet`, so they stay out of screen readers and search snippets.
-
-### Images
-
-- Photos live in `src/content/images/` and are imported statically, so `next/image` knows their size. Decorative photos take `alt=""`.
-- A photo made for one theme renders twice, with `dark:hidden` and `hidden dark:block`. Leave both lazy and give them `fetchPriority="high"`: a lazy image that is not displayed never loads, while `preload` or `loading="eager"` would load both.
+- The illustrations loop gently through the utilities in the `Illustrations` block of `src/app/globals.css`, such as `animate-swap`, `animate-wave` and `animate-hop`. An element's own style is the finished frame, which reduced motion keeps. Items that take turns, like the routes in the build log, share one grid cell and wait at `opacity-0` until their delay.
+- Decorative visuals, like the hero's floating logos, the CTA cards and the illustrations, are `aria-hidden` and `data-nosnippet`, so they stay out of screen readers and search snippets.
 
 ## Design system
 
@@ -64,7 +59,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **Keep `src/components/ui/` as the CLI writes it.** `shadcn apply` overwrites those files when it applies a preset, so a variant added there would be lost. The linter ignores the folder, because those files define the variants the rules enforce.
 - After `shadcn apply`, run `pnpm format`, and remove the old font the CLI leaves in the `next/font/google` import of `src/app/layout.tsx`. The starter's own look is preset `b4Wm`.
 - **`no-restyle` runs with no allowlist**: a shadcn component accepts no `className` from outside, not even layout or margin. Pick one of the variants it already has, and put layout classes on a plain wrapper element around it.
-- Brand marks live in `src/components/icons.tsx` as single-colour Simple Icons paths that follow the text colour. The 7Ovr wordmark in `src/components/logo.tsx` loads Syne through `next/font` for itself alone, so a preset's font change leaves the brand as it is.
+- Brand marks live in `src/components/icons.tsx`: single-colour Simple Icons paths for the marquee, which follow the text colour, and full-colour logos in each brand's own colours for the floating tiles, so `.oxlintrc.json` exempts that one file from `no-raw-colors`. The 7Ovr wordmark in `src/components/logo.tsx` loads Syne through `next/font` for itself alone, so a preset's font change leaves the brand as it is.
 - Base UI takes `render`, not `asChild`.
 - Add shadcn components with `pnpm dlx shadcn@latest add <name>`, then run `pnpm format`, because the CLI writes double quotes.
 
