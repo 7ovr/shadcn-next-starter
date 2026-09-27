@@ -7,6 +7,7 @@ import { faq } from '@/content/faq'
 import { features } from '@/content/features'
 import { hero, stack } from '@/content/hero'
 import { footerColumns, footerNote, headerAction, headerNav } from '@/content/navigation'
+import { notFound } from '@/content/not-found'
 import { steps } from '@/content/steps'
 
 // Built from code points, so the rule against dashes holds in this file too.
@@ -20,7 +21,7 @@ function strings(value: unknown): string[] {
   return []
 }
 
-const sections = [hero, stack, features, steps, agents, appStarter, faq, cta]
+const sections = [hero, stack, features, steps, agents, appStarter, faq, cta, notFound]
 
 const labels = [
   ...sections.flatMap((section) => ('title' in section ? [section.title] : [])),
@@ -28,6 +29,7 @@ const labels = [
     'eyebrow' in section ? [section.eyebrow.lead, section.eyebrow.emphasis] : [],
   ),
   headerAction.label,
+  notFound.action.label,
   appStarter.action.label,
   cta.primaryAction.label,
   cta.secondaryAction.label,

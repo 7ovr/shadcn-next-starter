@@ -22,7 +22,7 @@ export const agents = {
       icon: ShieldCheckIcon,
       title: 'Checks That Catch Drift',
       description:
-        'Lint, format, types, tests and the build run on every commit, so a slip fails fast.',
+        'Lint and format run on every commit and the full suite on every push, so a slip fails fast.',
     },
     {
       icon: GitPullRequestArrowIcon,

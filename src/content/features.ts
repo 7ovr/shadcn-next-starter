@@ -62,7 +62,7 @@ export const features = {
     {
       icon: ImageIcon,
       title: 'Share Cards For Every Page',
-      description: 'Open Graph images drawn at build time from the theme.',
+      description: "Open Graph images drawn at build time in your theme's colors.",
     },
     {
       icon: MoonStarIcon,

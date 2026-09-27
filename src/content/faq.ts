@@ -42,12 +42,12 @@ export const faq = {
     {
       question: 'Where do I change the copy?',
       answer:
-        'Site-wide details live in `src/config/site.ts`, and every word on the page lives in `src/content/`. The sections only render what they are given.',
+        'Site-wide details live in `src/config/site.ts`, and the copy lives in `src/content/`, one file per section. The sections only render what they are given.',
     },
     {
       question: 'Can I deploy it somewhere other than Vercel?',
       answer:
-        'Yes. It is a standard Next.js app, so any host that runs `next start` works. Set `SITE_URL` and `SITE_ENV=production` so canonicals and indexing are right.',
+        'Yes. It is a standard Next.js app, so any host that runs `next start` works. Set `SITE_URL` and `SITE_ENV=production` before you build, so canonicals and indexing are right.',
     },
     {
       question: 'Does it include auth, a database or analytics?',
