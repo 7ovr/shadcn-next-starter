@@ -4,18 +4,75 @@ import { join } from 'node:path'
 import { ImageResponse } from 'next/og'
 
 import { getSiteUrl } from '@/lib/site-url'
+import { readRootTokens, toHex } from '@/lib/theme-tokens'
 
 export const OG_SIZE = { width: 1200, height: 630 }
 export const OG_CONTENT_TYPE = 'image/png'
 
-// The light theme from src/app/globals.css: Satori resolves no CSS variables, so the card repeats the values.
-const INK = '#0a0a0a'
-const MUTED = '#737373'
-const LINE = '#e5e5e5'
-const BUTTON = '#171717'
+// The card's typeface. A preset that changes the font in src/app/layout.tsx needs it changed here too.
+const FONT = 'Oxanium'
+
+// The light theme of preset b4Wm, for a token that is missing or cannot be converted.
+const FALLBACK = {
+  background: '#ffffff',
+  foreground: '#0a0a0a',
+  'muted-foreground': '#737373',
+  border: '#e5e5e5',
+  primary: '#171717',
+  'primary-foreground': '#fafafa',
+}
+
+type Palette = {
+  background: string
+  foreground: string
+  muted: string
+  border: string
+  primary: string
+  primaryForeground: string
+  radius: number
+}
+
+// Satori resolves no CSS variables, so the card reads the light theme from globals.css and follows a preset like the page.
+let palettePromise: Promise<Palette> | null = null
+
+function getPalette(): Promise<Palette> {
+  palettePromise ??= readFile(join(process.cwd(), 'src', 'app', 'globals.css'), 'utf8').then(
+    (css) => {
+      const tokens = readRootTokens(css)
+      const colour = (name: keyof typeof FALLBACK) => toHex(tokens[name] ?? '') ?? FALLBACK[name]
+      const radius = Number.parseFloat(tokens.radius ?? '')
+
+      return {
+        background: colour('background'),
+        foreground: colour('foreground'),
+        muted: colour('muted-foreground'),
+        border: colour('border'),
+        primary: colour('primary'),
+        primaryForeground: colour('primary-foreground'),
+        // The page's radius at 16px a rem, a fifth larger on the 1200px card.
+        radius: Number.isFinite(radius) ? Math.round(radius * 19.2) : 12,
+      }
+    },
+  )
+  return palettePromise
+}
+
+function withAlpha(hex: string, alpha: number): string {
+  const [red, green, blue] = [1, 3, 5].map((start) =>
+    Number.parseInt(hex.slice(start, start + 2), 16),
+  )
+  return `rgba(${red},${green},${blue},${alpha})`
+}
+
+// An error page is not a font, so a failed response throws and the fonts fall back.
+async function fetchOk(url: string, init?: RequestInit): Promise<Response> {
+  const response = await fetch(url, init)
+  if (!response.ok) throw new Error(`${response.status} from ${url}`)
+  return response
+}
 
 async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
-  const css = await fetch(
+  const css = await fetchOk(
     `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`,
     // An old user agent gets a TTF, which Satori reads; newer ones get WOFF2, which it does not.
     {
@@ -24,7 +81,7 @@ async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuff
   ).then((response) => response.text())
   const src = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1]
   if (!src) throw new Error(`Font not found: ${family} ${weight}`)
-  return fetch(src).then((response) => response.arrayBuffer())
+  return fetchOk(src).then((response) => response.arrayBuffer())
 }
 
 type LoadedFont = { name: string; data: ArrayBuffer; weight: 400 | 700; style: 'normal' }
@@ -35,14 +92,14 @@ function getFonts(): Promise<LoadedFont[]> {
   fontsPromise ??= (async () => {
     try {
       const [heading, brand, regular] = await Promise.all([
-        loadGoogleFont('Oxanium', 700),
+        loadGoogleFont(FONT, 700),
         loadGoogleFont('Syne', 700),
-        loadGoogleFont('Oxanium', 400),
+        loadGoogleFont(FONT, 400),
       ])
       return [
-        { name: 'Oxanium', data: heading, weight: 700, style: 'normal' },
+        { name: FONT, data: heading, weight: 700, style: 'normal' },
         { name: 'Syne', data: brand, weight: 700, style: 'normal' },
-        { name: 'Oxanium', data: regular, weight: 400, style: 'normal' },
+        { name: FONT, data: regular, weight: 400, style: 'normal' },
       ] satisfies LoadedFont[]
     } catch {
       // A failed font fetch must fall back to the default face, not break the build.
@@ -66,16 +123,11 @@ export type OgImageOptions = {
   title: string
   eyebrow?: string
   description?: string
-  cta?: string
+  cta: string
 }
 
-export async function createOgImage({
-  title,
-  eyebrow,
-  description,
-  cta = 'Get The Starter',
-}: OgImageOptions) {
-  const [fonts, mark] = await Promise.all([getFonts(), getMark()])
+export async function createOgImage({ title, eyebrow, description, cta }: OgImageOptions) {
+  const [fonts, mark, palette] = await Promise.all([getFonts(), getMark(), getPalette()])
   const domain = getSiteUrl().replace(/^https?:\/\//, '')
 
   return new ImageResponse(
@@ -86,12 +138,11 @@ export async function createOgImage({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        backgroundColor: '#ffffff',
-        backgroundImage:
-          'radial-gradient(circle at 88% 6%, rgba(23,23,23,0.07), transparent 42%), radial-gradient(circle at 4% 100%, rgba(10,10,10,0.05), transparent 38%)',
+        backgroundColor: palette.background,
+        backgroundImage: `radial-gradient(circle at 88% 6%, ${withAlpha(palette.primary, 0.07)}, transparent 42%), radial-gradient(circle at 4% 100%, ${withAlpha(palette.foreground, 0.05)}, transparent 38%)`,
         padding: 72,
-        fontFamily: 'Oxanium',
-        color: INK,
+        fontFamily: FONT,
+        color: palette.foreground,
       }}
     >
       {/* The mark, oversized and faint, so the card reads as 7Ovr even at timeline size. */}
@@ -106,13 +157,13 @@ export async function createOgImage({
       <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
         <img src={mark} width={40} height={40} alt="" />
         <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 34 }}>7Ovr</span>
-        <span style={{ fontSize: 30, color: LINE }}>/</span>
-        <span style={{ fontWeight: 400, fontSize: 28, color: MUTED }}>Landing</span>
+        <span style={{ fontSize: 30, color: palette.border }}>/</span>
+        <span style={{ fontWeight: 400, fontSize: 28, color: palette.muted }}>Landing</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {eyebrow ? (
-          <span style={{ fontWeight: 400, fontSize: 22, letterSpacing: 3, color: MUTED }}>
+          <span style={{ fontWeight: 400, fontSize: 22, letterSpacing: 3, color: palette.muted }}>
             {eyebrow.slice(0, 40).toUpperCase()}
           </span>
         ) : null}
@@ -133,7 +184,7 @@ export async function createOgImage({
               fontWeight: 400,
               fontSize: 25,
               lineHeight: 1.45,
-              color: MUTED,
+              color: palette.muted,
               maxWidth: 840,
             }}
           >
@@ -147,9 +198,9 @@ export async function createOgImage({
           style={{
             display: 'flex',
             alignItems: 'center',
-            backgroundColor: BUTTON,
-            color: '#ffffff',
-            borderRadius: 12,
+            backgroundColor: palette.primary,
+            color: palette.primaryForeground,
+            borderRadius: palette.radius,
             padding: '16px 28px',
             fontWeight: 700,
             fontSize: 24,
@@ -157,10 +208,10 @@ export async function createOgImage({
         >
           {cta.slice(0, 36)}
         </div>
-        <span style={{ fontWeight: 400, fontSize: 24, color: MUTED }}>{domain}</span>
+        <span style={{ fontWeight: 400, fontSize: 24, color: palette.muted }}>{domain}</span>
       </div>
 
-      {/* A neutral rule along the bottom edge, so the card holds its shape on white timelines. */}
+      {/* A rule along the bottom edge, so the card holds its shape on white timelines. */}
       <div
         style={{
           position: 'absolute',
@@ -168,7 +219,7 @@ export async function createOgImage({
           left: 0,
           width: '100%',
           height: 10,
-          backgroundImage: `linear-gradient(90deg, ${INK}, ${LINE})`,
+          backgroundImage: `linear-gradient(90deg, ${palette.foreground}, ${palette.border})`,
         }}
       />
     </div>,

@@ -6,6 +6,8 @@ export const siteConfig = {
   title: 'Next.js Landing Page Template With shadcn/ui',
   description:
     'A free, open-source Next.js landing page template on shadcn/ui and Base UI, with static pages, complete SEO, accessibility, theming and tests wired.',
+  // The share image's line under the headline.
+  tagline: 'Static pages, complete SEO, accessibility, preset theming and tests, wired.',
   keywords: [
     '7Ovr',
     'Next.js landing page template',
