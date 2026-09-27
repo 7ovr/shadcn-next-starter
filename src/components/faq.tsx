@@ -40,13 +40,9 @@ export function Faq() {
           <Accordion defaultValue={[faq.items[0].question]} hiddenUntilFound>
             {faq.items.map((item) => (
               <AccordionItem key={item.question} value={item.question}>
-                <AccordionTrigger>
-                  <span className="py-1.5 text-base">{item.question}</span>
-                </AccordionTrigger>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
                 <AccordionContent>
-                  <p className="text-base text-pretty text-muted-foreground">
-                    {withInlineCode(item.answer)}
-                  </p>
+                  <p className="text-pretty text-muted-foreground">{withInlineCode(item.answer)}</p>
                 </AccordionContent>
               </AccordionItem>
             ))}
