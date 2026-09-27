@@ -38,6 +38,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "~7.0.2"
   },
+  "description": "A Next.js landing-page starter on shadcn/ui and Base UI, built so every page is prerendered and crawlable.",
+  "license": "MIT",
   "engines": {
     "node": ">=24",
     "pnpm": ">=12"
