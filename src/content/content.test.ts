@@ -38,6 +38,8 @@ const labels = [
   ...features.extras.map((item) => item.title),
   ...steps.items.map((step) => step.title),
   ...agents.points.map((point) => point.title),
+  // FAQ questions are headings, so they take Title Case like every other heading.
+  ...faq.items.map((item) => item.question),
   ...headerNav.map((link) => link.label),
   ...footerColumns.flatMap((column) => [column.title, ...column.links.map((link) => link.label)]),
 ].filter((label) => label !== hero.title)

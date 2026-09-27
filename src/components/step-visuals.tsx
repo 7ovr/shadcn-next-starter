@@ -16,7 +16,7 @@ function Clone() {
         </span>
         <span className="flex min-w-0 flex-col text-xs leading-tight">
           <span className="truncate font-semibold">{repository}</span>
-          <span className="text-muted-foreground">Public template</span>
+          <span className="text-muted-foreground">Public Template</span>
         </span>
       </div>
       <MockButton>Use This Template</MockButton>

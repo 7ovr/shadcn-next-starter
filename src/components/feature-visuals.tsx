@@ -120,12 +120,9 @@ function Metadata() {
             <span className="truncate text-muted-foreground">your-domain.com</span>
           </span>
         </div>
-        <span className="mt-2 block text-sm leading-snug font-semibold">
-          The Next.js landing page starter
-        </span>
+        <span className="mt-2 block text-sm leading-snug font-semibold">{siteConfig.title}</span>
         <span className="mt-1 line-clamp-2 text-xs text-muted-foreground">
-          A free landing page starter on Next.js 16, shadcn/ui and Base UI, with the hard parts
-          done.
+          {siteConfig.description}
         </span>
       </MockCard>
       <MockCard className="absolute -right-3 -bottom-4 flex items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-xs">
@@ -194,7 +191,7 @@ function NoJavaScript() {
         <span className="text-sm font-semibold">Frequently Asked Questions</span>
         <span className="flex flex-col gap-1 rounded-md border p-2">
           <span className="flex items-center justify-between gap-2 font-medium">
-            Does it work without JavaScript?
+            Does It Work Without JavaScript?
             <ChevronDownIcon className="size-3 shrink-0 text-muted-foreground" />
           </span>
           <span className="text-muted-foreground">Yes, every answer is in the HTML.</span>
@@ -270,7 +267,7 @@ function MiniPage({ inverted = false }: { inverted?: boolean }) {
           </>
         )}
       </div>
-      <span className="mt-1 text-sm font-semibold">Your landing page</span>
+      <span className="mt-1 text-sm font-semibold">Your Landing Page</span>
       <span className={cn('text-xs', inverted ? 'text-background/70' : 'text-muted-foreground')}>
         One preset, every section.
       </span>

@@ -24,7 +24,7 @@ export function AgentSession() {
             <PlusIcon className="size-3.5" />
           </span>
           <span className="ml-auto flex items-center gap-1">
-            Your agent
+            Your Agent
             <ChevronDownIcon className="size-3" />
           </span>
           <span className="grid size-6 place-items-center rounded-md bg-primary text-primary-foreground">

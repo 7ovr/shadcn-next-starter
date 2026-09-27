@@ -35,4 +35,4 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   },
 ]
 
-export const footerNote = { credit: 'Built by', license: 'MIT Licensed' }
+export const footerNote = { credit: 'Built by', license: 'MIT licensed' }

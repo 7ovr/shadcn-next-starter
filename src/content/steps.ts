@@ -17,7 +17,7 @@ export const steps = {
       visual: 'content',
       title: 'Make It Yours',
       description:
-        'Set the name and links in `src/config/site.ts`, and every word on the page in `src/content/`.',
+        'Set the name and links in `src/config/site.ts`, and the copy in `src/content/`, one file per section.',
     },
     {
       visual: 'preset',
