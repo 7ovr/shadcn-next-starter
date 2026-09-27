@@ -17,7 +17,7 @@ export function Cta() {
   return (
     <section
       aria-labelledby="cta-title"
-      className="relative isolate overflow-hidden px-4 py-20 sm:px-6 sm:py-28"
+      className="relative isolate overflow-hidden px-4 py-20 sm:px-6 sm:py-24"
     >
       <div
         aria-hidden="true"

@@ -21,7 +21,7 @@ export function AppStarter() {
             {appStarter.title}
           </h2>
           <div className="flex flex-col gap-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
-            <p className="text-pretty text-muted-foreground">{appStarter.description}</p>
+            <p className="text-pretty text-muted-foreground sm:text-lg">{appStarter.description}</p>
             <ul className="flex flex-col gap-2.5">
               {appStarter.highlights.map((highlight) => (
                 <li key={highlight} className="flex items-center gap-2 text-sm font-medium">
