@@ -252,8 +252,9 @@
   --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-press: press 4s ease-in-out infinite;
   --animate-beacon: beacon 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-  --animate-stop-2: stop-2 8s ease-out infinite;
-  --animate-stop-3: stop-3 8s ease-out infinite;
+  --animate-tick-1: tick-1 8s ease-out infinite;
+  --animate-tick-2: tick-2 8s ease-out infinite;
+  --animate-tick-3: tick-3 8s ease-out infinite;
 }
 
 /* Items stacked in one cell take turns: each shows for a fifth of the loop, so delays two seconds apart share it. */
@@ -369,14 +370,14 @@
   }
 }
 
-/* Later stops rise on their cue and every part fades out together, so the loop never shows a reset. */
-@keyframes stop-2 {
+/* Each step rises on its own cue and all of them fade out together, so the loop never shows a reset. */
+@keyframes tick-1 {
   0%,
-  15% {
+  10% {
     opacity: 0;
     transform: translateY(0.5rem);
   }
-  20%,
+  15%,
   88% {
     opacity: 1;
     transform: none;
@@ -387,13 +388,30 @@
   }
 }
 
-@keyframes stop-3 {
+@keyframes tick-2 {
   0%,
-  35% {
+  30% {
     opacity: 0;
     transform: translateY(0.5rem);
   }
-  40%,
+  35%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes tick-3 {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  55%,
   88% {
     opacity: 1;
     transform: none;

@@ -16,6 +16,8 @@ export function Hero() {
   const [before, after] = hero.title.split(hero.titleEmphasis)
   // The last word before the emphasis moves down with it, so the first line keeps its words whole.
   const cut = before.trimEnd().lastIndexOf(' ')
+  // Its first two words stay together, so a narrow screen never ends a line on a lone chip.
+  const emphasis = hero.titleEmphasis.replace(' ', ' ')
 
   return (
     <section
@@ -43,7 +45,7 @@ export function Hero() {
           {before.slice(cut)}
           {/* A chip like the inline code on the page, in a lighter weight than the headline. */}
           <em className="rounded-xl bg-foreground/10 box-decoration-clone px-3 font-light not-italic">
-            {hero.titleEmphasis}
+            {emphasis}
           </em>
           {after}
         </h1>
