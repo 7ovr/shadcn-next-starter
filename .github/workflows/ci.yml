@@ -51,7 +51,7 @@ jobs:
       - run: pnpm test:e2e
       - run: pnpm test:e2e:preview
       - run: pnpm lighthouse
-      - if: ${{ !cancelled() }}
+      - if: always()
         uses: actions/upload-artifact@v7
         with:
           name: e2e-reports
