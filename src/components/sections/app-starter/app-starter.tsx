@@ -1,9 +1,7 @@
-import { ArrowUpRightIcon } from 'lucide-react'
+import { CheckIcon, ChevronRightIcon } from 'lucide-react'
+import Image from 'next/image'
 
 import { ButtonLink } from '@/components/button-link'
-import { CopyCommand } from '@/components/copy-command'
-import { SectionHeading } from '@/components/section-heading'
-import { AppShell } from '@/components/sections/app-starter/app-shell'
 import { appStarter } from '@/content/app-starter'
 
 export function AppStarter() {
@@ -13,25 +11,56 @@ export function AppStarter() {
       aria-labelledby="app-starter-title"
       className="px-4 py-20 sm:px-6 sm:py-24"
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-12 overflow-hidden rounded-3xl border bg-card p-8 shadow-sm sm:p-12 lg:grid-cols-2">
-        <div className="flex flex-col items-start gap-8">
-          <SectionHeading
-            align="start"
-            titleId="app-starter-title"
-            eyebrow={appStarter.eyebrow}
-            title={appStarter.title}
-            description={appStarter.description}
-          />
-          <div className="flex max-w-full flex-col items-start gap-4">
+      <div className="mx-auto flex max-w-5xl flex-col gap-10">
+        {/* Title, description, then the link on phones; on large screens the link sits under the title. */}
+        <div className="grid reveal items-start justify-items-start gap-4 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-5">
+          <h2
+            id="app-starter-title"
+            className="font-heading text-3xl font-bold tracking-tight text-balance sm:text-4xl lg:col-start-1 lg:row-start-1"
+          >
+            {appStarter.title}
+          </h2>
+          <div className="flex flex-col gap-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+            <p className="text-pretty text-muted-foreground">{appStarter.description}</p>
+            <ul className="flex flex-col gap-2.5">
+              {appStarter.highlights.map((highlight) => (
+                <li key={highlight} className="flex items-center gap-2 text-sm font-medium">
+                  <CheckIcon aria-hidden="true" className="size-5 shrink-0" />
+                  {highlight}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-2 lg:col-start-1 lg:row-start-2 lg:mt-0">
             <ButtonLink href={appStarter.action.href} size="lg">
               {appStarter.action.label}
-              <ArrowUpRightIcon data-icon="inline-end" />
+              <ChevronRightIcon data-icon="inline-end" />
             </ButtonLink>
-            <CopyCommand command={appStarter.command} highlight={appStarter.commandHighlight} />
           </div>
         </div>
-        <div aria-hidden="true" data-nosnippet className="flex reveal items-center justify-center">
-          <AppShell />
+
+        {/* The App Starter's real Home screen, one capture per theme; both stay lazy, so only the shown one loads. */}
+        <div aria-hidden="true" data-nosnippet className="relative isolate reveal">
+          <div className="pointer-events-none absolute inset-x-0 -top-16 -z-10 h-80 bg-glow blur-2xl" />
+          <div className="relative overflow-hidden rounded-2xl border bg-card mask-b-from-60% p-1.5 shadow-xl ring-1 ring-foreground/10">
+            <div className="relative h-72 overflow-hidden rounded-xl ring-1 ring-foreground/10 ring-inset sm:h-112">
+              <Image
+                src={appStarter.images.light}
+                alt=""
+                fill
+                sizes="(min-width: 64rem) 64rem, 100vw"
+                className="object-cover object-left-top dark:hidden"
+              />
+              <Image
+                src={appStarter.images.dark}
+                alt=""
+                fill
+                sizes="(min-width: 64rem) 64rem, 100vw"
+                className="hidden object-cover object-left-top dark:block"
+              />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-foreground/25 to-transparent" />
+            </div>
+          </div>
         </div>
       </div>
     </section>

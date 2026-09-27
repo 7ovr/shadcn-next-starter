@@ -1,15 +1,16 @@
-import { AppWindowIcon } from 'lucide-react'
-
 import { siteConfig } from '@/config/site'
-
-const appRepository = 'https://github.com/7ovr/shadcn-vite-starter'
+import appStarterDark from '@/content/images/app-starter-dark.webp'
+import appStarterLight from '@/content/images/app-starter-light.webp'
 
 export const appStarter = {
-  eyebrow: { icon: AppWindowIcon, lead: 'Also From', emphasis: '7Ovr' },
-  title: 'Building An App, Not A Landing Page?',
+  title: 'The Perfect Start For Your Frontend',
   description:
-    'The 7Ovr App Starter puts the same shadcn/ui and Base UI stack on Vite, with TanStack Router, Query, Form and Table, strict TypeScript and Vitest already wired. Clone it and start on the product.',
+    'Building an app, not a landing page? The 7Ovr App Starter is an open-source Vite and React starter on the same shadcn/ui and Base UI stack, with TanStack and strict TypeScript already wired. Clone it and write product code, not config.',
+  highlights: [
+    'Routing, data, forms and tables wired and tested',
+    'Add any 7Ovr block with one shadcn command',
+    'MIT licensed, frontend only, any backend',
+  ],
   action: { label: 'Explore The App Starter', href: siteConfig.links.appStarter },
-  command: `git clone ${appRepository}`,
-  commandHighlight: appRepository.split('/').pop(),
+  images: { light: appStarterLight, dark: appStarterDark },
 }

@@ -13,10 +13,16 @@ describe('AppStarter', () => {
       'href',
       siteConfig.links.appStarter,
     )
-    expect(
-      screen.getByText(
-        (_, element) => element?.tagName === 'CODE' && element.textContent === appStarter.command,
-      ),
-    ).toBeInTheDocument()
+    for (const highlight of appStarter.highlights) {
+      expect(screen.getByText(highlight)).toBeInTheDocument()
+    }
+  })
+
+  it('keeps the screenshots decorative', () => {
+    const { container } = render(<AppStarter />)
+
+    const images = [...container.querySelectorAll('img')]
+    expect(images).toHaveLength(2)
+    expect(images.filter((image) => image.getAttribute('alt') !== '')).toEqual([])
   })
 })
