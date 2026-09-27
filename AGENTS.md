@@ -31,6 +31,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **One folder per section** under `src/components/sections/<name>/`, with the section in `<name>.tsx` and its parts beside it. A section is a `<section>` with an `id` for in-page links and `aria-labelledby` pointing at its `<h2>`, which `SectionHeading` renders with the eyebrow and description.
 - Every page has one `<h1>` and never skips a heading level; card titles are `<h3>`.
 - **The site URL is never hard-coded.** Read it with `getSiteUrl()` from `src/lib/site-url.ts`: `SITE_URL`, then Vercel's production domain, then localhost.
+- Screenshots live in `src/content/images/` and are imported statically, one per theme. Both render, with `dark:hidden` and `hidden dark:block`, and both stay lazy, because a lazy image that is not displayed never loads; `preload` or `loading="eager"` would load both. Decorative ones take `alt=""`.
 
 ### Server first
 
