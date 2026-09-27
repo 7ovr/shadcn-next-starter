@@ -17,15 +17,20 @@ export function CopyCommand({ command, highlight }: { command: string; highlight
   const start = highlight ? command.lastIndexOf(highlight) : -1
 
   return (
-    <div className="flex max-w-full items-center gap-2 rounded-lg border bg-card py-1 pr-1 pl-3 font-mono text-sm shadow-xs">
+    <div className="flex w-fit max-w-full items-center gap-2 rounded-lg border bg-linear-to-br from-muted to-background py-1 pr-1 pl-3 font-mono text-xs">
       <span aria-hidden="true" className="text-muted-foreground select-none">
         $
       </span>
-      <code className="min-w-0 text-left wrap-anywhere">
+      <code className="min-w-0 flex-1 text-left wrap-break-word">
         {highlight && start > -1 ? (
           <>
             <span className="text-muted-foreground">{command.slice(0, start)}</span>
-            <span className="font-semibold">{highlight}</span>
+            {/* On a narrow screen the line breaks before the name, never inside it. */}
+            <wbr />
+            {/* shimmer comes from shadcn's stylesheet and already stops under reduced motion. */}
+            <span className="shimmer font-bold whitespace-nowrap shimmer-color-muted-foreground">
+              {highlight}
+            </span>
             {command.slice(start + highlight.length)}
           </>
         ) : (

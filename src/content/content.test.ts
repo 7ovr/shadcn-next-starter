@@ -1,13 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
+import { agents } from '@/content/agents'
 import { cta } from '@/content/cta'
 import { faq } from '@/content/faq'
 import { features } from '@/content/features'
 import { hero, stack } from '@/content/hero'
 import { footerColumns, headerNav } from '@/content/navigation'
-import { billingPeriods, pricing } from '@/content/pricing'
 import { steps } from '@/content/steps'
-import { testimonials } from '@/content/testimonials'
 
 // Built from code points, so the rule against dashes holds in this file too.
 const DASHES = new RegExp(`[${String.fromCharCode(0x2013, 0x2014)}]`)
@@ -20,7 +19,7 @@ function strings(value: unknown): string[] {
   return []
 }
 
-const sections = [hero, stack, features, steps, testimonials, pricing, faq, cta]
+const sections = [hero, stack, features, steps, agents, faq, cta]
 
 const labels = [
   ...sections.flatMap((section) => ('title' in section ? [section.title] : [])),
@@ -28,15 +27,13 @@ const labels = [
     'eyebrow' in section ? [section.eyebrow.lead, section.eyebrow.emphasis] : [],
   ),
   hero.primaryAction.label,
-  hero.secondaryAction.label,
   cta.primaryAction.label,
   cta.secondaryAction.label,
   faq.contact.action.label,
   ...features.items.map((item) => item.title),
   ...features.extras.map((item) => item.title),
-  ...steps.items.flatMap((step) => [step.title, step.result.label]),
-  ...pricing.plans.flatMap((plan) => [plan.name, plan.action.label]),
-  ...billingPeriods.map((period) => period.label),
+  ...steps.items.map((step) => step.title),
+  ...agents.points.map((point) => point.title),
   ...headerNav.map((link) => link.label),
   ...footerColumns.flatMap((column) => [column.title, ...column.links.map((link) => link.label)]),
 ].filter((label) => label !== hero.title)
@@ -54,13 +51,8 @@ describe('content', () => {
     expect(offenders).toEqual([])
   })
 
-  it('prices every plan for every billing period', () => {
-    const unpriced = pricing.plans.flatMap((plan) =>
-      billingPeriods
-        .filter((period) => typeof plan.prices[period.value] !== 'number')
-        .map((period) => `${plan.name} ${period.value}`),
-    )
-    expect(unpriced).toEqual([])
+  it('emphasises words that are really in the hero headline', () => {
+    expect(hero.title).toContain(hero.titleEmphasis)
   })
 
   it('keeps FAQ questions unique, because each one is its accordion value', () => {

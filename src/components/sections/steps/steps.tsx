@@ -1,6 +1,5 @@
-import { CheckIcon } from 'lucide-react'
-
 import { SectionHeading } from '@/components/section-heading'
+import { StepVisual } from '@/components/sections/steps/step-visuals'
 import { steps } from '@/content/steps'
 import { withInlineCode } from '@/lib/inline-code'
 
@@ -19,37 +18,27 @@ export function Steps() {
           description={steps.description}
         />
 
-        <ol className="mx-auto flex w-full max-w-3xl flex-col gap-10">
+        <ol className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {steps.items.map((step, index) => (
-            <li key={step.title} className="relative flex reveal gap-5">
-              {index < steps.items.length - 1 ? (
-                <span
-                  aria-hidden="true"
-                  className="absolute top-12 -bottom-8 left-5 w-px bg-border"
-                />
-              ) : null}
-              <span
+            <li key={step.title} className="flex reveal flex-col gap-5">
+              <div
                 aria-hidden="true"
-                className="relative grid size-10 shrink-0 place-items-center rounded-xl border bg-card shadow-sm"
+                data-nosnippet
+                className="flex h-44 items-center justify-center overflow-hidden rounded-2xl border bg-linear-to-b from-muted/50 to-card p-5"
               >
-                <step.icon className="size-4" />
-              </span>
-              <div className="flex min-w-0 flex-1 flex-col gap-4 pt-1.5">
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-heading font-semibold">{step.title}</h3>
-                  <p className="text-sm text-pretty text-muted-foreground">
-                    {withInlineCode(step.description)}
-                  </p>
-                </div>
-                <div className="flex items-center justify-between gap-4 rounded-lg border bg-card px-4 py-2.5 text-sm shadow-xs">
-                  <span className="flex items-center gap-2 font-medium">
-                    <CheckIcon aria-hidden="true" className="size-4" />
-                    {step.result.label}
-                  </span>
-                  <code className="truncate font-mono text-xs text-muted-foreground">
-                    {step.result.detail}
-                  </code>
-                </div>
+                <StepVisual name={step.visual} />
+              </div>
+              <div aria-hidden="true" className="flex items-center gap-3">
+                <span className="grid size-8 shrink-0 place-items-center rounded-full border bg-background font-mono text-xs font-semibold shadow-xs">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="h-px flex-1 bg-linear-to-r from-border to-transparent" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <h3 className="font-heading font-semibold">{step.title}</h3>
+                <p className="text-sm text-pretty text-muted-foreground">
+                  {withInlineCode(step.description)}
+                </p>
               </div>
             </li>
           ))}

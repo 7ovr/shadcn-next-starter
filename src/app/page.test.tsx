@@ -3,8 +3,8 @@ import { describe, expect, it } from 'vitest'
 
 import Home from '@/app/page'
 import { faq } from '@/content/faq'
+import { hero } from '@/content/hero'
 import { headerNav } from '@/content/navigation'
-import { pricing } from '@/content/pricing'
 import { stripInlineCode } from '@/lib/inline-code'
 
 describe('home page', () => {
@@ -17,11 +17,25 @@ describe('home page', () => {
     expect(Math.max(...steps)).toBeLessThanOrEqual(1)
   })
 
+  it('reads the hero headline as one sentence around its emphasis', () => {
+    render(<Home />)
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(hero.title)
+  })
+
   it('has a section for every link in the header', () => {
     const { container } = render(<Home />)
 
     const missing = headerNav.filter((link) => !container.querySelector(link.href.slice(1)))
     expect(missing).toEqual([])
+  })
+
+  it('keeps the photos decorative', () => {
+    const { container } = render(<Home />)
+
+    const images = [...container.querySelectorAll('img')]
+    expect(images.length).toBeGreaterThan(0)
+    expect(images.filter((image) => image.getAttribute('alt') !== '')).toEqual([])
   })
 
   it('keeps every FAQ answer in the HTML, with closed ones hidden until found', () => {
@@ -35,14 +49,5 @@ describe('home page', () => {
       return answer.closest('[data-slot="accordion-content"]')?.getAttribute('hidden')
     })
     expect(panels).toEqual(faq.items.map((_, index) => (index === 0 ? null : 'until-found')))
-  })
-
-  it('renders the default billing period, so the prices are in the HTML', () => {
-    render(<Home />)
-
-    for (const plan of pricing.plans) {
-      expect(screen.getByText(`$${plan.prices.monthly}`)).toBeInTheDocument()
-    }
-    expect(screen.getAllByText('/month')).toHaveLength(pricing.plans.length)
   })
 })

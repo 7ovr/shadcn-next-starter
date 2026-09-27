@@ -5,7 +5,7 @@ export type NavLink = { label: string; href: string; external?: boolean }
 export const headerNav: NavLink[] = [
   { label: 'Features', href: '/#features' },
   { label: 'How It Works', href: '/#how-it-works' },
-  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Coding Agents', href: '/#agents' },
   { label: 'FAQ', href: '/#faq' },
 ]
 

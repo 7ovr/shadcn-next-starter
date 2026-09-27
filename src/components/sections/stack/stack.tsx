@@ -1,14 +1,25 @@
 import {
   BaseUiIcon,
   type BrandMark,
+  LefthookIcon,
+  LighthouseIcon,
+  LucideLogoIcon,
+  MdxIcon,
   NextjsIcon,
+  NodejsIcon,
+  OxcIcon,
+  PlaywrightIcon,
+  PnpmIcon,
   ReactIcon,
   ShadcnIcon,
   TailwindIcon,
   TypeScriptIcon,
   VercelIcon,
+  VitestIcon,
+  ZodIcon,
 } from '@/components/icons'
 import { stack } from '@/content/hero'
+import { cn } from '@/lib/utils'
 
 const MARKS: Record<(typeof stack.items)[number], BrandMark> = {
   'Next.js': NextjsIcon,
@@ -18,27 +29,50 @@ const MARKS: Record<(typeof stack.items)[number], BrandMark> = {
   'shadcn/ui': ShadcnIcon,
   'Base UI': BaseUiIcon,
   Vercel: VercelIcon,
+  Vitest: VitestIcon,
+  Playwright: PlaywrightIcon,
+  Lighthouse: LighthouseIcon,
+  pnpm: PnpmIcon,
+  'Node.js': NodejsIcon,
+  Zod: ZodIcon,
+  MDX: MdxIcon,
+  Oxc: OxcIcon,
+  Lefthook: LefthookIcon,
+  Lucide: LucideLogoIcon,
+}
+
+// The marquee scrolls two identical lists; the copy is hidden from screen readers and from reduced motion.
+function StackList({ copy = false }: { copy?: boolean }) {
+  return (
+    <ul
+      aria-hidden={copy ? true : undefined}
+      className={cn(
+        'flex shrink-0 animate-marquee items-center gap-12 pr-12 group-hover:paused motion-reduce:shrink motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-6 motion-reduce:pr-0',
+        copy && 'motion-reduce:hidden',
+      )}
+    >
+      {stack.items.map((name) => {
+        const Mark = MARKS[name]
+        return (
+          <li key={name} className="flex items-center gap-2.5 text-muted-foreground">
+            <Mark className="size-6 shrink-0" />
+            <span className="text-base font-semibold whitespace-nowrap">{name}</span>
+          </li>
+        )
+      })}
+    </ul>
+  )
 }
 
 export function Stack() {
   return (
-    <section aria-label="Built With" className="px-4 pt-4 pb-8 sm:px-6">
-      <div className="mx-auto flex max-w-5xl reveal flex-col items-center gap-8">
-        <p className="text-sm text-muted-foreground">{stack.caption}</p>
-        <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
-          {stack.items.map((name) => {
-            const Mark = MARKS[name]
-            return (
-              <li
-                key={name}
-                className="flex items-center gap-2.5 text-foreground grayscale transition hover:grayscale-0"
-              >
-                <Mark className="size-6" />
-                <span className="text-sm font-semibold">{name}</span>
-              </li>
-            )
-          })}
-        </ul>
+    <section aria-label="Built With" className="py-12">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8">
+        <p className="px-4 text-sm text-muted-foreground">{stack.caption}</p>
+        <div className="group flex w-full overflow-hidden mask-x-from-85% motion-reduce:mask-none">
+          <StackList />
+          <StackList copy />
+        </div>
       </div>
     </section>
   )

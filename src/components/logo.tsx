@@ -18,3 +18,14 @@ export function Logo() {
     </span>
   )
 }
+
+// The wordmark as an SVG, so it scales with its container instead of a font size.
+export function Wordmark() {
+  return (
+    <svg viewBox="0 0 400 120" aria-hidden="true" className="w-full fill-current">
+      <text x="200" y="104" textAnchor="middle" fontSize="136" className={wordmark.className}>
+        7Ovr
+      </text>
+    </svg>
+  )
+}

@@ -158,6 +158,7 @@
   --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-rise-fade: rise-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 60s linear infinite;
 }
 
 /* Rises and sharpens into place without fading, so the text is never transparent. */
@@ -182,10 +183,21 @@
   }
 }
 
-@keyframes surface {
+/* Each list moves by its own width, so the copy that follows it takes its place seamlessly. */
+@keyframes marquee {
   to {
-    border-color: var(--color-border);
-    background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
+    transform: translateX(-100%);
+  }
+}
+
+/* From a bare bar at the top of the page to the glass it has everywhere else. */
+@keyframes unglass {
+  from {
+    translate: none;
+    border-color: transparent;
+    background-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
   }
 }
 
@@ -197,21 +209,24 @@
   );
 }
 
-@utility mask-fade-bottom {
-  mask-image: linear-gradient(to bottom, black 70%, transparent);
-}
-
-/* The header gains its surface as the page scrolls; without scroll timelines it always has one. */
-@utility header-surface {
-  border-color: var(--color-border);
-  background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
+/* The header floats down as frosted glass once the page scrolls; without scroll timelines it always floats. */
+@utility header-glass {
+  translate: 0 0.5rem;
+  border-color: color-mix(in oklab, var(--color-foreground) 10%, transparent);
+  background-color: color-mix(in oklab, var(--color-background) 60%, transparent);
+  backdrop-filter: blur(16px) saturate(1.8);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 6%, transparent);
 
   @supports (animation-timeline: scroll()) {
-    border-color: transparent;
-    background-color: transparent;
-    animation: surface linear both;
+    animation: unglass linear both;
     animation-timeline: scroll();
     animation-range: 0 4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    translate: none;
   }
 }
 
