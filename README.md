@@ -68,6 +68,8 @@ A preset only sets shadcn's own tokens. If you add a token of your own, a preset
 
 `AGENTS.md` holds every convention for coding agents, and `CLAUDE.md` imports it, so Claude Code, Codex and Cursor all read the same rules.
 
+Four skills are vendored into `.claude/skills/` for Claude Code and `.agents/skills/` for everything else: `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`. They are pinned in `skills-lock.json`.
+
 ## Credits
 
 The logos belong to their projects. The single-colour marks in the stack strip come from [Simple Icons](https://simpleicons.org) (CC0).

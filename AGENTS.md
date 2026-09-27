@@ -73,6 +73,12 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - `src/test/setup.ts` mocks `next/font/google`, which only runs inside the Next compiler, and stubs the browser APIs jsdom lacks. Add to it when a component needs another one.
 - `src/content/content.test.ts` enforces the copy rules: no em or en dashes, and Title Case labels.
 
+## Skills
+
+Skills for agents working here live in two identical folders: `.claude/skills/` for Claude Code and `.agents/skills/` for every other agent. They are `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`, the same set as the 7Ovr App Starter, pinned in `skills-lock.json`.
+
+- Add or update a vendored skill for both folders at once, as real files: `pnpm dlx skills add <repo> --skill <name> --agent claude-code universal --copy`. Never hand-edit vendored skills.
+
 ## Before you finish
 
 Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build`. `pnpm lint` fails on any warning, so the codebase stays at zero findings. CI runs the same checks on every push and pull request.
