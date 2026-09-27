@@ -73,7 +73,7 @@ function Gauge() {
   )
 }
 
-const ROUTES = ['/', '/blog', '/blog/hello-world']
+const ROUTES = ['/', '/robots.txt', '/sitemap.xml']
 
 function Prerender() {
   return (

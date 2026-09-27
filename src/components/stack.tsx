@@ -4,7 +4,6 @@ import {
   LefthookIcon,
   LighthouseIcon,
   LucideLogoIcon,
-  MdxIcon,
   NextjsIcon,
   NodejsIcon,
   OxcIcon,
@@ -16,7 +15,6 @@ import {
   TypeScriptIcon,
   VercelIcon,
   VitestIcon,
-  ZodIcon,
 } from '@/components/icons'
 import { stack } from '@/content/hero'
 import { cn } from '@/lib/utils'
@@ -34,8 +32,6 @@ const MARKS: Record<(typeof stack.items)[number], BrandMark> = {
   Lighthouse: LighthouseIcon,
   pnpm: PnpmIcon,
   'Node.js': NodejsIcon,
-  Zod: ZodIcon,
-  MDX: MdxIcon,
   Oxc: OxcIcon,
   Lefthook: LefthookIcon,
   Lucide: LucideLogoIcon,

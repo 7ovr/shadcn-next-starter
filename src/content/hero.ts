@@ -25,8 +25,6 @@ export const stack = {
     'Lighthouse',
     'pnpm',
     'Node.js',
-    'Zod',
-    'MDX',
     'Oxc',
     'Lefthook',
     'Lucide',
