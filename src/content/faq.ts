@@ -1,0 +1,68 @@
+import { MessageCircleQuestionMarkIcon } from 'lucide-react'
+
+import { siteConfig } from '@/config/site'
+
+export type Faq = { question: string; answer: string }
+
+// Plain strings, so the section and its FAQPage JSON-LD read one source. Backticks render as inline code.
+export const faq = {
+  eyebrow: { icon: MessageCircleQuestionMarkIcon, lead: 'Before You', emphasis: 'Clone It' },
+  title: 'Frequently Asked Questions',
+  description: 'What ships in the starter, what it costs, and how it fits your stack.',
+  contact: {
+    title: 'Still have a question?',
+    action: { label: 'Ask On GitHub', href: siteConfig.links.issues },
+  },
+  items: [
+    {
+      question: 'What Is The 7Ovr Landing Starter?',
+      answer:
+        'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. Every page is prerendered, and every promise it makes, from SEO to accessibility, is covered by a test.',
+    },
+    {
+      question: 'Is It Free For Commercial Projects?',
+      answer:
+        'Yes. It is MIT licensed, so you can use it for client work and commercial products, and you owe nothing back.',
+    },
+    {
+      question: 'What Does Tested Mean Here?',
+      answer:
+        'Each promise has a test: metadata and JSON-LD on every route, one h1 and working landmarks, readable HTML with JavaScript off, Lighthouse budgets, and noindex on preview deploys. CI runs them on every push, beside lint, format and type checks.',
+    },
+    {
+      question: 'Does The Page Work Without JavaScript?',
+      answer:
+        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu and the copy button.',
+    },
+    {
+      question: 'How Do I Restyle It?',
+      answer:
+        'Build a preset on ui.shadcn.com/create and run `pnpm dlx shadcn@latest apply <code>`. Colors, radius and fonts all come from shadcn theme tokens, so every section follows.',
+    },
+    {
+      question: 'Where Do I Change The Copy?',
+      answer:
+        'Site-wide details live in `src/config/site.ts`, and the copy lives in `src/content/`, one file per section. The sections only render what they are given.',
+    },
+    {
+      question: 'Can I Deploy It Somewhere Other Than Vercel?',
+      answer:
+        'Yes. It is a standard Next.js app, so any host that runs `next start` works. Set `SITE_URL` and `SITE_ENV=production` before you build, so canonicals and indexing are right.',
+    },
+    {
+      question: 'Does It Include Auth, A Database Or Analytics?',
+      answer:
+        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr App Starter; for a form or analytics, add your own.',
+    },
+    {
+      question: 'Does It Work With Coding Agents?',
+      answer:
+        'Yes. `AGENTS.md` holds every convention and `CLAUDE.md` imports it, so Claude Code, Codex and Cursor keep new pages and sections on the same patterns.',
+    },
+    {
+      question: 'Can I Add 7Ovr Blocks To It?',
+      answer:
+        'Yes. It is a standard shadcn/ui project, so `pnpm dlx shadcn@latest add @7ovr/<name>` installs a block straight into it.',
+    },
+  ] satisfies Faq[],
+}

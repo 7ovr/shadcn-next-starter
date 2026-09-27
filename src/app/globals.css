@@ -131,3 +131,340 @@
     @apply font-sans;
   }
 }
+
+/* The landing's motion and effects. Colours, radius and fonts stay in the shadcn tokens above. */
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Without JavaScript the FAQ accordion cannot open, so every answer shows instead; Tailwind hides [hidden] with !important. */
+  @media (scripting: none) {
+    [data-slot='accordion-content'][hidden] {
+      display: block !important;
+    }
+  }
+}
+
+@theme {
+  --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-rise-fade: rise-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 60s linear infinite;
+}
+
+/* Rises and sharpens into place without fading, so the text is never transparent. */
+@keyframes rise {
+  from {
+    transform: translateY(1rem);
+    filter: blur(6px);
+  }
+}
+
+@keyframes rise-fade {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+    filter: blur(6px);
+  }
+}
+
+/* The scroll reveal only moves: a fade would leave a heading at the fold half transparent, and a blur repaints every frame. */
+@keyframes scroll-rise {
+  from {
+    transform: translateY(1rem);
+  }
+}
+
+@keyframes float {
+  50% {
+    transform: translateY(-0.5rem);
+  }
+}
+
+/* Each list moves by its own width, so the copy that follows it takes its place seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* From a bare bar at the top of the page to the glass it has everywhere else. */
+@keyframes unglass {
+  from {
+    translate: none;
+    border-color: transparent;
+    background-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+
+@utility bg-glow {
+  background-image: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--color-foreground) 8%, transparent),
+    transparent
+  );
+}
+
+/* The header floats down as frosted glass once the page scrolls; without scroll timelines it always floats. */
+@utility header-glass {
+  translate: 0 0.5rem;
+  border-color: color-mix(in oklab, var(--color-foreground) 10%, transparent);
+  background-color: color-mix(in oklab, var(--color-background) 60%, transparent);
+  backdrop-filter: blur(16px) saturate(1.8);
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 1px 0 color-mix(in oklab, var(--color-foreground) 6%, transparent);
+
+  @supports (animation-timeline: scroll()) {
+    animation: unglass linear both;
+    animation-timeline: scroll();
+    animation-range: 0 4rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    translate: none;
+  }
+}
+
+/* Rises into view on scroll; without scroll timelines, or with reduced motion, it is simply there. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: scroll-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 12rem;
+    }
+  }
+}
+
+/* Illustrations: calm loops for the decorative mockups. Each element's own style is the finished frame, which reduced motion keeps. */
+
+@theme {
+  --animate-swap: swap 10s linear infinite;
+  --animate-wave: wave 4s ease-in-out infinite backwards;
+  --animate-hop-rows: hop-rows 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-gauge: gauge 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-switch-knob: switch-knob 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-press: press 4s ease-in-out infinite;
+  --animate-beacon: beacon 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-tick-1: tick-1 8s ease-out infinite;
+  --animate-tick-2: tick-2 8s ease-out infinite;
+  --animate-tick-3: tick-3 8s ease-out infinite;
+}
+
+/* Items stacked in one cell take turns: each shows for a fifth of the loop, so delays two seconds apart share it. */
+@keyframes swap {
+  0% {
+    opacity: 0;
+  }
+  4%,
+  18% {
+    opacity: 1;
+  }
+  22%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* A highlight rolls along a row; before its turn each item waits dimmed. */
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    opacity: 0.5;
+    transform: none;
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* A highlight walks down four 1.5rem rows. */
+@keyframes hop-rows {
+  0%,
+  20%,
+  100% {
+    transform: none;
+  }
+  25%,
+  45% {
+    transform: translateY(1.5rem);
+  }
+  50%,
+  70% {
+    transform: translateY(3rem);
+  }
+  75%,
+  95% {
+    transform: translateY(4.5rem);
+  }
+}
+
+/* A score ring fills from empty, holds full, then drains before the next run. */
+@keyframes gauge {
+  0%,
+  100% {
+    stroke-dashoffset: 100;
+  }
+  35%,
+  90% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The JavaScript switch flips on for a moment, then back off. */
+@keyframes switch-knob {
+  0%,
+  12%,
+  100% {
+    transform: translateX(0.75rem);
+  }
+  22%,
+  88% {
+    transform: none;
+  }
+}
+
+@keyframes switch-track {
+  0%,
+  12%,
+  100% {
+    opacity: 1;
+  }
+  22%,
+  88% {
+    opacity: 0;
+  }
+}
+
+@keyframes press {
+  0%,
+  70%,
+  100% {
+    transform: none;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes beacon {
+  0% {
+    opacity: 0.6;
+    transform: none;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* Each step rises on its own cue and all of them fade out together, so the loop never shows a reset. */
+@keyframes tick-1 {
+  0%,
+  10% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  15%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes tick-2 {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  35%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes tick-3 {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  55%,
+  88% {
+    opacity: 1;
+    transform: none;
+  }
+  95%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* The inverse theme covers the right half and its edge sways, so one card shows both themes. */
+@keyframes split {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 50%);
+  }
+  25% {
+    clip-path: inset(0 0 0 36%);
+  }
+  75% {
+    clip-path: inset(0 0 0 64%);
+  }
+}
+
+@keyframes split-line {
+  0%,
+  100% {
+    translate: 50% 0;
+  }
+  25% {
+    translate: 36% 0;
+  }
+  75% {
+    translate: 64% 0;
+  }
+}
+
+@utility theme-split {
+  clip-path: inset(0 0 0 50%);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: split 8s ease-in-out infinite;
+  }
+}
+
+@utility theme-split-line {
+  translate: 50% 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: split-line 8s ease-in-out infinite;
+  }
+}

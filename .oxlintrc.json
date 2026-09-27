@@ -76,9 +76,23 @@
       }
     },
     {
+      "files": ["src/components/icons.tsx"],
+      "rules": {
+        "shadcn/no-raw-colors": "off"
+      }
+    },
+    {
       "files": ["src/app/**"],
       "rules": {
         "react/only-export-components": "off"
+      }
+    },
+    {
+      "files": ["src/lib/og.tsx"],
+      "rules": {
+        "shadcn/no-inline-styles": "off",
+        "shadcn/no-raw-colors": "off",
+        "nextjs/no-img-element": "off"
       }
     }
   ],
