@@ -17,7 +17,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **Formatting** is oxfmt: 2-space indent, single quotes, trailing commas, 100-character lines, no semicolons. The pre-commit hook formats staged files; `pnpm format` does the whole repo.
 - **Comments only when really necessary**, one line at most, and never a ticket or issue reference. Prefer a clearer name over an explanation.
 - **No em dashes anywhere**: code, comments, UI copy, docs, commits and PRs. Use a plain hyphen or rephrase. The only exception is vendored third-party content, the installed skills in `.claude/skills/` and `.agents/skills/`, which we never hand-edit.
-- **English only, in Title Case for labels**, capitalising every word: headings, titles, buttons, links, navigation, eyebrows, badges and the `aria-label` of a control, such as "Get The Starter". The hero headline is a full sentence and keeps sentence case, as do descriptions, captions, list items and FAQ answers. Write Title Case in the source, not with the CSS `capitalize` class, so the text people and screen readers get matches the screen.
+- **English only, in Title Case for labels**, capitalising every word: headings, titles, buttons, links, navigation, eyebrows, badges and the `aria-label` of a control, such as "Get The Starter". FAQ questions are headings, so they take Title Case too, and so do the buttons, badges and controls drawn inside an illustration. The hero headline is a full sentence and keeps sentence case, as do descriptions, captions, list items, status lines and FAQ answers. Write Title Case in the source, not with the CSS `capitalize` class, so the text people and screen readers get matches the screen.
 - **Docs are for humans.** The README and other docs are written for people using, supporting or deploying the project: plain language, concise, easy to follow. Guidance for whoever writes code belongs in this file.
 - **Commits** follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `test:`). No `Co-Authored-By` lines in commits or PRs. Never bypass the hooks with `--no-verify`.
 
@@ -46,7 +46,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ### Server first
 
-- **Server Components by default.** The only client islands are the footer's theme toggle, the mobile menu's button, which imports its sheet on first use, or on a phone once the page settles, and holds it in state rather than behind Suspense, which would keep a freshly loaded sheet back for about 300 ms, the copy button and the logo's `HomeLink`, which scrolls back to the top on the home page, where a link to the current page would keep the scroll. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
+- **Server Components by default.** The only client islands are the footer's theme toggle, the mobile menu's button, which imports its sheet on first use, or on a phone at the first scroll or touch, and holds it in state rather than behind Suspense, which would keep a freshly loaded sheet back for about 300 ms, the copy button and the logo's `HomeLink`, which scrolls back to the top on the home page, where a link to the current page would keep the scroll. Add `'use client'` only where a component needs state, effects or browser APIs, and keep that island as small as the interaction.
 - **Everything a crawler needs is in the server HTML.** The FAQ keeps `hiddenUntilFound` on its `Accordion`: Base UI renders closed panels with `hidden` on the server and switches them to `hidden="until-found"` after hydration, and a `scripting: none` rule in `src/app/globals.css` shows every answer when JavaScript is off.
 - **Testimonials, if you add them, stay plain quotes.** Never turn them into `Review` or `AggregateRating` markup; reviews a site publishes about itself do not qualify.
 - **Links go through `SiteLink`** from `src/components/site-link.tsx`, which opens another site in a new tab and uses Next's `Link` for a page here. Style a link as a button with `ButtonLink` from `src/components/button-link.tsx`, which does the same and merges the variant classes through `cn`, as `Button` does. A bare `buttonVariants()` on a link keeps the transparent base border, so the outline variant loses its edge.
@@ -56,7 +56,8 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **Motion never gates content.** Entrances, scroll reveals and loops are CSS only (`animate-rise`, `animate-rise-fade`, `animate-float`, `animate-marquee` and `reveal` in `src/app/globals.css`), so the server HTML, the first client render and a page without JavaScript all match. Never start content at `opacity: 0` from JavaScript, and never branch rendered output on the reduced-motion setting.
 - The headline uses `animate-rise`, which moves without fading, because the largest paint skips transparent elements.
 - Put `motion-reduce:animate-none` beside every animation class. `reveal` needs nothing extra: it only runs where scroll timelines exist and motion is not reduced. Neither does `shimmer` from shadcn's stylesheet, which stops by itself.
-- Keep `reveal` off anything in the first screen, where it would load half faded.
+- `reveal` only moves content into place and never fades it, so a heading that straddles the fold is never left half transparent. Keep it off the first screen anyway, where it would start mid-move.
+- **Keep `filter` and `blur()` out of loops and scroll animations.** The browser repaints them on every frame instead of compositing them; only the hero entrance, which runs once, blurs into place.
 - The stack marquee under the hero scrolls two copies of one list. The copy is `aria-hidden`, and under reduced motion it is hidden and the list wraps in place. The hero's floating tiles stay above it.
 - The header turns to frosted glass on a scroll timeline in `header-glass`; without scroll timelines it is always glass.
 - The illustrations loop gently through the utilities in the `Illustrations` block of `src/app/globals.css`, such as `animate-swap`, `animate-wave` and `animate-hop-rows`. Mockups are built from `Stage`, `MockCard`, `MockBar`, `MockButton` and `Swatches` in `src/components/mockup.tsx`. An element's own style is the finished frame, which reduced motion keeps. Items that take turns, like the routes in the build log, share one grid cell and wait at `opacity-0` until their delay.
@@ -77,13 +78,15 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ## Tests
 
-- **Test logic, not rendering.** Unit tests cover code that decides something: the site URL resolver, the metadata and response headers, the theme token converter, the JSON-LD escape, the inline-code parser, the content rules, the copy button's clipboard handling and how `SiteLink` treats a URL. Do not write a test that a component renders its copy, its links or its markup; the page's structure belongs to end-to-end checks against the built site.
+- **Test logic, not rendering.** Unit tests cover code that decides something: the site URL resolver, the metadata and response headers, the theme token converter, the JSON-LD escape, the inline-code parser, the content rules, the copy button's clipboard handling and how `SiteLink` treats a URL. Do not write a test that a component renders its copy, its links or its markup; the page's structure belongs to the Playwright checks in `e2e/`.
 - **Tests come first** for that logic. Before writing it, write the test that describes it and watch it fail. A bug fix starts with a test that reproduces the bug.
 - **Colocate tests** with the file they cover: `copy-command.test.tsx` sits next to `copy-command.tsx`.
 - **Do not test shadcn/ui or Base UI primitives.** They are vendored and tested upstream.
 - Vitest with Testing Library in jsdom. When a test needs the DOM, query by role and label, the way people use the page.
 - `src/test/setup.ts` mocks `next/font/google`, which only runs inside the Next compiler, and stubs the browser APIs jsdom lacks. Add to it when a component needs another one.
-- `src/content/content.test.ts` enforces the copy rules: no em or en dashes, and Title Case labels.
+- `src/content/content.test.ts` enforces the copy rules: no em or en dashes, and Title Case labels, FAQ questions included.
+- **Playwright checks the built site** from `e2e/`. `playwright.config.ts` builds the site and serves it as a production deploy for `pnpm test:e2e`, or as a preview for `pnpm test:e2e:preview`, and the specs read which from `E2E_PREVIEW`. They cover what a visitor and a crawler get: the head, the JSON-LD against the page, headings and landmarks, the page with JavaScript off, the crawler files, the headers, hydration with and without reduced motion, and the interactive islands. A new page or section adds its checks there.
+- **Lighthouse budgets** live in `lighthouserc.json`: the desktop preset, the median of three runs, at least 90 for performance, 95 for accessibility and best practices and 100 for SEO, with LCP under 2.5 s, CLS under 0.1 and TBT under 200 ms. When a budget fails, fix the page rather than the budget.
 
 ## Skills
 
@@ -93,4 +96,4 @@ Skills for agents working here live in two identical folders: `.claude/skills/` 
 
 ## Before you finish
 
-Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build`. `pnpm lint` fails on any warning, so the codebase stays at zero findings. CI runs the same checks on every push and pull request.
+Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build`, and `pnpm test:e2e` when a change touches what a page renders or sends. `pnpm lint` fails on any warning, so the codebase stays at zero findings. CI runs all of them on every push and pull request, with `pnpm test:e2e:preview` and `pnpm lighthouse` beside them.

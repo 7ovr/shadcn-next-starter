@@ -23,17 +23,17 @@ Fork the repository first, then clone your fork. `pnpm install` also sets up the
 
 ## Make your change
 
-Work on a branch named after the change, such as `fix/faq-answer-spacing` or `feat/pricing-section`.
+Work on a branch named after the change, such as `fix/faq-answer-spacing` or `feat/changelog-page`.
 
 [AGENTS.md](AGENTS.md) holds every convention in this repository, for people and coding agents alike. The ones that matter most:
 
-- **Test logic, not rendering.** Write the test for the code that decides something, watch it fail, then make it pass. A bug fix starts with a test that reproduces the bug. Do not test that a component renders its copy or its links.
+- **Test logic, not rendering.** Write the test for the code that decides something, watch it fail, then make it pass. A bug fix starts with a test that reproduces the bug. Do not test that a component renders its copy or its links; what the built page shows belongs to the Playwright checks in `e2e/`.
 - **The copy lives in `src/content/`.** Components render what they are given and never hard-code copy.
 - **Follow the design system.** Theme tokens only, never raw colours or arbitrary values, and no `className` on shadcn/ui components: pick a variant and put layout on a wrapper. `@shadcn/lint` enforces this.
 - **Keep `src/components/ui/` as the CLI writes it**, because applying a preset rewrites those files.
 - **Keep every page's head in `createMetadata`**, and never hard-code the site URL.
 - **Keep comments to one line**, only where the code cannot explain itself.
-- **Title Case** for button labels and headings, and **no em dashes** anywhere.
+- **Title Case** for labels, such as headings, FAQ questions, buttons and links, and **no em dashes** anywhere.
 
 ## Check your work
 
@@ -45,9 +45,10 @@ pnpm format:check
 pnpm typecheck
 pnpm test
 pnpm build
+pnpm test:e2e
 ```
 
-`pnpm lint` fails on any warning. Never skip the Git hooks with `--no-verify`.
+`pnpm lint` fails on any warning. `pnpm test:e2e` builds the site and checks it in a browser; the first time, install the browser with `pnpm exec playwright install chromium`. CI also runs `pnpm test:e2e:preview` and `pnpm lighthouse`. Never skip the Git hooks with `--no-verify`.
 
 ## Commit
 
