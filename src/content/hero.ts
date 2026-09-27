@@ -10,3 +10,26 @@ export const hero = {
   command: `git clone ${siteConfig.links.repository}`,
   commandHighlight: siteConfig.links.repository.split('/').pop(),
 }
+
+export const stack = {
+  caption: 'Built on the stack you already use',
+  items: [
+    'Next.js',
+    'React',
+    'TypeScript',
+    'Tailwind CSS',
+    'shadcn/ui',
+    'Base UI',
+    'Vercel',
+    'Vitest',
+    'Playwright',
+    'Lighthouse',
+    'pnpm',
+    'Node.js',
+    'Zod',
+    'MDX',
+    'Oxc',
+    'Lefthook',
+    'Lucide',
+  ],
+} as const

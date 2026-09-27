@@ -5,7 +5,7 @@ import { appStarter } from '@/content/app-starter'
 import { cta } from '@/content/cta'
 import { faq } from '@/content/faq'
 import { features } from '@/content/features'
-import { hero } from '@/content/hero'
+import { hero, stack } from '@/content/hero'
 import { footerColumns, headerNav } from '@/content/navigation'
 import { steps } from '@/content/steps'
 
@@ -20,7 +20,7 @@ function strings(value: unknown): string[] {
   return []
 }
 
-const sections = [hero, features, steps, agents, appStarter, faq, cta]
+const sections = [hero, stack, features, steps, agents, appStarter, faq, cta]
 
 const labels = [
   ...sections.flatMap((section) => ('title' in section ? [section.title] : [])),

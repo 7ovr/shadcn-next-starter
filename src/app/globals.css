@@ -158,6 +158,7 @@
   --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-rise-fade: rise-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 60s linear infinite;
 }
 
 /* Rises and sharpens into place without fading, so the text is never transparent. */
@@ -179,6 +180,13 @@
 @keyframes float {
   50% {
     transform: translateY(-0.5rem);
+  }
+}
+
+/* Each list moves by its own width, so the copy that follows it takes its place seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-100%);
   }
 }
 

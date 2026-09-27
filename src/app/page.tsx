@@ -4,12 +4,14 @@ import { Cta } from '@/components/sections/cta/cta'
 import { Faq } from '@/components/sections/faq/faq'
 import { Features } from '@/components/sections/features/features'
 import { Hero } from '@/components/sections/hero/hero'
+import { Stack } from '@/components/sections/stack/stack'
 import { Steps } from '@/components/sections/steps/steps'
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <Stack />
       <Features />
       <Steps />
       <Agents />

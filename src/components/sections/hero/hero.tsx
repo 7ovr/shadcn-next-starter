@@ -14,11 +14,12 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden px-4 pt-20 pb-16 sm:px-6 sm:pt-32 sm:pb-24"
+      className="relative isolate px-4 pt-20 pb-12 sm:px-6 sm:pt-28 sm:pb-16"
     >
+      {/* Taller than the hero on purpose: it fades out behind the stack strip instead of stopping at a hard edge. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-160 max-w-5xl bg-glow"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 mx-auto h-176 max-w-5xl bg-glow"
       />
       <HeroLogos />
 
