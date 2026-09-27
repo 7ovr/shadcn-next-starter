@@ -4,7 +4,6 @@ import { ButtonLink } from '@/components/button-link'
 import { GitHubIcon } from '@/components/icons'
 import { Logo } from '@/components/logo'
 import { MobileNav } from '@/components/mobile-nav'
-import { ThemeToggle } from '@/components/theme-toggle'
 import { siteConfig } from '@/config/site'
 import { hero } from '@/content/hero'
 import { headerNav } from '@/content/navigation'
@@ -37,7 +36,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1">
-          <ThemeToggle />
           <span className="max-sm:hidden">
             <ButtonLink href={hero.primaryAction.href}>
               <GitHubIcon data-icon="inline-start" />

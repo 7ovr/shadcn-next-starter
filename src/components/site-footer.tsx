@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ButtonLink } from '@/components/button-link'
 import { GitHubIcon, LogoMark, XIcon } from '@/components/icons'
 import { Logo, Wordmark } from '@/components/logo'
-import { ThemeSwitcher } from '@/components/theme-toggle'
+import { FooterThemeToggle } from '@/components/theme-toggle'
 import { siteConfig } from '@/config/site'
 import { type NavLink, footerColumns } from '@/content/navigation'
 
@@ -24,7 +24,7 @@ function FooterLink({ link }: { link: NavLink }) {
 
 export function SiteFooter() {
   return (
-    <footer className="overflow-hidden border-t bg-linear-to-b from-muted/40 to-background">
+    <footer className="overflow-hidden border-t">
       <div className="mx-auto grid w-full max-w-6xl gap-12 px-4 pt-16 pb-12 sm:px-6 lg:grid-cols-12">
         <div className="flex flex-col items-start gap-6 lg:col-span-5">
           <Link
@@ -94,7 +94,7 @@ export function SiteFooter() {
             <span aria-hidden="true">·</span>
             MIT Licensed
           </p>
-          <ThemeSwitcher />
+          <FooterThemeToggle />
         </div>
       </div>
 
