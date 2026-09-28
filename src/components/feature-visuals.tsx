@@ -188,7 +188,7 @@ function NoJavaScript() {
         </span>
       </MockBar>
       <div className="flex flex-col gap-2 p-3 text-xs">
-        <span className="text-sm font-semibold">Frequently Asked Questions</span>
+        <span className="text-sm font-semibold">Questions & Answers</span>
         <span className="flex flex-col gap-1 rounded-md border p-2">
           <span className="flex items-center justify-between gap-2 font-medium">
             Does It Work Without JavaScript?

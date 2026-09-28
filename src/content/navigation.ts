@@ -9,7 +9,8 @@ export const headerNav: NavLink[] = [
   { label: 'Features', href: '/#features' },
   { label: 'How It Works', href: '/#how-it-works' },
   { label: 'Coding Agents', href: '/#agents' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Vite Starter', href: '/#vite-starter' },
+  { label: 'Questions & Answers', href: '/#faq' },
 ]
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [
@@ -28,7 +29,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
   {
     title: '7Ovr',
     links: [
-      { label: 'App Starter', href: siteConfig.links.appStarter },
+      { label: 'Vite Starter', href: siteConfig.links.appStarter },
       { label: 'Blocks', href: siteConfig.links.blocks },
       { label: 'X', href: siteConfig.links.x },
     ],

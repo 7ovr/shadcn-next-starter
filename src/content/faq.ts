@@ -7,7 +7,7 @@ export type Faq = { question: string; answer: string }
 // Plain strings, so the section and its FAQPage JSON-LD read one source. Backticks render as inline code.
 export const faq = {
   eyebrow: { icon: MessageCircleQuestionMarkIcon, lead: 'Before You', emphasis: 'Clone It' },
-  title: 'Frequently Asked Questions',
+  title: 'Questions & Answers',
   description: 'What ships in the starter, what it costs, and how it fits your stack.',
   contact: {
     title: 'Still have a question?',
@@ -52,7 +52,7 @@ export const faq = {
     {
       question: 'Does It Include Auth, A Database Or Analytics?',
       answer:
-        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr App Starter; for a form or analytics, add your own.',
+        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr Vite Starter; for a form or analytics, add your own.',
     },
     {
       question: 'Does It Work With Coding Agents?',

@@ -54,6 +54,32 @@ test('the logo scrolls back to the top of the home page', async ({ page }) => {
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
 })
 
+test('a header link jumps straight to its section', async ({ page }) => {
+  await page.goto('/')
+  const link = page
+    .getByRole('navigation', { name: 'Main' })
+    .getByRole('link', { name: 'Questions & Answers' })
+
+  // Every scroll position for a second after the click: a smooth scroll passes through many, a jump through one.
+  const positions = await link.evaluate(
+    (anchor) =>
+      new Promise<number[]>((resolve) => {
+        const seen = [window.scrollY]
+        const started = performance.now()
+        const sample = () => {
+          if (window.scrollY !== seen.at(-1)) seen.push(window.scrollY)
+          if (performance.now() - started < 1000) requestAnimationFrame(sample)
+          else resolve(seen)
+        }
+        anchor.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }))
+        requestAnimationFrame(sample)
+      }),
+  )
+
+  expect(positions).toHaveLength(2)
+  await expect(page.locator('#faq-title')).toBeInViewport()
+})
+
 test('the copy button copies the clone command', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto('/')
@@ -132,8 +158,9 @@ test.describe('on a phone', () => {
     await expect(trigger).toBeFocused()
 
     await trigger.click()
-    await menu.getByRole('link', { name: 'FAQ' }).click()
+    await menu.getByRole('link', { name: 'Questions & Answers' }).click()
     await expect(menu).toBeHidden()
     await expect(page).toHaveURL(/#faq$/)
+    await expect(page.locator('#faq-title')).toBeInViewport()
   })
 })

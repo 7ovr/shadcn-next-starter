@@ -231,7 +231,7 @@ pnpm dlx shadcn@latest add @7ovr-pro/<name>
 
 Four skills are vendored into `.claude/skills/` for Claude Code and `.agents/skills/` for everything else: `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`. They are pinned in `skills-lock.json`.
 
-Building an app rather than a landing page? The [7Ovr App Starter](https://starter.7ovr.com) puts the same stack on Vite with TanStack.
+Building an app rather than a landing page? The [7Ovr Vite Starter](https://starter.7ovr.com) puts the same stack in a Vite app with TanStack.
 
 ## Environment variables
 
