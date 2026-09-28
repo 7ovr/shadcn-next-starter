@@ -7,7 +7,7 @@ export type Faq = { question: string; answer: string }
 // Plain strings, so the section and its FAQPage JSON-LD read one source. Backticks render as inline code.
 export const faq = {
   eyebrow: { icon: MessageCircleQuestionMarkIcon, lead: 'Before You', emphasis: 'Clone It' },
-  title: 'Frequently Asked Questions',
+  title: 'Questions & Answers',
   description: 'What ships in the starter, what it costs, and how it fits your stack.',
   contact: {
     title: 'Still have a question?',
