@@ -20,7 +20,7 @@ export const siteConfig = {
     'Tailwind CSS',
   ],
   // Bump when the page copy changes; the sitemap reports it as lastmod.
-  lastUpdated: '2026-09-27',
+  lastUpdated: '2026-09-28',
   author: { name: '7Ovr', url: 'https://7ovr.com' },
   xHandle: '@7ovrui',
   links: {

@@ -32,7 +32,7 @@ export const faq = {
     {
       question: 'Does The Page Work Without JavaScript?',
       answer:
-        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu and the copy button.',
+        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu, the copy button and the FAQ accordion.',
     },
     {
       question: 'How Do I Restyle It?',
