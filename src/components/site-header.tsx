@@ -23,7 +23,7 @@ export function SiteHeader() {
 
         <nav
           aria-label="Main"
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
         >
           {headerNav.map((link) => (
             <Link
@@ -40,7 +40,7 @@ export function SiteHeader() {
           <span className="max-sm:hidden">
             <HeaderAction />
           </span>
-          <span className="md:hidden">
+          <span className="lg:hidden">
             <MobileNav links={headerNav}>
               <HeaderAction size="lg" />
             </MobileNav>
