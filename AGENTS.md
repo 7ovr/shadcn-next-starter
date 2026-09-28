@@ -96,4 +96,4 @@ Skills for agents working here live in two identical folders: `.claude/skills/` 
 
 ## Before you finish
 
-Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build`, and `pnpm test:e2e` when a change touches what a page renders or sends. `pnpm lint` fails on any warning, so the codebase stays at zero findings. CI runs all of them on every push and pull request, with `pnpm test:e2e:preview` and `pnpm lighthouse` beside them.
+Run `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build`, and `pnpm test:e2e` when a change touches what a page renders or sends. `pnpm lint` fails on any warning, so the codebase stays at zero findings. CI runs all of them on every pull request and every push to `master`, with `pnpm test:e2e:preview` and `pnpm lighthouse` beside them.

@@ -26,7 +26,8 @@ Static pages, complete SEO, accessible sections and one-command theming on shadc
   <a href="#seo"><strong>SEO</strong></a> ·
   <a href="#tests"><strong>Tests</strong></a> ·
   <a href="#working-with-coding-agents"><strong>Coding Agents</strong></a> ·
-  <a href="#add-blocks-from-7ovr"><strong>Add Blocks</strong></a>
+  <a href="#add-blocks-from-7ovr"><strong>Add Blocks</strong></a> ·
+  <a href="#deploy"><strong>Deploy</strong></a>
 </p>
 
 </div>
@@ -94,7 +95,7 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 | `pnpm format`           | Format every file                                              |
 | `pnpm format:check`     | Check the formatting without changing files                    |
 
-CI runs `lint`, `format:check`, `typecheck`, `test` and `build` on every push and pull request, and next to them `test:e2e`, `test:e2e:preview` and `lighthouse`.
+CI runs `lint`, `format:check`, `typecheck`, `test` and `build` on every pull request and every push to `master`, and next to them `test:e2e`, `test:e2e:preview` and `lighthouse`. To keep a pull request from merging before they pass, require the `check` and `e2e` jobs in your branch protection.
 
 ## Project layout
 
@@ -156,6 +157,26 @@ Every page's head comes from one helper, `createMetadata` in `src/lib/metadata.t
 The site URL is never hard-coded. It comes from `SITE_URL`, then from Vercel's production domain, so a fresh clone never points its canonicals at this demo.
 
 Only production is indexed: Vercel's production deploys, or any host that sets `SITE_ENV=production`. Every other build, previews included, sends `noindex` in the page and in an `X-Robots-Tag` header, while `robots.txt` still lets crawlers in.
+
+### The SEO contract
+
+Every promise has a check that fails the build or CI when it breaks.
+
+| Promise                                                                              | Checked by                                           |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------- |
+| Every route is prerendered at build time                                             | `dynamic = 'error'` in `src/app/layout.tsx`          |
+| The head is complete: title, description, canonical, Open Graph, Twitter and robots  | `e2e/seo.spec.ts`, `src/lib/metadata.test.ts`        |
+| The JSON-LD matches what the page shows                                              | `e2e/seo.spec.ts`, `src/lib/structured-data.test.ts` |
+| Every section and every FAQ answer is readable without JavaScript                    | `e2e/no-javascript.spec.ts`                          |
+| One h1, no skipped heading level, landmarks and a skip link                          | `e2e/seo.spec.ts`                                    |
+| `robots.txt` lets crawlers in, and the sitemap lists exactly the pages there are     | `e2e/seo.spec.ts`                                    |
+| The share image is 1200x630 and the icons are served at their sizes                  | `e2e/seo.spec.ts`                                    |
+| A missing page is a real 404, with noindex and no canonical                          | `e2e/seo.spec.ts`                                    |
+| Preview deploys send `noindex` in the page and in a header                           | `pnpm test:e2e:preview`, `src/lib/headers.test.ts`   |
+| Canonicals point at the deploy's own domain, never at localhost                      | `src/lib/site-url.test.ts`                           |
+| Every response carries the security headers and a static CSP                         | `e2e/seo.spec.ts`, `src/lib/headers.test.ts`         |
+| The page hydrates without errors, with and without reduced motion                    | `e2e/interactions.spec.ts`                           |
+| At least 90 for performance, 95 for accessibility and best practices and 100 for SEO | `lighthouserc.json`                                  |
 
 ## Tests
 
@@ -224,7 +245,9 @@ Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Gi
 
 ## Deploy
 
-On **Vercel**, import the repository and deploy; nothing needs configuring. The production domain becomes the site URL, only production is indexed, and every pull request gets a preview that stays out of search.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F7ovr%2Fshadcn-next-starter&project-name=my-landing-page&repository-name=my-landing-page)
+
+On **Vercel**, use the button above or import the repository, and deploy; nothing needs configuring. The production domain becomes the site URL, only production is indexed, and every pull request gets a preview that stays out of search. The site URL is read at build time, so redeploy after you add a custom domain, and redirect the project's `.vercel.app` domain to it in the domain settings, so search engines find one copy of the site.
 
 Anywhere else, set `SITE_URL` to your domain and `SITE_ENV=production`, then run `pnpm build` and `pnpm start`. A production build without `SITE_URL` stops with an error, so it never points its canonicals at localhost.
 
