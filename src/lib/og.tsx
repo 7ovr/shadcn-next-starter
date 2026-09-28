@@ -185,7 +185,7 @@ export async function createOgImage({ title, eyebrow, description, cta }: OgImag
               fontSize: 25,
               lineHeight: 1.45,
               color: palette.muted,
-              maxWidth: 840,
+              maxWidth: 1056,
             }}
           >
             {description.slice(0, 120)}

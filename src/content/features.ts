@@ -31,7 +31,7 @@ export const features = {
       visual: 'metadata',
       title: 'Complete SEO On Every Page',
       description:
-        'Titles, canonicals, Open Graph cards, JSON-LD and a sitemap come from one helper, so no page ships half a head.',
+        'One helper writes the title, canonical and Open Graph card of every page, with JSON-LD and a sitemap beside it, so no page ships half a head.',
     },
     {
       visual: 'quality',

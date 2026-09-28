@@ -12,6 +12,12 @@
     "stylesheet": "src/app/globals.css",
     "functions": ["cn", "cva"]
   },
+  "overrides": [
+    {
+      "files": ["*.css"],
+      "options": { "singleQuote": false }
+    }
+  ],
   "ignorePatterns": [
     ".next/",
     "coverage/",

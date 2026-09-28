@@ -24,7 +24,7 @@
       "allowedVersions": "<25"
     },
     {
-      "description": "Keep the Node and pnpm floor in engines and CI, raised by hand",
+      "description": "Keep the Node and pnpm versions in engines, packageManager and CI, raised by hand",
       "matchDepNames": ["node", "pnpm"],
       "enabled": false
     }

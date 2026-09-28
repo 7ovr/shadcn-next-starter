@@ -14,7 +14,7 @@ function FilledZap({ className }: { className?: string }) {
 
 export function Hero() {
   const [before, after] = hero.title.split(hero.titleEmphasis)
-  // The last word before the emphasis moves down with it, so the first line keeps its words whole.
+  // On a large screen the last word before the emphasis moves down with it; narrower screens balance their own lines.
   const cut = before.trimEnd().lastIndexOf(' ')
   // Its first two words stay together, so a narrow screen never ends a line on a lone chip.
   const emphasis = hero.titleEmphasis.replace(' ', ' ')
@@ -41,7 +41,7 @@ export function Hero() {
           className="animate-rise font-heading text-4xl font-bold tracking-tighter text-balance delay-75 motion-reduce:animate-none sm:text-5xl"
         >
           {before.slice(0, cut)}
-          <br className="max-sm:hidden" />
+          <br className="max-lg:hidden" />
           {before.slice(cut)}
           {/* A chip like the inline code on the page, in a lighter weight than the headline. */}
           <em className="rounded-xl bg-foreground/10 box-decoration-clone px-3 font-light not-italic">

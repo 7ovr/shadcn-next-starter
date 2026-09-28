@@ -18,9 +18,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
+      # Installs the pnpm that packageManager in package.json pins, as Vercel does.
       - uses: pnpm/action-setup@v6
-        with:
-          version: 12
       - uses: actions/setup-node@v7
         with:
           # The minimum package.json supports, so CI proves the floor works.
@@ -40,8 +39,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
-        with:
-          version: 12
       - uses: actions/setup-node@v7
         with:
           node-version: 24

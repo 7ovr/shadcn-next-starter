@@ -68,6 +68,8 @@ test.describe('the home page', () => {
     const skip = page.getByRole('link', { name: 'Skip To Content' })
     await expect(skip).toBeFocused()
     await expect(skip).toHaveAttribute('href', '#main')
+    // Once focused it is a real target, at least the 24px WCAG 2.2 asks for.
+    expect((await skip.boundingBox())?.height).toBeGreaterThanOrEqual(24)
   })
 
   test('describes itself in JSON-LD that matches the page', async ({ page, baseURL }) => {
