@@ -9,7 +9,8 @@ export const headerNav: NavLink[] = [
   { label: 'Features', href: '/#features' },
   { label: 'How It Works', href: '/#how-it-works' },
   { label: 'Coding Agents', href: '/#agents' },
-  { label: 'FAQ', href: '/#faq' },
+  { label: 'Vite Starter', href: '/#app-starter' },
+  { label: 'Questions & Answers', href: '/#faq' },
 ]
 
 export const footerColumns: { title: string; links: NavLink[] }[] = [

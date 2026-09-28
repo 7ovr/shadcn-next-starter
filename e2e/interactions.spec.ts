@@ -132,7 +132,7 @@ test.describe('on a phone', () => {
     await expect(trigger).toBeFocused()
 
     await trigger.click()
-    await menu.getByRole('link', { name: 'FAQ' }).click()
+    await menu.getByRole('link', { name: 'Questions & Answers' }).click()
     await expect(menu).toBeHidden()
     await expect(page).toHaveURL(/#faq$/)
   })
