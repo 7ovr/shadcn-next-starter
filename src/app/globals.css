@@ -135,15 +135,10 @@
 /* The landing's motion and effects. Colours, radius and fonts stay in the shadcn tokens above. */
 
 @layer base {
+  /* Links jump straight to their section, clear of the sticky header; nothing scrolls smoothly. */
   html {
     scroll-padding-top: 5rem;
     scrollbar-gutter: stable;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      scroll-behavior: smooth;
-    }
   }
 
   /* Without JavaScript the FAQ accordion cannot open, so every answer shows instead; Tailwind hides [hidden] with !important. */
