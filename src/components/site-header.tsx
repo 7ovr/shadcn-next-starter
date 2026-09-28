@@ -21,15 +21,16 @@ export function SiteHeader() {
       <div className="relative mx-auto flex h-16 w-full max-w-6xl header-glass items-center justify-between gap-4 rounded-2xl border px-4 sm:px-6">
         <LogoLink />
 
+        {/* w-max, because left-1/2 alone caps an absolute box at half the header and wraps the links. */}
         <nav
           aria-label="Main"
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex"
+          className="absolute left-1/2 hidden w-max -translate-x-1/2 items-center gap-1 lg:flex"
         >
           {headerNav.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+              className="rounded-md px-2 py-2 text-sm whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none xl:px-3"
             >
               {link.label}
             </Link>
