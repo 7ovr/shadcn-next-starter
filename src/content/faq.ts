@@ -52,7 +52,7 @@ export const faq = {
     {
       question: 'Does It Include Auth, A Database Or Analytics?',
       answer:
-        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr App Starter; for a form or analytics, add your own.',
+        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr Vite Starter; for a form or analytics, add your own.',
     },
     {
       question: 'Does It Work With Coding Agents?',

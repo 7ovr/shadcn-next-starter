@@ -91,7 +91,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 ## Skills
 
-Skills for agents working here live in two identical folders: `.claude/skills/` for Claude Code and `.agents/skills/` for every other agent. They are `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`, the same set as the 7Ovr App Starter, pinned in `skills-lock.json`.
+Skills for agents working here live in two identical folders: `.claude/skills/` for Claude Code and `.agents/skills/` for every other agent. They are `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`, the same set as the 7Ovr Vite Starter, pinned in `skills-lock.json`.
 
 - Add or update a vendored skill for both folders at once, as real files: `pnpm dlx skills add <repo> --skill <name> --agent claude-code universal --copy`. Never hand-edit vendored skills.
 
