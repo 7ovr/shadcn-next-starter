@@ -6,7 +6,7 @@ import { cta } from '@/content/cta'
 import { faq } from '@/content/faq'
 import { features } from '@/content/features'
 import { hero, stack } from '@/content/hero'
-import { footerColumns, footerNote, headerAction, headerNav } from '@/content/navigation'
+import { footerColumns, footerNote, headerAction, mobileNav } from '@/content/navigation'
 import { notFound } from '@/content/not-found'
 import { steps } from '@/content/steps'
 
@@ -33,14 +33,14 @@ const labels = [
   appStarter.action.label,
   cta.primaryAction.label,
   cta.secondaryAction.label,
+  steps.primaryAction.label,
+  steps.secondaryAction.label,
   faq.contact.action.label,
   ...features.items.map((item) => item.title),
   ...features.extras.map((item) => item.title),
   ...steps.items.map((step) => step.title),
   ...agents.points.map((point) => point.title),
-  // FAQ questions are headings, so they take Title Case like every other heading.
-  ...faq.items.map((item) => item.question),
-  ...headerNav.map((link) => link.label),
+  ...mobileNav.map((link) => link.label),
   ...footerColumns.flatMap((column) => [column.title, ...column.links.map((link) => link.label)]),
 ].filter((label) => label !== hero.title)
 
@@ -49,7 +49,7 @@ describe('content', () => {
     const offenders = strings([
       ...sections,
       headerAction,
-      headerNav,
+      mobileNav,
       footerColumns,
       footerNote,
     ]).filter((text) => DASHES.test(text))
@@ -58,6 +58,17 @@ describe('content', () => {
 
   it('writes every label in Title Case', () => {
     const offenders = labels.filter((label) => label.split(' ').some((word) => /^[a-z]/.test(word)))
+    expect(offenders).toEqual([])
+  })
+
+  // Questions read as sentences, the way a visitor would ask them, on this site and starter.7ovr.com alike.
+  it('asks every FAQ question as a sentence', () => {
+    const offenders = faq.items
+      .map((item) => item.question)
+      .filter((question) => {
+        const titleCase = question.split(' ').every((word) => !/^[a-z]/.test(word))
+        return titleCase || !question.endsWith('?')
+      })
     expect(offenders).toEqual([])
   })
 

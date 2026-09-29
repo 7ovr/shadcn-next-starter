@@ -15,54 +15,64 @@ export const faq = {
   },
   items: [
     {
-      question: 'What Is The 7Ovr Landing Starter?',
+      question: 'What is the 7Ovr Landing Starter?',
       answer:
         'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. Every page is prerendered, and every promise it makes, from SEO to accessibility, is covered by a test.',
     },
     {
-      question: 'Is It Free For Commercial Projects?',
+      question: 'Is it free for commercial projects?',
       answer:
-        'Yes. It is MIT licensed, so you can use it for client work and commercial products, and you owe nothing back.',
+        'Yes. It is MIT licensed, so you can use it for client work and commercial products, and you owe nothing back. The Pro blocks and templates on 7Ovr are optional and separate.',
     },
     {
-      question: 'What Does Tested Mean Here?',
+      question: 'What do I need installed?',
+      answer:
+        'Node 24 or newer and pnpm 12 or newer. There is no global CLI to install and no account to create.',
+    },
+    {
+      question: 'What does tested mean here?',
       answer:
         'Each promise has a test: metadata and JSON-LD on every route, one h1 and working landmarks, readable HTML with JavaScript off, Lighthouse budgets, and noindex on preview deploys. CI runs them on every push, beside lint, format and type checks.',
     },
     {
-      question: 'Does The Page Work Without JavaScript?',
+      question: 'Does the page work without JavaScript?',
       answer:
         'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu, the copy button and the FAQ accordion.',
     },
     {
-      question: 'How Do I Restyle It?',
-      answer:
-        'Build a preset on ui.shadcn.com/create and run `pnpm dlx shadcn@latest apply <code>`. Colors, radius and fonts all come from shadcn theme tokens, so every section follows.',
-    },
-    {
-      question: 'Where Do I Change The Copy?',
+      question: 'Where do I change the copy?',
       answer:
         'Site-wide details live in `src/config/site.ts`, and the copy lives in `src/content/`, one file per section. The sections only render what they are given.',
     },
     {
-      question: 'Can I Deploy It Somewhere Other Than Vercel?',
-      answer:
-        'Yes. It is a standard Next.js app, so any host that runs `next start` works. Set `SITE_URL` and `SITE_ENV=production` before you build, so canonicals and indexing are right.',
-    },
-    {
-      question: 'Does It Include Auth, A Database Or Analytics?',
+      question: 'Does it include auth, a database or analytics?',
       answer:
         'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr Vite Starter; for a form or analytics, add your own.',
     },
     {
-      question: 'Does It Work With Coding Agents?',
+      question: 'How do I restyle it?',
       answer:
-        'Yes. `AGENTS.md` holds every convention and `CLAUDE.md` imports it, so Claude Code, Codex and Cursor keep new pages and sections on the same patterns.',
+        'Build a preset on ui.shadcn.com/create and run `pnpm dlx shadcn@latest apply <code>`. Colors, radius and fonts all come from shadcn theme tokens, so every section follows.',
     },
     {
-      question: 'Can I Add 7Ovr Blocks To It?',
+      question: 'Can I add 7Ovr blocks to it?',
       answer:
-        'Yes. It is a standard shadcn/ui project, so `pnpm dlx shadcn@latest add @7ovr/<name>` installs a block straight into it.',
+        'Yes. It is a standard shadcn/ui project, so all 540+ blocks install straight into it, source included: free ones with `pnpm dlx shadcn@latest add @7ovr/<name>`, Pro ones from `@7ovr-pro` with a license key.',
+    },
+    {
+      question: 'Does it work with coding agents?',
+      answer:
+        'Yes. `CLAUDE.md` holds every convention and `AGENTS.md` points to it, so Claude Code, Codex and Cursor keep new pages and sections on the same patterns.',
+    },
+    {
+      question: 'Where can I deploy it?',
+      answer:
+        'Vercel works with no setup. It is a standard Next.js app, so any host that runs `next start` works too; there, set `SITE_URL` and `SITE_ENV=production` before you build, so canonicals and indexing are right.',
+    },
+    {
+      question: 'How do I keep it updated?',
+      answer:
+        'It is source you own, so nothing updates behind your back. Renovate keeps the dependencies current, and you pull in the upstream changes you want.',
     },
   ] satisfies Faq[],
 }

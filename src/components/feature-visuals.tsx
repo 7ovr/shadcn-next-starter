@@ -191,7 +191,7 @@ function NoJavaScript() {
         <span className="text-sm font-semibold">Questions & Answers</span>
         <span className="flex flex-col gap-1 rounded-md border p-2">
           <span className="flex items-center justify-between gap-2 font-medium">
-            Does It Work Without JavaScript?
+            Does it work without JavaScript?
             <ChevronDownIcon className="size-3 shrink-0 text-muted-foreground" />
           </span>
           <span className="text-muted-foreground">Yes, every answer is in the HTML.</span>
