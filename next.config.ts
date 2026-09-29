@@ -4,7 +4,7 @@ import { responseHeaders } from '@/lib/headers'
 import { isIndexable } from '@/lib/site-url'
 
 const nextConfig: NextConfig = {
-  // AGENTS.md holds the conventions, so next dev must not write its own block into it.
+  // AGENTS.md is a pointer to CLAUDE.md, so next dev must not write its own block into it.
   agentRules: false,
   images: {
     formats: ['image/avif', 'image/webp'],

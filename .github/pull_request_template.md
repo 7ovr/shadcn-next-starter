@@ -11,4 +11,4 @@
 - [ ] Tests describe the new logic or reproduce the fixed bug
 - [ ] `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test` and `pnpm build` pass
 - [ ] Commits follow Conventional Commits
-- [ ] Docs and AGENTS.md are updated if a convention or pattern changed
+- [ ] Docs and CLAUDE.md are updated if a convention or pattern changed
