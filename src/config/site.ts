@@ -1,5 +1,13 @@
 const repository = 'https://github.com/7ovr/shadcn-next-starter'
 
+// Tags links to the rest of 7Ovr, so their analytics credit the visit to this site.
+function referral(url: string): string {
+  const tagged = new URL(url)
+  tagged.searchParams.set('utm_source', 'landing')
+  tagged.searchParams.set('utm_medium', 'referral')
+  return tagged.toString()
+}
+
 export const siteConfig = {
   name: '7Ovr Landing Starter',
   // The search result title and snippet, kept near 60 and 155 characters so neither truncates.
@@ -20,7 +28,7 @@ export const siteConfig = {
     'Tailwind CSS',
   ],
   // Bump when the page copy changes; the sitemap reports it as lastmod.
-  lastUpdated: '2026-09-28',
+  lastUpdated: '2026-09-29',
   author: { name: '7Ovr', url: 'https://7ovr.com' },
   xHandle: '@7ovrui',
   links: {
@@ -29,8 +37,14 @@ export const siteConfig = {
     issues: `${repository}/issues`,
     github: 'https://github.com/7ovr',
     x: 'https://x.com/7ovrui',
-    appStarter: 'https://starter.7ovr.com',
-    blocks: 'https://7ovr.com/blocks',
+    email: 'mailto:hello@7ovr.com',
+    home: referral('https://7ovr.com'),
+    appStarter: referral('https://starter.7ovr.com'),
+    blocks: referral('https://7ovr.com/blocks'),
+    templates: referral('https://7ovr.com/templates'),
+    pro: referral('https://7ovr.com/blocks?tier=pro'),
+    docs: referral('https://7ovr.com/docs'),
+    changelog: referral('https://7ovr.com/changelog'),
     presets: 'https://ui.shadcn.com/create',
   },
 } as const

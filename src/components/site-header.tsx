@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/button-link'
 import { GitHubIcon } from '@/components/icons'
 import { LogoLink } from '@/components/logo'
 import { MobileNav } from '@/components/mobile-nav'
-import { headerAction, headerNav } from '@/content/navigation'
+import { headerAction, headerNav, mobileNav } from '@/content/navigation'
 
 function HeaderAction({ size }: { size?: 'lg' }) {
   return (
@@ -42,7 +42,7 @@ export function SiteHeader() {
             <HeaderAction />
           </span>
           <span className="lg:hidden">
-            <MobileNav links={headerNav}>
+            <MobileNav links={mobileNav}>
               <HeaderAction size="lg" />
             </MobileNav>
           </span>

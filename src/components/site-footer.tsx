@@ -1,3 +1,5 @@
+import { ArrowUpRightIcon, MailIcon } from 'lucide-react'
+
 import { ButtonLink } from '@/components/button-link'
 import { GitHubIcon, LogoMark, XIcon } from '@/components/icons'
 import { LogoLink, Wordmark } from '@/components/logo'
@@ -32,6 +34,14 @@ export function SiteFooter() {
             >
               <XIcon />
             </ButtonLink>
+            <ButtonLink
+              href={siteConfig.links.email}
+              aria-label="Email 7Ovr"
+              variant="outline"
+              size="icon"
+            >
+              <MailIcon />
+            </ButtonLink>
           </div>
         </div>
 
@@ -48,9 +58,12 @@ export function SiteFooter() {
                     <li key={link.href}>
                       <SiteLink
                         href={link.href}
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                        className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                       >
                         {link.label}
+                        {link.external && (
+                          <ArrowUpRightIcon aria-hidden="true" className="size-3.5" />
+                        )}
                       </SiteLink>
                     </li>
                   ))}
@@ -66,7 +79,7 @@ export function SiteFooter() {
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
             {footerNote.credit}
             <SiteLink
-              href={siteConfig.author.url}
+              href={siteConfig.links.home}
               className="flex items-center gap-1.5 rounded-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
             >
               <LogoMark className="size-4" />

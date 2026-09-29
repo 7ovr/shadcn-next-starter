@@ -34,11 +34,13 @@ export function LogoLink() {
   )
 }
 
-// The wordmark as an SVG, so it scales with its container instead of a font size.
+// The mark and wordmark as one SVG, so they scale with their container instead of a font size.
+// The mark stands as tall as the capitals and sits on their baseline.
 export function Wordmark() {
   return (
-    <svg viewBox="0 0 400 120" aria-hidden="true" className="w-full fill-current">
-      <text x="200" y="104" textAnchor="middle" fontSize="136" className={wordmark.className}>
+    <svg viewBox="0 0 476 120" aria-hidden="true" className="w-full fill-current">
+      <LogoMark x={-1} y={26} width={89} height={89} />
+      <text x="113" y="104" fontSize="136" className={wordmark.className}>
         7Ovr
       </text>
     </svg>
