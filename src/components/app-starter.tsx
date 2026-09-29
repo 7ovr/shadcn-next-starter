@@ -2,6 +2,7 @@ import { CheckIcon, ChevronRightIcon } from 'lucide-react'
 import Image from 'next/image'
 
 import { ButtonLink } from '@/components/button-link'
+import { Eyebrow } from '@/components/eyebrow'
 import { Section, SectionDescription, SectionTitle } from '@/components/section'
 import { appStarter } from '@/content/app-starter'
 
@@ -9,12 +10,21 @@ export function AppStarter() {
   return (
     <Section id="vite-starter">
       <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        {/* Title, description, then the link on phones; on large screens the link sits under the title. */}
-        <div className="grid reveal items-start justify-items-start gap-4 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-5">
-          <SectionTitle sectionId="vite-starter" className="lg:col-start-1 lg:row-start-1">
-            {appStarter.title}
-          </SectionTitle>
-          <div className="flex flex-col gap-4 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+        {/* On phones the link follows the description; on large screens it sits right under the title. */}
+        <div className="grid reveal items-start justify-items-start gap-4 lg:grid-cols-2 lg:gap-x-16">
+          <div className="contents lg:flex lg:flex-col lg:items-start lg:gap-6">
+            <div className="flex flex-col items-start gap-4">
+              <Eyebrow {...appStarter.eyebrow} />
+              <SectionTitle sectionId="vite-starter">{appStarter.title}</SectionTitle>
+            </div>
+            <div className="mt-2 max-lg:order-last lg:mt-0">
+              <ButtonLink href={appStarter.action.href} size="lg">
+                {appStarter.action.label}
+                <ChevronRightIcon data-icon="inline-end" />
+              </ButtonLink>
+            </div>
+          </div>
+          <div className="flex flex-col gap-4">
             <SectionDescription>{appStarter.description}</SectionDescription>
             <ul className="flex flex-col gap-2.5">
               {appStarter.highlights.map((highlight) => (
@@ -24,12 +34,6 @@ export function AppStarter() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="mt-2 lg:col-start-1 lg:row-start-2 lg:mt-0">
-            <ButtonLink href={appStarter.action.href} size="lg">
-              {appStarter.action.label}
-              <ChevronRightIcon data-icon="inline-end" />
-            </ButtonLink>
           </div>
         </div>
 

@@ -1,12 +1,16 @@
 import { RouteIcon } from 'lucide-react'
 
+import { siteConfig } from '@/config/site'
+
 export type StepVisual = 'clone' | 'content' | 'preset' | 'deploy'
 
 export const steps = {
   eyebrow: { icon: RouteIcon, lead: 'From Clone', emphasis: 'To Indexed' },
   title: 'Make It Yours In Four Steps',
   description:
-    'The starter does the plumbing once, so a new site is a config file, a content folder and a deploy.',
+    'The starter does the plumbing once, so a new site is a config file, a content folder and a deploy. Any of the 540+ 7Ovr blocks installs straight into it.',
+  primaryAction: { label: 'Browse 540+ Blocks', href: siteConfig.links.blocks },
+  secondaryAction: { label: 'Explore Pro', href: siteConfig.links.pro },
   items: [
     {
       visual: 'clone',
