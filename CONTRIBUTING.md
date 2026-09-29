@@ -25,7 +25,7 @@ Fork the repository first, then clone your fork. `pnpm install` also sets up the
 
 Work on a branch named after the change, such as `fix/faq-answer-spacing` or `feat/changelog-page`.
 
-[AGENTS.md](AGENTS.md) holds every convention in this repository, for people and coding agents alike. The ones that matter most:
+[CLAUDE.md](CLAUDE.md) holds every convention in this repository, for people and coding agents alike. The ones that matter most:
 
 - **Test logic, not rendering.** Write the test for the code that decides something, watch it fail, then make it pass. A bug fix starts with a test that reproduces the bug. Do not test that a component renders its copy or its links; what the built page shows belongs to the Playwright checks in `e2e/`.
 - **The copy lives in `src/content/`.** Components render what they are given and never hard-code copy.
@@ -33,7 +33,7 @@ Work on a branch named after the change, such as `fix/faq-answer-spacing` or `fe
 - **Keep `src/components/ui/` as the CLI writes it**, because applying a preset rewrites those files.
 - **Keep every page's head in `createMetadata`**, and never hard-code the site URL.
 - **Keep comments to one line**, only where the code cannot explain itself.
-- **Title Case** for labels, such as headings, FAQ questions, buttons and links, and **no em dashes** anywhere.
+- **Title Case** for labels, such as headings, buttons and links, sentence case for FAQ questions, and **no em dashes** anywhere.
 
 ## Check your work
 

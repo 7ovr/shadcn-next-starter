@@ -46,7 +46,7 @@ Most landing page templates look finished and stop there. This one also ships th
 - **One preset restyles it all.** Every colour, radius and font comes from shadcn's theme tokens, so `shadcn apply` restyles the whole site, the share image included.
 - **The copy in one place.** Every section's words live in typed files under `src/content/`, so a new headline never means touching a component.
 - **Tested like it ships.** Playwright checks the built site with JavaScript on and off, and Lighthouse holds it to performance, accessibility and SEO budgets on every pull request.
-- **Optimized for coding agents.** `AGENTS.md` holds every convention, `CLAUDE.md` imports it, and four vendored skills keep Claude Code, Codex and Cursor on pattern.
+- **Optimized for coding agents.** `CLAUDE.md` holds every convention, `AGENTS.md` points to it, and four vendored skills keep Claude Code, Codex and Cursor on pattern.
 
 ## Quick start
 
@@ -227,7 +227,7 @@ pnpm dlx shadcn@latest add @7ovr-pro/<name>
 
 ## Working with coding agents
 
-`AGENTS.md` holds every convention for coding agents: the content model, the design system, motion, SEO, the tests and the checks to run before finishing. `CLAUDE.md` imports it, so Claude Code, Codex and Cursor all read the same rules.
+`CLAUDE.md` holds every convention for coding agents: the content model, the design system, motion, SEO, the tests and the checks to run before finishing. `AGENTS.md` points every other agent to it, so Claude Code, Codex and Cursor all read the same rules.
 
 Four skills are vendored into `.claude/skills/` for Claude Code and `.agents/skills/` for everything else: `vercel-react-best-practices`, `vercel-composition-patterns`, `shadcn` and `improve`. They are pinned in `skills-lock.json`.
 

@@ -12,6 +12,15 @@ export function SiteLink({ href, children, ...props }: SiteLinkProps) {
     )
   }
 
+  // A mail link hands off to the mail app, so it needs neither Next's router nor a new tab.
+  if (href.startsWith('mailto:')) {
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    )
+  }
+
   return (
     <Link href={href} {...props}>
       {children}

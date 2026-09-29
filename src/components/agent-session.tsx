@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 
 // Each step of the agent's work ticks in on its cue, and the card fades before the loop starts over.
 const WORK = [
-  { label: 'Read AGENTS.md', cue: 'animate-tick-1' },
+  { label: 'Read CLAUDE.md', cue: 'animate-tick-1' },
   { label: 'Added src/content/changelog.ts', cue: 'animate-tick-2' },
   { label: 'Lint, types, tests and build passed', cue: 'animate-tick-3' },
 ]

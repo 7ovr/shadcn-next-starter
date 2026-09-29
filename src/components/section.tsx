@@ -59,12 +59,15 @@ export function SectionHeading({
   title,
   description,
   align = 'center',
+  children,
 }: {
   sectionId: string
   eyebrow: EyebrowProps
   title: string
   description: string
   align?: 'center' | 'start'
+  // Anything that belongs under the description, such as a row of links.
+  children?: React.ReactNode
 }) {
   return (
     <div
@@ -76,6 +79,7 @@ export function SectionHeading({
       <Eyebrow {...eyebrow} />
       <SectionTitle sectionId={sectionId}>{title}</SectionTitle>
       <SectionDescription>{description}</SectionDescription>
+      {children}
     </div>
   )
 }

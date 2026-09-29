@@ -1,3 +1,4 @@
+import { ButtonLink } from '@/components/button-link'
 import { Stage } from '@/components/mockup'
 import { Section, SectionHeading } from '@/components/section'
 import { StepVisual } from '@/components/step-visuals'
@@ -13,7 +14,16 @@ export function Steps() {
           eyebrow={steps.eyebrow}
           title={steps.title}
           description={steps.description}
-        />
+        >
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+            <ButtonLink href={steps.secondaryAction.href} variant="secondary" size="lg">
+              {steps.secondaryAction.label}
+            </ButtonLink>
+            <ButtonLink href={steps.primaryAction.href} size="lg">
+              {steps.primaryAction.label}
+            </ButtonLink>
+          </div>
+        </SectionHeading>
 
         <ol className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {steps.items.map((step, index) => (

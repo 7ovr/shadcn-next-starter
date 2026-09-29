@@ -16,7 +16,7 @@ export const agents = {
       icon: BookOpenCheckIcon,
       title: 'One Rulebook',
       description:
-        '`AGENTS.md` holds every convention, from content files to motion, and `CLAUDE.md` imports it.',
+        '`CLAUDE.md` holds every convention, from content files to motion, and `AGENTS.md` points every other agent to it.',
     },
     {
       icon: ShieldCheckIcon,
