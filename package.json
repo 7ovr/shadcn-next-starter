@@ -45,7 +45,7 @@
     "cross-env": "^10.1.0",
     "jsdom": "^30.1.1",
     "lefthook": "^2.1.14",
-    "oxfmt": "^0.70.0",
+    "oxfmt": "^0.72.0",
     "oxlint": "^1.85.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~7.0.2",
