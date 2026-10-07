@@ -101,11 +101,14 @@ CI runs `lint`, `format:check`, `typecheck`, `test` and `build` on every pull re
 
 Renovate can open updates every morning before 06:00 UTC, whenever the hosted service runs in that window. Stable minor and patch updates share one PR and merge once the required CI checks pass. Major updates and 0.x packages need review. Releases must be at least 24 hours old, and Node and pnpm upgrades stay manual.
 
+The shadcn CLI is temporarily held at **4.21.3**, with its Renovate updates disabled. Its transitive `braces` dependency has an [unpatched security advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm). This hold retains the CLI and its stylesheet; it does not remove that vulnerability. Use `pnpm exec shadcn` to run the installed version rather than fetching `shadcn@latest`. Before lifting the hold, verify an upstream fix with `pnpm audit`, then update the exact pin and remove the corresponding Renovate rule.
+
 To update without waiting for Renovate, run:
 
 ```bash
 pnpm update
 pnpm outdated
+pnpm audit
 pnpm lint
 pnpm format:check
 pnpm typecheck
@@ -222,7 +225,7 @@ Colours, radius and fonts are the shadcn theme tokens in `src/app/globals.css`, 
 One preset code restyles the whole site. Build a preset at [ui.shadcn.com/create](https://ui.shadcn.com/create), then apply its code:
 
 ```bash
-pnpm dlx shadcn@latest apply <code>
+pnpm exec shadcn apply <code>
 pnpm format
 ```
 
@@ -235,7 +238,7 @@ A preset only sets shadcn's own tokens. If you add a token of your own, a preset
 The 7Ovr registry is already set up in `components.json`. Install any free block by name:
 
 ```bash
-pnpm dlx shadcn@latest add @7ovr/hero-2
+pnpm exec shadcn add @7ovr/hero-2
 ```
 
 The source lands in `src/components/blocks/`. If the CLI asks to overwrite a file in `src/components/ui/`, answer no. Then run `pnpm format` and import the block into a page:
@@ -249,7 +252,7 @@ Browse every block at [7ovr.com/blocks](https://7ovr.com/blocks).
 For Pro blocks, set `REGISTRY_TOKEN` in `.env` to the token from your 7Ovr account, then install from the Pro registry:
 
 ```bash
-pnpm dlx shadcn@latest add @7ovr-pro/<name>
+pnpm exec shadcn add @7ovr-pro/<name>
 ```
 
 ## Working with coding agents

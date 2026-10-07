@@ -52,12 +52,12 @@ export const faq = {
     {
       question: 'How do I restyle it?',
       answer:
-        'Build a preset on ui.shadcn.com/create and run `pnpm dlx shadcn@latest apply <code>`. Colors, radius and fonts all come from shadcn theme tokens, so every section follows.',
+        'Build a preset on ui.shadcn.com/create and run `pnpm exec shadcn apply <code>`. Colors, radius and fonts all come from shadcn theme tokens, so every section follows.',
     },
     {
       question: 'Can I add 7Ovr blocks to it?',
       answer:
-        'Yes. It is a standard shadcn/ui project, so all 540+ blocks install straight into it, source included: free ones with `pnpm dlx shadcn@latest add @7ovr/<name>`, Pro ones from `@7ovr-pro` with a license key.',
+        'Yes. It is a standard shadcn/ui project, so all 540+ blocks install straight into it, source included: free ones with `pnpm exec shadcn add @7ovr/<name>`, Pro ones from `@7ovr-pro` with a license key.',
     },
     {
       question: 'Does it work with coding agents?',

@@ -9,6 +9,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **TypeScript 7**, strict. `any` is a lint error. Use `import type` for type-only imports (enforced). `next build` type-checks every file `tsconfig.json` includes, through the `tsc` CLI.
 - **Oxlint and oxfmt.** Lint with Oxlint and [`@shadcn/lint`](https://github.com/shadcn-ui/lint), format with oxfmt. Do not add ESLint, Prettier or typescript-eslint: TypeScript 7 has no JavaScript compiler API, so typescript-eslint and `eslint-config-next` cannot run.
 - **Fresh releases wait a day.** pnpm refuses versions published in the last 24 hours. Pick an older version or wait. Never add `minimumReleaseAgeExclude`.
+- **Check dependency security before upgrading.** Audit direct and transitive dependencies, including development tooling, with `pnpm audit`. Do not accept an upgrade with known vulnerabilities or suppress advisories to pass the check. The maintainer has chosen to retain the shadcn CLI at exactly 4.21.3 despite its existing unpatched `braces` advisory; Renovate updates for it are disabled. Keep that hold until an upstream fix is available and verified. Use `pnpm exec shadcn` so commands respect the installed pin.
 - **Renovate keeps dependencies current** (`renovate.json`). Updates are eligible every morning before 06:00 UTC. Stable minor and patch updates arrive in one grouped PR that merges itself once CI passes; majors and 0.x packages get their own PRs to review. It leaves the Node and pnpm versions in `engines`, `packageManager` and CI alone, and caps `@types/node` at the Node major; raise those by hand.
 
 ## Code conventions
@@ -69,14 +70,14 @@ How to write code in this repository: conventions, patterns and constraints. Set
 
 `@shadcn/lint` checks Tailwind usage against the design system. All six rules are errors and gate CI: `no-restyle`, `no-raw-colors`, `no-arbitrary-values`, `no-unknown-classes`, `require-static-classes` and `no-inline-styles`. Keep the codebase at zero findings rather than downgrading a rule.
 
-- **Theme tokens only, and only shadcn's own.** Every colour, radius and font comes from the tokens `shadcn init` writes into `src/app/globals.css`, so `pnpm dlx shadcn@latest apply <code>` restyles the whole site at once. A preset rewrites exactly those tokens, so never add a token of your own: it would keep its old value after a restyle. Derive a shade from an existing token instead, such as `bg-primary/10`. Shadows stay on Tailwind's default scale, like `shadow-sm`. Motion and effects are the exception, defined once in `src/app/globals.css` as keyframes and `@utility` rules.
+- **Theme tokens only, and only shadcn's own.** Every colour, radius and font comes from the tokens `shadcn init` writes into `src/app/globals.css`, so `pnpm exec shadcn apply <code>` restyles the whole site at once. A preset rewrites exactly those tokens, so never add a token of your own: it would keep its old value after a restyle. Derive a shade from an existing token instead, such as `bg-primary/10`. Shadows stay on Tailwind's default scale, like `shadow-sm`. Motion and effects are the exception, defined once in `src/app/globals.css` as keyframes and `@utility` rules.
 - **Keep `src/components/ui/` as the CLI writes it.** `shadcn apply` overwrites those files when it applies a preset, so a variant added there would be lost. The linter ignores the folder, because those files define the variants the rules enforce.
 - After `shadcn apply`, run `pnpm format`. When the preset changes a font, the CLI adds the new one to `src/app/layout.tsx` and keeps the old one, so remove the font it replaced: its import, its `const` and its classes on `<html>`. Change `FONT` in `src/lib/og.tsx` to match. The starter's own look is preset `b4Wm`.
 - Blocks installed from the 7Ovr registry land in `src/components/blocks/`, the one folder `.oxlintrc.json` relaxes the design-system rules for, because registry code arrives with its own classes. Keep your own components out of it.
 - **`no-restyle` runs with no allowlist**: a shadcn component accepts no `className` from outside, not even layout or margin. Pick one of the variants it already has, and put layout classes on a plain wrapper element around it.
 - Brand marks live in `src/components/icons.tsx`: full-colour logos in each brand's own colours for the floating tiles, and single-colour marks that follow the text colour for the marquee, so `.oxlintrc.json` exempts that one file from `no-raw-colors`. The 7Ovr wordmark in `src/components/logo.tsx` loads Syne through `next/font` for itself alone, so a preset's font change leaves the brand as it is.
 - Base UI takes `render`, not `asChild`.
-- Add shadcn components with `pnpm dlx shadcn@latest add <name>`, then run `pnpm format`, because the CLI writes double quotes.
+- Add shadcn components with `pnpm exec shadcn add <name>`, then run `pnpm format`, because the CLI writes double quotes.
 
 ## Tests
 
