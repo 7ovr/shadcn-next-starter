@@ -97,6 +97,33 @@ Open http://localhost:3000. Installing also sets up the Git hooks that format an
 
 CI runs `lint`, `format:check`, `typecheck`, `test` and `build` on every pull request and every push to `master`, and next to them `test:e2e`, `test:e2e:preview` and `lighthouse`. To keep a pull request from merging before they pass, require the `check` and `e2e` jobs in your branch protection.
 
+## Updating dependencies
+
+Renovate can open updates every morning before 06:00 UTC, whenever the hosted service runs in that window. Stable minor and patch updates share one PR and merge once the required CI checks pass. Major updates and 0.x packages need review. Releases must be at least 24 hours old, and Node and pnpm upgrades stay manual.
+
+To update without waiting for Renovate, run:
+
+```bash
+pnpm update
+pnpm outdated
+pnpm lint
+pnpm format:check
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+`pnpm update` stays within the ranges in `package.json`. Next.js, React and React DOM are pinned, so update them explicitly within their current major versions:
+
+```bash
+pnpm add --save-exact next@16 react@19 react-dom@19
+pnpm test:e2e
+pnpm test:e2e:preview
+pnpm lighthouse
+```
+
+Run the first set of checks again after changing those pins. Review any remaining outdated packages separately, especially major versions and 0.x minor releases. Commit `package.json` and `pnpm-lock.yaml` together when both change; `pnpm update` may only change the lockfile. CI verifies the frozen lockfile on every PR.
+
 ## Project layout
 
 ```
