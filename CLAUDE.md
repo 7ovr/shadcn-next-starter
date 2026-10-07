@@ -9,6 +9,7 @@ How to write code in this repository: conventions, patterns and constraints. Set
 - **TypeScript 7**, strict. `any` is a lint error. Use `import type` for type-only imports (enforced). `next build` type-checks every file `tsconfig.json` includes, through the `tsc` CLI.
 - **Oxlint and oxfmt.** Lint with Oxlint and [`@shadcn/lint`](https://github.com/shadcn-ui/lint), format with oxfmt. Do not add ESLint, Prettier or typescript-eslint: TypeScript 7 has no JavaScript compiler API, so typescript-eslint and `eslint-config-next` cannot run.
 - **Fresh releases wait a day.** pnpm refuses versions published in the last 24 hours. Pick an older version or wait. Never add `minimumReleaseAgeExclude`.
+- **Renovate keeps dependencies current** (`renovate.json`). Updates are eligible every morning before 06:00 UTC. Stable minor and patch updates arrive in one grouped PR that merges itself once CI passes; majors and 0.x packages get their own PRs to review. It leaves the Node and pnpm versions in `engines`, `packageManager` and CI alone, and caps `@types/node` at the Node major; raise those by hand.
 
 ## Code conventions
 
