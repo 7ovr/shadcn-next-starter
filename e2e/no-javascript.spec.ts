@@ -5,6 +5,21 @@ import { headerNav } from '@/content/navigation'
 // What a crawler without a renderer, or a visitor with JavaScript off, gets.
 test.use({ javaScriptEnabled: false })
 
+test('decorative loops stay paused when their control cannot run', async ({ page }) => {
+  await page.goto('/')
+  const running = await page.evaluate(
+    () =>
+      document
+        .getAnimations()
+        .filter(
+          (animation) =>
+            animation.effect?.getTiming().iterations === Number.POSITIVE_INFINITY &&
+            animation.playState === 'running',
+        ).length,
+  )
+  expect(running).toBe(0)
+})
+
 test('every section and every FAQ answer is readable without JavaScript', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()

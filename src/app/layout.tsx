@@ -1,3 +1,7 @@
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+import type { Viewport } from 'next'
 import { Geist_Mono, Oxanium } from 'next/font/google'
 
 import './globals.css'
@@ -7,6 +11,7 @@ import { SiteHeader } from '@/components/site-header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { createMetadata } from '@/lib/metadata'
 import { siteSchemas } from '@/lib/structured-data'
+import { readRootTokens, toHex } from '@/lib/theme-tokens'
 import { cn } from '@/lib/utils'
 
 const oxanium = Oxanium({ subsets: ['latin'], variable: '--font-sans' })
@@ -18,6 +23,20 @@ const fontMono = Geist_Mono({
 
 // Site-wide defaults with no canonical, so a page that forgets its own metadata never claims to be the home page.
 export const metadata = createMetadata({})
+
+export async function generateViewport(): Promise<Viewport> {
+  const css = await readFile(join(process.cwd(), 'src/app/globals.css'), 'utf8')
+  return {
+    viewportFit: 'cover',
+    themeColor: ([':root', '.dark'] as const).map((selector) => {
+      const background = readRootTokens(css, selector).background
+      return {
+        media: `(prefers-color-scheme: ${selector === ':root' ? 'light' : 'dark'})`,
+        color: toHex(background) ?? background,
+      }
+    }),
+  }
+}
 
 // Every route prerenders; a Request-time API anywhere fails the build instead of the crawl.
 export const dynamic = 'error'

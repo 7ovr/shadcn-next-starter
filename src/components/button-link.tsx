@@ -8,5 +8,7 @@ type ButtonLinkProps = Omit<SiteLinkProps, 'className'> & VariantProps<typeof bu
 
 // A link styled as a Button. cn resolves the variant's conflicting classes, as Button itself does.
 export function ButtonLink({ variant, size, ...props }: ButtonLinkProps) {
-  return <SiteLink className={cn(buttonVariants({ variant, size }))} {...props} />
+  return (
+    <SiteLink data-slot="button" className={cn(buttonVariants({ variant, size }))} {...props} />
+  )
 }

@@ -53,7 +53,7 @@ export function SiteFooter() {
                 <h2 id={titleId} className="text-sm font-semibold">
                   {column.title}
                 </h2>
-                <ul className="flex flex-col gap-3">
+                <ul className="flex flex-col gap-1 sm:gap-3">
                   {column.links.map((link) => (
                     <li key={link.href}>
                       <SiteLink

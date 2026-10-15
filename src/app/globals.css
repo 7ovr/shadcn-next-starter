@@ -132,6 +132,84 @@
   }
 }
 
+/* These interaction rules survive preset updates without changing the vendored components. */
+:where(a[href], button):not(.sr-only),
+.sr-only:focus {
+  min-width: 24px;
+  min-height: 24px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--foreground) 15%, transparent);
+  scroll-margin-block: 6rem 1rem;
+}
+
+a[href]:not(.sr-only) {
+  display: inline-flex;
+  align-items: center;
+}
+
+[id^="faq-"] {
+  scroll-margin-top: 6rem;
+}
+
+:where(button, [data-slot="button"]) {
+  transition-property:
+    color, background-color, border-color, box-shadow, opacity, transform, translate;
+}
+
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
+    env(safe-area-inset-left);
+}
+
+header {
+  top: env(safe-area-inset-top);
+}
+
+[data-slot="sheet-content"] {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  transition-property: opacity, transform, translate;
+}
+
+[data-slot="sheet-close"] {
+  top: calc(env(safe-area-inset-top) + 0.75rem);
+  right: calc(env(safe-area-inset-right) + 0.75rem);
+}
+
+@media (width < 64rem), (pointer: coarse) {
+  :where(a[href], button):not(.sr-only),
+  .sr-only:focus {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
+}
+
+html[data-motion-paused] {
+  --ambient-motion-state: paused;
+}
+
+html[data-motion-paused] :is(.shimmer, .animate-caret-blink) {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+}
+
 /* The landing's motion and effects. Colours, radius and fonts stay in the shadcn tokens above. */
 
 @layer base {
@@ -149,11 +227,25 @@
   }
 }
 
+@media (scripting: none) {
+  html {
+    --ambient-motion-state: paused;
+  }
+
+  [data-motion-control] {
+    display: none;
+  }
+
+  :is(.shimmer, .animate-caret-blink) {
+    animation-play-state: paused;
+  }
+}
+
 @theme {
   --animate-rise: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-rise-fade: rise-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-marquee: marquee 60s linear infinite;
+  --animate-float: float 7s ease-in-out infinite var(--ambient-motion-state, running);
+  --animate-marquee: marquee 60s linear infinite var(--ambient-motion-state, running);
 }
 
 /* Rises and sharpens into place without fading, so the text is never transparent. */
@@ -246,17 +338,22 @@
 /* Illustrations: calm loops for the decorative mockups. Each element's own style is the finished frame, which reduced motion keeps. */
 
 @theme {
-  --animate-swap: swap 10s linear infinite;
-  --animate-wave: wave 4s ease-in-out infinite backwards;
-  --animate-hop-rows: hop-rows 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-gauge: gauge 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-switch-knob: switch-knob 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  --animate-press: press 4s ease-in-out infinite;
-  --animate-beacon: beacon 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-  --animate-tick-1: tick-1 8s ease-out infinite;
-  --animate-tick-2: tick-2 8s ease-out infinite;
-  --animate-tick-3: tick-3 8s ease-out infinite;
+  --animate-swap: swap 10s linear infinite var(--ambient-motion-state, running);
+  --animate-wave: wave 4s ease-in-out infinite backwards var(--ambient-motion-state, running);
+  --animate-hop-rows: hop-rows 8s cubic-bezier(0.16, 1, 0.3, 1) infinite
+    var(--ambient-motion-state, running);
+  --animate-gauge: gauge 5s cubic-bezier(0.16, 1, 0.3, 1) infinite
+    var(--ambient-motion-state, running);
+  --animate-switch-knob: switch-knob 6s cubic-bezier(0.16, 1, 0.3, 1) infinite
+    var(--ambient-motion-state, running);
+  --animate-switch-track: switch-track 6s cubic-bezier(0.16, 1, 0.3, 1) infinite
+    var(--ambient-motion-state, running);
+  --animate-press: press 4s ease-in-out infinite var(--ambient-motion-state, running);
+  --animate-beacon: beacon 2.4s cubic-bezier(0, 0, 0.2, 1) infinite
+    var(--ambient-motion-state, running);
+  --animate-tick-1: tick-1 8s ease-out infinite var(--ambient-motion-state, running);
+  --animate-tick-2: tick-2 8s ease-out infinite var(--ambient-motion-state, running);
+  --animate-tick-3: tick-3 8s ease-out infinite var(--ambient-motion-state, running);
 }
 
 /* Items stacked in one cell take turns: each shows for a fifth of the loop, so delays two seconds apart share it. */
@@ -452,7 +549,7 @@
   clip-path: inset(0 0 0 50%);
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: split 8s ease-in-out infinite;
+    animation: split 8s ease-in-out infinite var(--ambient-motion-state, running);
   }
 }
 
@@ -460,6 +557,6 @@
   translate: 50% 0;
 
   @media (prefers-reduced-motion: no-preference) {
-    animation: split-line 8s ease-in-out infinite;
+    animation: split-line 8s ease-in-out infinite var(--ambient-motion-state, running);
   }
 }

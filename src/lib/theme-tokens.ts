@@ -1,6 +1,10 @@
 // The light theme's tokens as written in globals.css, for code that cannot read CSS variables, like the share card.
-export function readRootTokens(css: string): Record<string, string> {
-  const root = css.match(/:root\s*\{([^}]*)\}/)?.[1] ?? ''
+export function readRootTokens(
+  css: string,
+  selector: ':root' | '.dark' = ':root',
+): Record<string, string> {
+  const pattern = selector === ':root' ? /:root\s*\{([^}]*)\}/ : /\.dark\s*\{([^}]*)\}/
+  const root = css.match(pattern)?.[1] ?? ''
   return Object.fromEntries(
     [...root.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(([, name, value]) => [name, value.trim()]),
   )

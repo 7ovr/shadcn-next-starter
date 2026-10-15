@@ -24,7 +24,7 @@ export function MobileNav({ links, children }: { links: NavLink[]; children: Rea
 
   // Phones and tablets get around through the menu, so they fetch it at the first scroll or touch; wider screens never do.
   useEffect(() => {
-    if (!window.matchMedia('(width < 64rem)').matches) return
+    if (!window.matchMedia('(width < 80rem)').matches) return
     const preload = () => {
       void loadSheet().then((component) => setSheet(() => component))
     }

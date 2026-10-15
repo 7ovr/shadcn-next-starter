@@ -273,6 +273,12 @@ Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Gi
 | `SITE_ENV`       | No       | Set to `production` on hosts other than Vercel, so the site is indexed. |
 | `REGISTRY_TOKEN` | No       | Installing 7Ovr Pro blocks. Read by the shadcn CLI, not by the site.    |
 
+## Interface behavior
+
+The header's pause control stops decorative motion across the page, and reduced-motion preferences disable it automatically. The theme button's D shortcut works while that button is focused. Shared styles keep mobile controls at least 44px without changing the shadcn components, so preset updates preserve these behaviors.
+
+Expanded FAQ answers have shareable URLs, and browser Back restores the previous question. The browser theme color follows your selected theme, including after applying a preset.
+
 ## Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F7ovr%2Fshadcn-next-starter&project-name=my-landing-page&repository-name=my-landing-page)

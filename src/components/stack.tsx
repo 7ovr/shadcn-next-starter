@@ -50,7 +50,7 @@ function StackList({ copy = false }: { copy?: boolean }) {
       {stack.items.map((name) => {
         const Mark = MARKS[name]
         return (
-          <li key={name} className="flex items-center gap-2.5 text-muted-foreground">
+          <li key={name} translate="no" className="flex items-center gap-2.5 text-muted-foreground">
             <Mark className="size-6 shrink-0" />
             <span className="text-base font-semibold whitespace-nowrap">{name}</span>
           </li>

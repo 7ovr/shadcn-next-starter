@@ -4,6 +4,7 @@ import { ButtonLink } from '@/components/button-link'
 import { GitHubIcon } from '@/components/icons'
 import { LogoLink } from '@/components/logo'
 import { MobileNav } from '@/components/mobile-nav'
+import { MotionToggle } from '@/components/motion-toggle'
 import { headerAction, headerNav, mobileNav } from '@/content/navigation'
 
 function HeaderAction({ size }: { size?: 'lg' }) {
@@ -24,7 +25,7 @@ export function SiteHeader() {
         {/* w-max, because left-1/2 alone caps an absolute box at half the header and wraps the links. */}
         <nav
           aria-label="Main"
-          className="absolute left-1/2 hidden w-max -translate-x-1/2 items-center gap-1 lg:flex"
+          className="absolute left-1/2 hidden w-max -translate-x-1/2 items-center gap-1 xl:flex"
         >
           {headerNav.map((link) => (
             <Link
@@ -38,10 +39,11 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1">
+          <MotionToggle />
           <span className="max-sm:hidden">
             <HeaderAction />
           </span>
-          <span className="lg:hidden">
+          <span className="xl:hidden">
             <MobileNav links={mobileNav}>
               <HeaderAction size="lg" />
             </MobileNav>

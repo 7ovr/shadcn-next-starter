@@ -10,7 +10,23 @@ export function FooterThemeToggle() {
   const toggleTheme = useToggleTheme()
 
   return (
-    <Button variant="outline" aria-keyshortcuts="d" onClick={toggleTheme}>
+    <Button
+      variant="outline"
+      aria-keyshortcuts="d"
+      onClick={toggleTheme}
+      onKeyDown={(event) => {
+        if (
+          event.key.toLowerCase() !== 'd' ||
+          event.repeat ||
+          event.altKey ||
+          event.ctrlKey ||
+          event.metaKey
+        )
+          return
+        event.preventDefault()
+        toggleTheme()
+      }}
+    >
       {/* Both icons render and the dark variant picks one, so the server HTML and the first client render match. */}
       <SunIcon data-icon="inline-start" aria-hidden="true" className="hidden dark:block" />
       <MoonIcon data-icon="inline-start" aria-hidden="true" className="dark:hidden" />

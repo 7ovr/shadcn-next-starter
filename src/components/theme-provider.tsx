@@ -1,9 +1,7 @@
 'use client'
 
-import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes'
 import * as React from 'react'
-
-import { useToggleTheme } from '@/hooks/use-toggle-theme'
 
 function ThemeProvider({ children, ...props }: React.ComponentProps<typeof NextThemesProvider>) {
   return (
@@ -14,57 +12,25 @@ function ThemeProvider({ children, ...props }: React.ComponentProps<typeof NextT
       disableTransitionOnChange
       {...props}
     >
-      <ThemeHotkey />
+      <ThemeColor />
       {children}
     </NextThemesProvider>
   )
 }
 
-function isTypingTarget(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false
-  }
-
-  return (
-    target.isContentEditable ||
-    target.tagName === 'INPUT' ||
-    target.tagName === 'TEXTAREA' ||
-    target.tagName === 'SELECT'
-  )
-}
-
-function ThemeHotkey() {
-  const toggleTheme = useToggleTheme()
-
-  // An Effect Event always sees the current theme, so the listener is added once instead of on every change.
-  const onKeyDown = React.useEffectEvent((event: KeyboardEvent) => {
-    if (event.defaultPrevented || event.repeat) {
-      return
-    }
-
-    if (event.metaKey || event.ctrlKey || event.altKey) {
-      return
-    }
-
-    if (event.key.toLowerCase() !== 'd') {
-      return
-    }
-
-    if (isTypingTarget(event.target)) {
-      return
-    }
-
-    toggleTheme()
-  })
+function ThemeColor() {
+  const { resolvedTheme } = useTheme()
+  const colors = React.useRef<Record<string, string>>({})
 
   React.useEffect(() => {
-    const listener = (event: KeyboardEvent) => onKeyDown(event)
-    window.addEventListener('keydown', listener)
-
-    return () => {
-      window.removeEventListener('keydown', listener)
+    if (!resolvedTheme) return
+    const metas = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+    if (Object.keys(colors.current).length === 0) {
+      for (const meta of metas) colors.current[meta.media] = meta.content
     }
-  }, [])
+    const color = colors.current[`(prefers-color-scheme: ${resolvedTheme})`]
+    if (color) for (const meta of metas) meta.content = color
+  }, [resolvedTheme])
 
   return null
 }
