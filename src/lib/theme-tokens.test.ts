@@ -28,5 +28,6 @@ describe('readRootTokens', () => {
       ':root {\n  --background: oklch(1 0 0);\n  --radius: 0.625rem;\n}\n\n.dark {\n  --background: oklch(0.145 0 0);\n}'
 
     expect(readRootTokens(css)).toEqual({ background: 'oklch(1 0 0)', radius: '0.625rem' })
+    expect(readRootTokens(css, '.dark')).toEqual({ background: 'oklch(0.145 0 0)' })
   })
 })

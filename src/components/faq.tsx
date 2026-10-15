@@ -1,18 +1,22 @@
 import { ButtonLink } from '@/components/button-link'
+import { FaqAccordion } from '@/components/faq-accordion'
 import { GitHubIcon } from '@/components/icons'
 import { JsonLd } from '@/components/json-ld'
 import { Section, SectionHeading } from '@/components/section'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
+import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { faq } from '@/content/faq'
 import { withInlineCode } from '@/lib/inline-code'
 import { faqPageSchema } from '@/lib/structured-data'
 
 export function Faq() {
+  const items = faq.items.map((item) => ({
+    ...item,
+    id: `faq-${item.question
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/-$/, '')}`,
+  }))
+
   return (
     <Section id="faq">
       {/* The FAQPage markup lives with the questions it describes, so dropping the section drops both. */}
@@ -37,16 +41,16 @@ export function Faq() {
 
         <div className="reveal lg:col-span-3">
           {/* hiddenUntilFound keeps closed answers in the HTML, for crawlers and find-in-page alike. */}
-          <Accordion defaultValue={[faq.items[0].question]} hiddenUntilFound>
-            {faq.items.map((item) => (
-              <AccordionItem key={item.question} value={item.question}>
+          <FaqAccordion ids={items.map((item) => item.id)}>
+            {items.map((item) => (
+              <AccordionItem key={item.id} id={item.id} value={item.id}>
                 <AccordionTrigger>{item.question}</AccordionTrigger>
                 <AccordionContent>
                   <p className="text-pretty text-muted-foreground">{withInlineCode(item.answer)}</p>
                 </AccordionContent>
               </AccordionItem>
             ))}
-          </Accordion>
+          </FaqAccordion>
         </div>
       </div>
     </Section>

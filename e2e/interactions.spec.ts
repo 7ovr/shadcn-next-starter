@@ -103,6 +103,7 @@ for (const width of [768, 820, 1024, 1280]) {
       [banner.getByRole('link', { name: siteConfig.name, exact: true })],
       [nav],
       [
+        banner.getByRole('button', { name: 'Pause Animations' }),
         banner.getByRole('link', { name: headerAction.label, exact: true }),
         banner.getByRole('button', { name: 'Open Menu' }),
       ],

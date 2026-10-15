@@ -18,7 +18,7 @@ describe('CopyCommand', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Copied')
   })
 
-  it('claims nothing when the clipboard refuses the write', async () => {
+  it('offers a manual fallback when the clipboard refuses the write', async () => {
     const user = userEvent.setup()
     render(<CopyCommand command="pnpm install" />)
     vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('Denied'))
@@ -26,6 +26,8 @@ describe('CopyCommand', () => {
     await user.click(screen.getByRole('button', { name: 'Copy Command' }))
 
     expect(screen.getByRole('button', { name: 'Copy Command' })).toBeInTheDocument()
-    expect(screen.getByRole('status')).toBeEmptyDOMElement()
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Copy failed. Select and copy the command.',
+    )
   })
 })
