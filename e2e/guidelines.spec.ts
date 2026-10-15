@@ -1,5 +1,19 @@
 import { expect, test } from '@playwright/test'
 
+for (const width of [320, 390]) {
+  test(`the menu label stays clear of its close button at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 })
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Open Menu' }).click()
+    const menu = page.getByRole('dialog', { name: 'Menu', exact: true })
+    const label = await menu.getByText('Landing', { exact: true }).boundingBox()
+    const close = await menu.getByRole('button', { name: 'Close', exact: true }).boundingBox()
+    expect(label).not.toBeNull()
+    expect(close).not.toBeNull()
+    expect((label?.x ?? 0) + (label?.width ?? 0) + 12).toBeLessThanOrEqual(close?.x ?? 0)
+  })
+}
+
 test('mobile controls have generous targets without overflowing the page', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')

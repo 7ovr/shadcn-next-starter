@@ -179,6 +179,10 @@ header {
   right: calc(env(safe-area-inset-right) + 0.75rem);
 }
 
+[data-slot="sheet-content"][data-side="right"] {
+  min-width: min(20rem, 100%);
+}
+
 @media (width < 64rem), (pointer: coarse) {
   :where(a[href], button):not(.sr-only),
   .sr-only:focus {
