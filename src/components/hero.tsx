@@ -1,8 +1,10 @@
 import { ZapIcon } from 'lucide-react'
 
+import { ButtonLink } from '@/components/button-link'
 import { CopyCommand } from '@/components/copy-command'
 import { Eyebrow } from '@/components/eyebrow'
 import { HeroLogos } from '@/components/hero-logos'
+import { GitHubIcon } from '@/components/icons'
 import { hero } from '@/content/hero'
 import { withInlineCode } from '@/lib/inline-code'
 import { cn } from '@/lib/utils'
@@ -52,8 +54,12 @@ export function Hero() {
         <p className="max-w-2xl animate-rise-fade text-lg text-pretty text-muted-foreground delay-150 motion-reduce:animate-none">
           {withInlineCode(hero.description)}
         </p>
-        <div className="mt-2 max-w-full animate-rise-fade delay-200 motion-reduce:animate-none">
+        <div className="mt-2 flex max-w-full animate-rise-fade items-center gap-3 delay-200 motion-reduce:animate-none">
           <CopyCommand command={hero.command} highlight={hero.commandHighlight} />
+          <ButtonLink href={hero.action.href} size="lg">
+            <GitHubIcon data-icon="inline-start" />
+            {hero.action.label}
+          </ButtonLink>
         </div>
       </div>
     </section>

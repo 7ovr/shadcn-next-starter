@@ -18,17 +18,15 @@ export function CopyCommand({ command, highlight }: { command: string; highlight
   const start = highlight ? command.lastIndexOf(highlight) : -1
 
   return (
-    <div className="flex max-w-full flex-col gap-2">
-      <div className="flex w-fit max-w-full items-center gap-2 rounded-lg border bg-linear-to-br from-muted to-background py-1 pr-1 pl-3 font-mono text-xs">
+    <div className="flex max-w-full min-w-0 flex-col gap-2">
+      <div className="flex h-9 w-fit max-w-full items-center gap-2 rounded-lg border bg-linear-to-br from-muted to-background pr-1 pl-3 font-mono text-xs max-lg:h-11 pointer-coarse:h-11">
         <span aria-hidden="true" className="text-muted-foreground select-none">
           $
         </span>
-        <code translate="no" className="min-w-0 flex-1 text-left wrap-break-word">
+        <code translate="no" title={command} className="min-w-0 flex-1 truncate text-left">
           {highlight && start > -1 ? (
             <>
               <span className="text-muted-foreground">{command.slice(0, start)}</span>
-              {/* On a narrow screen the line breaks before the name, never inside it. */}
-              <wbr />
               {/* shimmer comes from shadcn's stylesheet and already stops under reduced motion. */}
               <span className="shimmer font-bold whitespace-nowrap shimmer-color-muted-foreground">
                 {highlight}
