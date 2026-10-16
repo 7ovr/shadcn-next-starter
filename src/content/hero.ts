@@ -8,6 +8,7 @@ export const hero = {
     'A free landing page starter on Next.js 16, shadcn/ui and Base UI. Static pages, complete SEO, accessible sections, preset theming and a full test suite come set up, so you start on the words, not the plumbing.',
   command: `git clone ${siteConfig.links.repository}`,
   commandHighlight: siteConfig.links.repository.split('/').pop(),
+  action: { label: 'Use Template', href: siteConfig.links.template },
 }
 
 export const stack = {
