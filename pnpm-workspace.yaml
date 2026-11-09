@@ -5,3 +5,7 @@ allowBuilds:
   lefthook: false
   # Next optimises images with it.
   sharp: true
+
+overrides:
+  # get-uri asks for 5.x, which has no patched release.
+  'basic-ftp@<6.2.1': ^6.2.1
