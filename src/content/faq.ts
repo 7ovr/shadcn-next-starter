@@ -37,7 +37,7 @@ export const faq = {
     {
       question: 'Does the page work without JavaScript?',
       answer:
-        'Yes. Every section and every FAQ answer is in the server-rendered HTML. JavaScript only adds the theme toggle, the mobile menu, the copy button and the FAQ accordion.',
+        'Yes. Every section and FAQ answer is in the server-rendered HTML. Interactive controls and optional analytics use JavaScript.',
     },
     {
       question: 'Where do I change the copy?',
@@ -47,7 +47,7 @@ export const faq = {
     {
       question: 'Does it include auth, a database or analytics?',
       answer:
-        'No. It is a marketing site with no server code of its own. For an app, pair it with the 7Ovr Vite Starter; for a form or analytics, add your own.',
+        'Vercel Web Analytics is included and off by default. Enable it in your Vercel project and set `ENABLE_VERCEL_ANALYTICS=true` for Production. Authentication and a database are up to your app.',
     },
     {
       question: 'How do I restyle it?',
