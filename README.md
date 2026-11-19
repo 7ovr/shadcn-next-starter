@@ -267,11 +267,14 @@ Building an app rather than a landing page? The [7Ovr Vite Starter](https://star
 
 Copy `.env.example` to `.env` and fill in what you need. `.env` is ignored by Git. The site reads its variables when it builds, so set them before `pnpm build`.
 
-| Variable         | Required | Used for                                                                |
-| ---------------- | -------- | ----------------------------------------------------------------------- |
-| `SITE_URL`       | No       | The public origin. On Vercel it defaults to the production domain.      |
-| `SITE_ENV`       | No       | Set to `production` on hosts other than Vercel, so the site is indexed. |
-| `REGISTRY_TOKEN` | No       | Installing 7Ovr Pro blocks. Read by the shadcn CLI, not by the site.    |
+| Variable                  | Required | Used for                                                                |
+| ------------------------- | -------- | ----------------------------------------------------------------------- |
+| `SITE_URL`                | No       | The public origin. On Vercel it defaults to the production domain.      |
+| `SITE_ENV`                | No       | Set to `production` on hosts other than Vercel, so the site is indexed. |
+| `ENABLE_VERCEL_ANALYTICS` | No       | Set to `true` to collect pageviews on Vercel production deployments.    |
+| `REGISTRY_TOKEN`          | No       | Installing 7Ovr Pro blocks. Read by the shadcn CLI, not by the site.    |
+
+To collect pageviews, enable [Web Analytics](https://vercel.com/docs/analytics/quickstart) in your own Vercel project, set `ENABLE_VERCEL_ANALYTICS=true` for Production, and redeploy.
 
 ## Interface behavior
 

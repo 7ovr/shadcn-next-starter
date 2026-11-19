@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
+import { Analytics } from '@vercel/analytics/next'
 import type { Viewport } from 'next'
 import { Geist_Mono, Oxanium } from 'next/font/google'
 
@@ -65,6 +66,10 @@ export default function RootLayout({
           <main id="main">{children}</main>
           <SiteFooter />
         </ThemeProvider>
+        {process.env.VERCEL_ENV === 'production' &&
+        process.env.ENABLE_VERCEL_ANALYTICS === 'true' ? (
+          <Analytics />
+        ) : null}
       </body>
     </html>
   )
