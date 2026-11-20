@@ -10,12 +10,11 @@ function referral(url: string): string {
 
 export const siteConfig = {
   name: '7Ovr Landing Starter',
-  // The search result title and snippet, kept near 60 and 155 characters so neither truncates.
-  title: 'Next.js Landing Page Template With shadcn/ui',
+  title: 'Free Next.js Landing Page Template With shadcn/ui',
   description:
-    'A free, open-source Next.js landing page template on shadcn/ui and Base UI, with static pages, complete SEO, accessibility, theming and tests wired.',
+    'Clone a free Next.js landing page template with shadcn/ui. Customize the design and deploy with a sitemap, tested canonical URLs, and preview indexing checks.',
   // The share image's line under the headline.
-  tagline: 'Static pages, complete SEO, accessibility, preset theming and tests, wired.',
+  tagline: 'Static pages, customizable themes and tested metadata.',
   keywords: [
     '7Ovr',
     'Next.js landing page template',
@@ -28,7 +27,7 @@ export const siteConfig = {
     'Tailwind CSS',
   ],
   // Bump when the page copy changes; the sitemap reports it as lastmod.
-  lastUpdated: '2026-10-15',
+  lastUpdated: '2026-11-20',
   author: { name: '7Ovr', url: 'https://7ovr.com' },
   xHandle: '@7ovrui',
   links: {
@@ -46,5 +45,7 @@ export const siteConfig = {
     docs: referral('https://7ovr.com/docs'),
     changelog: referral('https://7ovr.com/changelog'),
     presets: 'https://ui.shadcn.com/create',
+    quickStart: `${repository}#quick-start`,
+    ci: `${repository}/actions/workflows/ci.yml`,
   },
 } as const

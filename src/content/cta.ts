@@ -4,9 +4,9 @@ import { siteConfig } from '@/config/site'
 
 export const cta = {
   eyebrow: { lead: 'Open Source,', emphasis: 'MIT Licensed' },
-  title: 'Start On The Words, Not The Setup',
+  title: 'Build Your Landing Page',
   description:
-    'Clone the starter, make the words yours and deploy. Speed, SEO, accessibility and theming are already done, and the tests keep them that way.',
+    'Start from this page, make the design and copy yours, then run the checks before you deploy.',
   primaryAction: { label: 'Get The Starter', href: siteConfig.links.repository },
   secondaryAction: { label: 'Use This Template', href: siteConfig.links.template },
   cards: [

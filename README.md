@@ -8,7 +8,7 @@
 <h1>7Ovr Landing Starter</h1>
 
 <p><strong>A Next.js landing page starter with a robust foundation to build on.</strong><br />
-Static pages, complete SEO, accessible sections and one-command theming on shadcn/ui and Base UI, tested with Playwright and Lighthouse and optimized for coding agents.</p>
+The live site is the template. Clone it for a prerendered marketing page with editable sections, preset themes, and tests for canonical URLs and preview indexing.</p>
 
 <p>
   <a href="https://github.com/7ovr/shadcn-next-starter/actions/workflows/ci.yml"><img src="https://github.com/7ovr/shadcn-next-starter/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>

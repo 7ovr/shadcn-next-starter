@@ -17,21 +17,21 @@ export type FeatureVisual =
 
 export const features = {
   eyebrow: { icon: LayersIcon, lead: 'Everything', emphasis: 'Already Wired' },
-  title: 'Everything A Landing Page Needs, Already Done',
+  title: 'What Ships With The Template',
   description:
-    'Speed, search, accessibility, design and tests are handled from the first commit, and CI keeps each of them true after you make the site your own.',
+    'Start with prerendered pages, editable content, and checks that run against the production build.',
   items: [
     {
       visual: 'prerender',
       title: 'Static And Fast By Default',
       description:
-        'Every route prerenders to static HTML at build time. A dynamic API anywhere fails the build, and Lighthouse budgets in CI keep every page fast.',
+        'The site prerenders to HTML at build time. CI checks the homepage against Lighthouse performance and accessibility budgets.',
     },
     {
       visual: 'metadata',
-      title: 'Complete SEO On Every Page',
+      title: 'Tested Search Metadata',
       description:
-        'One helper writes the title, canonical and Open Graph card of every page, with JSON-LD and a sitemap beside it, so no page ships half a head.',
+        'The template generates titles, canonical URLs, social cards and a sitemap. Playwright checks production metadata and preview noindex directives.',
     },
     {
       visual: 'quality',

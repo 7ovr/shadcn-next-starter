@@ -1,6 +1,7 @@
 import { ButtonLink } from '@/components/button-link'
 import { Stage } from '@/components/mockup'
 import { Section, SectionHeading } from '@/components/section'
+import { SiteLink } from '@/components/site-link'
 import { StepVisual } from '@/components/step-visuals'
 import { steps } from '@/content/steps'
 import { withInlineCode } from '@/lib/inline-code'
@@ -14,16 +15,7 @@ export function Steps() {
           eyebrow={steps.eyebrow}
           title={steps.title}
           description={steps.description}
-        >
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink href={steps.secondaryAction.href} variant="secondary" size="lg">
-              {steps.secondaryAction.label}
-            </ButtonLink>
-            <ButtonLink href={steps.primaryAction.href} size="lg">
-              {steps.primaryAction.label}
-            </ButtonLink>
-          </div>
-        </SectionHeading>
+        />
 
         <ol className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
           {steps.items.map((step, index) => (
@@ -40,6 +32,24 @@ export function Steps() {
             </li>
           ))}
         </ol>
+
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-3 text-sm">
+            {steps.source.map((link) => (
+              <SiteLink key={link.href} href={link.href} className="underline underline-offset-4">
+                {link.label}
+              </SiteLink>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <ButtonLink href={steps.secondaryAction.href} variant="secondary" size="lg">
+              {steps.secondaryAction.label}
+            </ButtonLink>
+            <ButtonLink href={steps.primaryAction.href} size="lg">
+              {steps.primaryAction.label}
+            </ButtonLink>
+          </div>
+        </div>
       </div>
     </Section>
   )
