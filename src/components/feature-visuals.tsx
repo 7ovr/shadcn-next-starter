@@ -43,7 +43,6 @@ function Dots() {
   )
 }
 
-// A Lighthouse-style score ring whose arc fills on each loop and rests full.
 function Gauge() {
   return (
     <span className="relative grid size-11 shrink-0 place-items-center">
@@ -68,7 +67,7 @@ function Gauge() {
           className="animate-gauge stroke-foreground motion-reduce:animate-none"
         />
       </svg>
-      <span className="text-xs font-semibold">100</span>
+      <CheckIcon className="size-4" />
     </span>
   )
 }
@@ -99,8 +98,8 @@ function Prerender() {
       <MockCard className="absolute -right-3 -bottom-8 flex items-center gap-2 py-1.5 pr-3 pl-1.5">
         <Gauge />
         <span className="flex flex-col text-xs leading-tight">
-          <span className="font-medium">Performance</span>
-          <span className="text-muted-foreground">Lighthouse</span>
+          <span className="font-medium">Lighthouse</span>
+          <span className="text-muted-foreground">CI Budgets</span>
         </span>
       </MockCard>
     </div>
@@ -150,8 +149,8 @@ function Quality() {
           <CheckIcon className="size-4" />
         </span>
         <span className="flex flex-col leading-tight">
-          <span className="text-sm font-semibold">All checks have passed</span>
-          <span className="text-xs text-muted-foreground">6 successful checks</span>
+          <span className="text-sm font-semibold">Build Checks</span>
+          <span className="text-xs text-muted-foreground">Runs In CI</span>
         </span>
       </div>
       <ul className="mt-3 grid grid-cols-3 gap-x-2 gap-y-1 text-xs">

@@ -24,7 +24,7 @@ export const footerColumns: { title: string; links: NavLink[] }[] = [
       { label: 'Source', href: siteConfig.links.repository },
       { label: 'Use This Template', href: siteConfig.links.template },
       { label: 'Report An Issue', href: siteConfig.links.issues },
-      { label: 'Documentation', href: siteConfig.links.docs, external: true },
+      { label: 'Quick Start', href: siteConfig.links.quickStart },
       { label: 'Changelog', href: siteConfig.links.changelog, external: true },
     ],
   },

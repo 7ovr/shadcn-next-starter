@@ -2,6 +2,7 @@ import { FeatureVisual } from '@/components/feature-visuals'
 import { IconPoint } from '@/components/icon-point'
 import { Stage } from '@/components/mockup'
 import { Section, SectionHeading } from '@/components/section'
+import { SourceLink } from '@/components/source-link'
 import { features } from '@/content/features'
 import { withInlineCode } from '@/lib/inline-code'
 
@@ -24,6 +25,11 @@ export function Features() {
                 <p className="text-sm text-pretty text-muted-foreground">
                   {withInlineCode(item.description)}
                 </p>
+                {item.link && (
+                  <div className="pt-2">
+                    <SourceLink {...item.link} />
+                  </div>
+                )}
               </div>
               <Stage variant={index} className="mt-auto h-64">
                 <FeatureVisual name={item.visual} />

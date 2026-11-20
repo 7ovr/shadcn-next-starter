@@ -7,6 +7,8 @@ import {
   MoonStarIcon,
 } from 'lucide-react'
 
+import { siteConfig } from '@/config/site'
+
 export type FeatureVisual =
   | 'prerender'
   | 'metadata'
@@ -15,29 +17,37 @@ export type FeatureVisual =
   | 'content'
   | 'presets'
 
+type FeatureItem = {
+  visual: FeatureVisual
+  title: string
+  description: string
+  link?: { label: string; href: string }
+}
+
 export const features = {
   eyebrow: { icon: LayersIcon, lead: 'Everything', emphasis: 'Already Wired' },
-  title: 'Everything A Landing Page Needs, Already Done',
+  title: 'Everything The Template Ships, Wired And Tested',
   description:
-    'Speed, search, accessibility, design and tests are handled from the first commit, and CI keeps each of them true after you make the site your own.',
+    'Start with prerendered pages, editable content, and checks that run against the production build.',
   items: [
     {
       visual: 'prerender',
       title: 'Static And Fast By Default',
       description:
-        'Every route prerenders to static HTML at build time. A dynamic API anywhere fails the build, and Lighthouse budgets in CI keep every page fast.',
+        'The site prerenders to HTML at build time. CI checks the homepage against Lighthouse performance and accessibility budgets.',
     },
     {
       visual: 'metadata',
-      title: 'Complete SEO On Every Page',
+      title: 'Tested Search Metadata',
       description:
-        'One helper writes the title, canonical and Open Graph card of every page, with JSON-LD and a sitemap beside it, so no page ships half a head.',
+        'The template generates titles, canonical URLs, social cards and a sitemap. Playwright checks production metadata and preview noindex directives.',
     },
     {
       visual: 'quality',
       title: 'Tested On Every Push',
       description:
         'Vitest, Playwright and Lighthouse run in CI beside lint, format and type checks, so what works today keeps working.',
+      link: { label: 'View CI Checks', href: siteConfig.links.ci },
     },
     {
       visual: 'no-javascript',
@@ -57,7 +67,7 @@ export const features = {
       description:
         'Colors, radius and fonts come from shadcn theme tokens, so `shadcn apply` restyles every section, in light and dark.',
     },
-  ] satisfies { visual: FeatureVisual; title: string; description: string }[],
+  ] satisfies FeatureItem[] as FeatureItem[],
   extras: [
     {
       icon: ImageIcon,

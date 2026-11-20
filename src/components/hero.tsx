@@ -1,10 +1,9 @@
 import { ZapIcon } from 'lucide-react'
 
-import { ButtonLink } from '@/components/button-link'
 import { CopyCommand } from '@/components/copy-command'
 import { Eyebrow } from '@/components/eyebrow'
 import { HeroLogos } from '@/components/hero-logos'
-import { GitHubIcon } from '@/components/icons'
+import { TemplateLink } from '@/components/template-link'
 import { hero } from '@/content/hero'
 import { withInlineCode } from '@/lib/inline-code'
 import { cn } from '@/lib/utils'
@@ -54,12 +53,16 @@ export function Hero() {
         <p className="max-w-2xl animate-rise-fade text-lg text-pretty text-muted-foreground delay-150 motion-reduce:animate-none">
           {withInlineCode(hero.description)}
         </p>
-        <div className="mt-2 flex max-w-full animate-rise-fade items-center gap-3 delay-200 motion-reduce:animate-none">
+        <div className="mt-2 flex max-w-full animate-rise-fade flex-wrap items-center justify-center gap-3 delay-200 motion-reduce:animate-none">
           <CopyCommand command={hero.command} highlight={hero.commandHighlight} />
-          <ButtonLink href={hero.action.href} size="lg">
-            <GitHubIcon data-icon="inline-start" />
-            {hero.action.label}
-          </ButtonLink>
+          <TemplateLink
+            href={hero.action.href}
+            label={hero.action.label}
+            trackClick={
+              process.env.VERCEL_ENV === 'production' &&
+              process.env.ENABLE_VERCEL_ANALYTICS === 'true'
+            }
+          />
         </div>
       </div>
     </section>

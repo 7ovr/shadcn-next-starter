@@ -1,6 +1,7 @@
 import { ButtonLink } from '@/components/button-link'
 import { Stage } from '@/components/mockup'
 import { Section, SectionHeading } from '@/components/section'
+import { SourceLink } from '@/components/source-link'
 import { StepVisual } from '@/components/step-visuals'
 import { steps } from '@/content/steps'
 import { withInlineCode } from '@/lib/inline-code'
@@ -31,11 +32,14 @@ export function Steps() {
               <Stage variant={index + 1} className="h-48">
                 <StepVisual name={step.visual} />
               </Stage>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-1 flex-col gap-1.5">
                 <h3 className="font-heading font-semibold">{step.title}</h3>
                 <p className="text-sm text-pretty text-muted-foreground">
                   {withInlineCode(step.description)}
                 </p>
+                <div className="mt-auto pt-2">
+                  <SourceLink {...step.link} />
+                </div>
               </div>
             </li>
           ))}

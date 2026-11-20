@@ -17,12 +17,12 @@ export const faq = {
     {
       question: 'What is the 7Ovr Landing Starter?',
       answer:
-        'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. Every page is prerendered, and every promise it makes, from SEO to accessibility, is covered by a test.',
+        'A free, open-source Next.js 16 starter for landing pages, built on shadcn/ui and Base UI. It includes a prerendered example page, editable sections and automated checks for metadata and accessibility.',
     },
     {
       question: 'Is it free for commercial projects?',
       answer:
-        'Yes. It is MIT licensed, so you can use it for client work and commercial products, and you owe nothing back. The Pro blocks and templates on 7Ovr are optional and separate.',
+        'Yes. The MIT license allows commercial use. Keep the copyright and license notice with copies or substantial portions of the source.',
     },
     {
       question: 'What do I need installed?',
@@ -32,7 +32,7 @@ export const faq = {
     {
       question: 'What does tested mean here?',
       answer:
-        'Each promise has a test: metadata and JSON-LD on every route, one h1 and working landmarks, readable HTML with JavaScript off, Lighthouse budgets, and noindex on preview deploys. CI runs them on every push, beside lint, format and type checks.',
+        'Playwright checks the built site for metadata, landmarks, readable content with JavaScript off, and noindex on preview deploys. CI also runs Lighthouse, unit tests, and lint, format and type checks.',
     },
     {
       question: 'Does the page work without JavaScript?',
