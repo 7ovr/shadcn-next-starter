@@ -2,10 +2,10 @@ import { siteConfig } from '@/config/site'
 
 export const hero = {
   eyebrow: { lead: 'Free And', emphasis: 'Open Source' },
-  title: 'A free Next.js landing page template with shadcn/ui.',
-  titleEmphasis: 'with shadcn/ui.',
+  title: 'The free Next.js landing page template with shadcn/ui, SEO and tests built in.',
+  titleEmphasis: 'shadcn/ui, SEO and tests built in.',
   description:
-    'You are viewing the page you get when you use the template. Edit the copy and theme, then deploy with a sitemap and tests for canonical URLs and preview indexing.',
+    'A landing page template on Next.js 16, shadcn/ui and Base UI, and this page is exactly what you clone. Edit the copy, apply a preset and deploy with metadata, a sitemap and preview noindex already tested.',
   command: `git clone ${siteConfig.links.repository}`,
   commandHighlight: siteConfig.links.repository.split('/').pop(),
   action: { label: 'Use This Template', href: siteConfig.links.template },

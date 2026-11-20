@@ -2,8 +2,7 @@ import { FeatureVisual } from '@/components/feature-visuals'
 import { IconPoint } from '@/components/icon-point'
 import { Stage } from '@/components/mockup'
 import { Section, SectionHeading } from '@/components/section'
-import { SiteLink } from '@/components/site-link'
-import { siteConfig } from '@/config/site'
+import { SourceLink } from '@/components/source-link'
 import { features } from '@/content/features'
 import { withInlineCode } from '@/lib/inline-code'
 
@@ -16,11 +15,7 @@ export function Features() {
           eyebrow={features.eyebrow}
           title={features.title}
           description={features.description}
-        >
-          <SiteLink href={siteConfig.links.ci} className="text-sm underline underline-offset-4">
-            View CI Checks
-          </SiteLink>
-        </SectionHeading>
+        />
 
         <ul className="grid reveal grid-cols-1 gap-px overflow-hidden rounded-2xl border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {features.items.map((item, index) => (
@@ -30,6 +25,11 @@ export function Features() {
                 <p className="text-sm text-pretty text-muted-foreground">
                   {withInlineCode(item.description)}
                 </p>
+                {item.link && (
+                  <div className="pt-2">
+                    <SourceLink {...item.link} />
+                  </div>
+                )}
               </div>
               <Stage variant={index} className="mt-auto h-64">
                 <FeatureVisual name={item.visual} />

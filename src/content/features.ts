@@ -7,6 +7,8 @@ import {
   MoonStarIcon,
 } from 'lucide-react'
 
+import { siteConfig } from '@/config/site'
+
 export type FeatureVisual =
   | 'prerender'
   | 'metadata'
@@ -15,9 +17,16 @@ export type FeatureVisual =
   | 'content'
   | 'presets'
 
+type FeatureItem = {
+  visual: FeatureVisual
+  title: string
+  description: string
+  link?: { label: string; href: string }
+}
+
 export const features = {
   eyebrow: { icon: LayersIcon, lead: 'Everything', emphasis: 'Already Wired' },
-  title: 'What Ships With The Template',
+  title: 'Everything The Template Ships, Wired And Tested',
   description:
     'Start with prerendered pages, editable content, and checks that run against the production build.',
   items: [
@@ -38,6 +47,7 @@ export const features = {
       title: 'Tested On Every Push',
       description:
         'Vitest, Playwright and Lighthouse run in CI beside lint, format and type checks, so what works today keeps working.',
+      link: { label: 'View CI Checks', href: siteConfig.links.ci },
     },
     {
       visual: 'no-javascript',
@@ -57,7 +67,7 @@ export const features = {
       description:
         'Colors, radius and fonts come from shadcn theme tokens, so `shadcn apply` restyles every section, in light and dark.',
     },
-  ] satisfies { visual: FeatureVisual; title: string; description: string }[],
+  ] satisfies FeatureItem[] as FeatureItem[],
   extras: [
     {
       icon: ImageIcon,
